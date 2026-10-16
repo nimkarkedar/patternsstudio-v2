@@ -1,0 +1,33 @@
+---
+// Contact (design: MacBook Air - 8). Centred between header and footer.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { routes } from '../data/site';
+---
+<BaseLayout title="Contact" description="Hello! Email me.">
+  <section class="contact">
+    <h1 class="t-display">
+      Hello!<br />
+      <a class="email" href={routes.email}>Email me</a>
+    </h1>
+    <p class="t-body note">I hope you value design</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--rhythm-page-top) var(--rhythm-gutter);
+  }
+  .email {
+    text-decoration: underline;
+    text-decoration-thickness: var(--underline-width);
+    text-underline-offset: var(--underline-offset);
+  }
+  .email:hover { color: var(--color-on-page-muted); }
+  .note { margin-top: var(--rhythm-title-to-lead); }
+</style>

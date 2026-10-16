@@ -1,0 +1,31 @@
+---
+// Big centred statement between/after card sections ("More work coming soon.", "Beyond this?" …).
+// Put a lead and/or <Actions> in the slot.
+interface Props { title: string; as?: 'h1' | 'h2' }
+const { title, as: Tag = 'h2' } = Astro.props;
+---
+<section class="statement">
+  <Tag class="t-display">{title}</Tag>
+  {Astro.slots.has('default') && <div class="body"><slot /></div>}
+</section>
+
+<style>
+  .statement {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-inline: var(--rhythm-gutter);
+    padding-block: var(--rhythm-section);
+  }
+  .statement :global(h2), .statement :global(h1) { max-width: var(--width-hero); }
+  .body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--rhythm-lead-to-actions);
+    margin-top: var(--rhythm-title-to-lead);
+    width: 100%;
+    max-width: var(--width-lead);
+  }
+</style>

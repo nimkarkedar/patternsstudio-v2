@@ -1,0 +1,50 @@
+---
+// Services: "Problem / Solutions" card. Deliberately plain — no tilt, no colour play (Kedar, 2026-10-16).
+import Card from './Card.astro';
+
+interface Item { problem: string; solutions: string }
+interface Props { items: Item[] }
+const { items } = Astro.props;
+---
+<Card>
+  <header class="band">
+    <h2 class="t-heading">Problem</h2>
+    <p class="t-body">Solutions</p>
+  </header>
+  <ol role="list" class="rows">
+    {items.map((item) => (
+      <li class="row">
+        <h3 class="t-heading problem">{item.problem}</h3>
+        <p class="t-body solutions">{item.solutions}</p>
+      </li>
+    ))}
+  </ol>
+</Card>
+
+<style>
+  .band {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--rhythm-label);
+    padding: var(--rhythm-card-pad);
+    background: var(--color-surface-muted);
+    text-align: center;
+  }
+  .rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rhythm-row);
+    padding: var(--rhythm-row) var(--rhythm-card-pad);
+  }
+  .row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--rhythm-stack);
+    max-width: var(--width-prose);
+    margin-inline: auto;
+    text-align: center;
+  }
+</style>
+

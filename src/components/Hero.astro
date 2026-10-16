@@ -1,0 +1,36 @@
+---
+// Page hero: big display title, optional lead, optional actions (pass <Actions> in the slot).
+// `lead` can be a list of lines — each new line starts after a line break.
+interface Props { title: string; lead?: string | string[] }
+const { title, lead } = Astro.props;
+const leadLines = lead === undefined ? [] : Array.isArray(lead) ? lead : [lead];
+---
+<section class="hero">
+  <h1 class="t-display title">{title}</h1>
+  {leadLines.length > 0 && (
+    <p class="t-body lead">
+      {leadLines.map((line, i) => <>{i > 0 && <br />}{line}</>)}
+    </p>
+  )}
+  {Astro.slots.has('default') && <div class="actions"><slot /></div>}
+</section>
+
+<style>
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-inline: var(--rhythm-gutter);
+    padding-top: var(--rhythm-page-top);
+    padding-bottom: var(--rhythm-hero-to-content);
+  }
+  .title { max-width: var(--width-hero); }
+  .lead { max-width: var(--width-lead); margin-top: var(--rhythm-title-to-lead); }
+  .actions {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: var(--rhythm-lead-to-actions);
+  }
+</style>

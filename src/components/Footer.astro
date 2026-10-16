@@ -1,0 +1,21 @@
+---
+import { site } from '../data/site';
+---
+<footer class="footer">
+  <p class="t-tiny">
+    {site.legal} <span role="img" aria-label="Singapore">{site.flag}</span>
+    <span aria-hidden="true">·</span> {site.uen}
+  </p>
+</footer>
+
+<style>
+  .footer {
+    margin-top: auto;
+    margin-inline: var(--rhythm-gutter);
+    padding-block: var(--rhythm-footer);
+    border-top: var(--line-width) solid var(--color-line-on-page);
+    color: var(--color-on-page-muted);
+    text-align: center;
+  }
+  .footer p { display: inline-flex; gap: var(--space-2); align-items: center; flex-wrap: wrap; justify-content: center; }
+</style>

@@ -1,0 +1,197 @@
+/*
+ * Patterns Studio — design tokens.
+ * THE single source of truth. Components use only the ROLE tokens
+ * (--color-*, --text-*, --space-*, --rhythm-*, --radius-*, --width-*).
+ * Primitive values (raw hex, raw sizes) live ONLY in this file.
+ * See CLAUDE.md → "Design system" before adding anything.
+ */
+
+:root {
+  /* ── Primitives: colour ─────────────────────────────── */
+  --blue-600: #2b18d7;  /* exact background of Kedar's exported logo tiles */
+  --blue-200: #c9c7f2;
+  --violet-300: #b9a4ff;  /* soft light violet — card glow */
+  --white: #ffffff;
+  --ink-900: #171414;
+  --ink-800: #2b2828;
+  --grey-50: #f7f7f7;
+  --blue-50: #ebf6ff;   /* case-study table panel (Kedar's design, MacBook Air - 11) */
+  --grey-200: #d9d9d9;
+  --grey-600: #656565;
+
+  /* ── Roles: colour ──────────────────────────────────── */
+  --color-page: var(--blue-600);
+  --color-on-page: var(--white);
+  --color-on-page-muted: var(--blue-200);
+  --color-line-on-page: color-mix(in srgb, var(--white) 20%, transparent);
+
+  --color-surface: var(--white);
+  --color-surface-muted: var(--grey-50);
+  --color-on-surface: var(--ink-900);
+  --color-on-surface-muted: var(--grey-600);
+  --color-accent: var(--blue-600);
+  --color-placeholder: var(--grey-200);
+  --color-surface-tint: var(--blue-50);     /* case-study table panel */
+  --color-line-on-surface: var(--grey-200); /* hairlines on white (pull quote, divider) */
+  --color-lightbox: color-mix(in srgb, var(--ink-900) 92%, transparent); /* behind an enlarged image */
+
+  --color-button: var(--ink-900);
+  --color-button-hover: var(--ink-800);
+  --color-on-button: var(--white);
+  --color-ghost-hover: color-mix(in srgb, var(--white) 14%, transparent);
+  --color-shadow: color-mix(in srgb, var(--ink-900) 35%, transparent);
+
+  --color-focus: var(--white);
+  --color-focus-on-surface: var(--blue-600);
+
+  /* ── Type: the ONLY families & weights allowed (Kedar, 2026-10-15) ── */
+  --font-montserrat: "Montserrat", system-ui, sans-serif;
+  --font-lato: "Lato", system-ui, sans-serif;
+  --font-baskerville: "Libre Baskerville", Georgia, serif; /* case-study pull quotes only (Kedar, 2026-10-16) */
+
+  --weight-regular: 400;  /* Lato */
+  --weight-bold: 700;     /* Montserrat — navigation, case-study h2/h3 + quote name */
+  --weight-extrabold: 800;/* Montserrat — display, title */
+  --weight-black: 900;    /* Lato — heading */
+
+  /* ── Type sizes. Max = the design spec @1280; smaller on phones (mobile-first). ── */
+  --size-display: clamp(2.5rem, 2rem + 2.04vw, 3.625rem);    /* 40 → 58 (was 64; Kedar, 2026-10-16) */
+  --size-title: clamp(2rem, 1.5rem + 2.1vw, 3.0625rem);      /* 32 → 49 */
+  --size-heading: clamp(1.5rem, 1.25rem + 1vw, 2rem);        /* 24 → 32 */
+  --size-subheading: clamp(1.25rem, 1.125rem + 0.5vw, 1.5rem); /* 20 → 24 — case-study h3 */
+  --size-quote: clamp(1.5rem, 1.1rem + 1.25vw, 2rem);         /* 24 → 32 — pull quotes */
+  --size-body: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);    /* 18 → 20 */
+  --size-nav: 1rem;                                          /* 16 */
+  --size-tiny: 0.75rem;                                      /* 12 */
+
+  --leading-tight: 1.12;
+  --leading-snug: 1.25;
+  --leading-body: 1.4;                                       /* 20/28 */
+  --leading-prose: 1.6;                                      /* 20/32 — long-form reading (Medium/Substack range 1.5–1.6) */
+  --leading-quote: 1.4;                                      /* 32/45 — serif display; Baskerville's tall x-height needs air */
+  --tracking-display: -0.01em;
+
+  /* ── Spacing scale ──────────────────────────────────── */
+  --space-1: 0.25rem;  /*  4 */
+  --space-2: 0.5rem;   /*  8 */
+  --space-3: 0.75rem;  /* 12 */
+  --space-4: 1rem;     /* 16 */
+  --space-5: 1.5rem;   /* 24 */
+  --space-6: 2rem;     /* 32 */
+  --space-7: 2.5rem;   /* 40 */
+  --space-8: 3rem;     /* 48 */
+  --space-9: 4rem;     /* 64 */
+  --space-10: 5rem;    /* 80 */
+  --space-11: 6rem;    /* 96 */
+
+  /* ── Rhythm roles (USE THESE in components) ─────────── */
+  --rhythm-gutter: clamp(var(--space-4), 3vw, var(--space-6));          /* page side padding */
+  --rhythm-header-y: var(--space-4);                                    /* header top/bottom (16; was 24) */
+  --rhythm-nav: var(--space-8);                                         /* between nav links (48) */
+  --rhythm-page-top: clamp(var(--space-7), 6vw, var(--space-10));        /* header → hero title */
+  --rhythm-title-to-lead: var(--space-4);                               /* hero title → lead */
+  --rhythm-lead-to-actions: var(--space-5);                             /* lead → button */
+  --rhythm-action-pair: var(--space-2);                                 /* primary button → ghost button */
+  --rhythm-button-x: var(--space-8);                                    /* pill side padding (48) */
+  --rhythm-hero-to-content: clamp(var(--space-7), 5vw, var(--space-8));  /* hero → first card */
+  --rhythm-section: clamp(var(--space-9), 7vw, var(--space-11));         /* between big sections */
+  --rhythm-card-gap: var(--grid-gutter);                                /* gap between cards = grid gutter */
+  --rhythm-card-pad: clamp(var(--space-5), 3vw, var(--space-7));         /* card inner padding (40 desktop) */
+  --rhythm-label: var(--space-1);                                       /* name → role */
+  --rhythm-stack: var(--space-3);                                       /* heading → body in a card */
+  --rhythm-paragraph: var(--space-5);                                   /* paragraph → paragraph */
+  --rhythm-list: var(--space-2);                                        /* list item → list item */
+  --rhythm-row: clamp(var(--space-7), 5vw, var(--space-9));              /* problem row → row */
+  /* Case-study page (Kedar's design, MacBook Air - 11) */
+  --rhythm-sheet-pad: clamp(var(--space-7), 5vw, var(--space-9));        /* white sheet top/bottom (40 → 64) */
+  --rhythm-sheet-x: clamp(var(--space-4), 4vw, var(--space-7));          /* white sheet sides (16 → 40); column is centred inside */
+  --rhythm-back-gap: var(--grid-gutter);                                /* back button → title (title starts on column 2) */
+  /* Reading rhythm — proximity: a heading sits close to its text, far from the previous section. */
+  --rhythm-prose: var(--space-5);                                       /* paragraph → paragraph, list, etc. (24) */
+  --rhythm-prose-list: var(--space-1);                                  /* list item → item (4; spec 5) */
+  --rhythm-prose-heading: var(--space-3);                               /* h2/h3 → its first block (12) */
+  --rhythm-prose-section: clamp(var(--space-8), 6vw, var(--space-9));    /* → h2 (48 → 64) */
+  --rhythm-prose-subsection: var(--space-7);                            /* → h3 (40) */
+  --rhythm-prose-block: var(--space-7);                                 /* around images, video, tables, quotes, dividers (40) */
+  --rhythm-prose-inset: var(--space-6);                                 /* pull quote: hairline → text (32) */
+  --rhythm-caption: var(--space-3);                                     /* image → caption (12) */
+  --rhythm-cell-y: var(--space-3);                                      /* table cell (12 × 16) */
+  --rhythm-cell-x: var(--space-4);
+  --rhythm-expand-inset: var(--space-4);                                /* enlarge button from image corner */
+  --rhythm-footer: var(--space-5);                                      /* footer padding */
+
+  /* ── Layout grid: 12 cols × 49, gutter 32, centred = 940 (Kedar, 2026-10-15) ──
+   * Was 60/20 in Figma; gutter widened for breathing room between cards while keeping
+   * 940 so plenty of blue shows either side on a 1280 viewport. Gutter eases 20 → 32 (768 → 1280). */
+  --grid-columns: 12;
+  --grid-column: 3.0625rem;    /* 49 */
+  --grid-gutter: clamp(1.25rem, 0.125rem + 2.34vw, 2rem); /* 20 → 32 */
+  --width-content: calc(var(--grid-columns) * var(--grid-column) + (var(--grid-columns) - 1) * var(--grid-gutter)); /* 940 */
+
+  /* ── Shape & layout ─────────────────────────────────── */
+  --radius-card: 1rem;
+  /* Soft light-violet glow behind every card (Kedar, 2026-10-16). Combine with other shadows. */
+  --shadow-glow: 0 0 var(--space-9) var(--space-1) color-mix(in srgb, var(--violet-300) 35%, transparent);
+  --shadow-rest: 0 var(--line-width) var(--space-1) color-mix(in srgb, var(--ink-900) 10%, transparent);
+  --shadow-lifted: 0 var(--space-6) var(--space-9) calc(var(--space-3) * -1) color-mix(in srgb, var(--ink-900) 45%, transparent);
+  --shadow-raised: 0 var(--space-3) var(--space-7) calc(var(--space-1) * -1) var(--color-shadow); /* card hover */
+  --radius-pill: 999px;
+  --radius-media: 0.75rem;
+  --width-hero: var(--width-content);  /* 940 — big display headings stay inside the card edges (Kedar, 2026-10-16) */
+  --width-prose: 42.5rem;      /* 680 — Services intro column */
+  --width-post: 45rem;         /* 720 — case-study reading column (~70 characters of Lato 20; Medium 680 / Substack 728) */
+  --ratio-cover: 1200 / 630;   /* case-study cover = the link-preview (Open Graph) image */
+  --ratio-video: 16 / 9;
+  --width-lead: 50rem;         /* hero lead paragraph (800) */
+  --size-tap: 2.75rem;         /* 44 — minimum touch target */
+  --size-button-h: 3.5rem;     /* 56 — pill button height */
+  --size-logo-h: 1.5625rem;    /* 25 — header logo height (native SVG size) */
+  --size-mark-h: 0.75rem;      /* wave divider height */
+  --size-client-logo: 4.5rem;  /* 72 — client logo tile height (tiles are 400×150 with padding built in) */
+  --size-card-logo: 1.5rem;    /* 24 — brand logo height inside a post card */
+  --size-cue: 2.75rem;         /* 44 — arrow circle on post cards */
+  --size-cue-icon: 1.25rem;    /* 20 — arrow inside it (also the case-study back button) */
+  --size-expand: 2.25rem;      /* 36 — enlarge button on case-study images */
+  --size-expand-icon: 1.125rem;
+  --ratio-card-image: 5 / 4;   /* Media `fixed` frame */
+  --ratio-card-vertical: 4 / 5;    /* homepage vertical card (export 908×1135, no text on the art) */
+  --size-about-icons: 13.75rem; /* 220 — About page app-icon grid (one image, 2×4 icons) */
+  --width-about-text: 25rem;   /* 400 — About story column beside the icons */
+  --size-portrait-h: clamp(20rem, 8.75rem + 23.4vw, 27.5rem); /* WOW portrait cards: 320 → 440 tall (≥768) */
+  --rhythm-portrait-label-x: 18%; /* name label inset from the photo's left edge (keeps it over the dark clothing) */
+  --line-width: 1px;
+  --underline-width: 0.08em;
+  --underline-offset: 0.12em;
+
+  /* ── Client logo strip (homepage) ───────────────────── */
+  --rhythm-logo-gap: var(--space-6);                         /* 32 between tiles (tiles carry their own padding) */
+  --rhythm-logo-fade: var(--space-11);                       /* 96 fade at each edge */
+  --rhythm-cue-inset: var(--space-4);                        /* arrow cue distance from image corner */
+  --rhythm-logo-gap-static: var(--space-5);                  /* half-gap each side when logos sit still (reduced motion) */
+  --rhythm-logo-strip: clamp(var(--space-8), 6vw, var(--space-10)); /* 48 → 80 below the strip (above = hero's own bottom space) */
+
+  /* ── Motion: ONLY what Kedar has approved. Add nothing here unasked. ── */
+  /* Homepage card hover ("elegant, like Apple"): slow, soft rise + deeper shadow. */
+  --motion-lift: 500ms;
+  --ease-lift: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --motion-lift-y: -0.375rem;  /* rises 6px */
+  --motion-lift-scale: 1.01;
+  --motion-cue-nudge: 0.125rem; /* arrow moves 2px right */
+  --motion-card-raise: 150ms;  /* card hover: shadow + arrow cue fade-in + tilt easing */
+  --motion-tilt-max: 3deg;     /* card 3D tilt toward the cursor, max each axis (read by Card.astro JS) */
+  --motion-tilt-depth: 1000px; /* perspective for the tilt — larger = flatter */
+  --motion-header-line: 250ms; /* header line fade when content slides under it */
+  --motion-logo-per-item: 7s;  /* client logos: loop time per logo, so speed stays constant as logos are added */
+
+  /* Homepage card text (Kedar, 2026-10-16): vertical = App-Store fade panel; horizontal = testimonial */
+  --rhythm-panel: clamp(var(--space-4), 2vw, var(--space-5));            /* text panel padding (16 → 24) */
+  --rhythm-panel-fade: var(--space-9);                                  /* App-Store fade: art melts into the panel over 64 */
+  --rhythm-panel-lines: var(--space-1);                                 /* supporting line → headline */
+  --blur-panel: 1.25rem;                                                /* glass / fade blur */
+  --ratio-photo: 1 / 1;                                                 /* testimonial photo slot (export square, e.g. 940 × 940) */
+  --height-card-horizontal: 50cqw;                                      /* testimonial card: at least 2:1, grows with a long quote (parent is a size container) */
+
+  --z-header: 10;
+  --z-menu: 20;
+  --z-lightbox: 30;
+}

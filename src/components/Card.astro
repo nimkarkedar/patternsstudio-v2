@@ -1,0 +1,52 @@
+---
+// White surface card. With `href` the whole card is one link (homepage posts) and gets the
+// raised hover shadow. Without `href` it's a plain surface (e.g. WOW page).
+// `tilt` makes the card lean in 3D toward the mouse — opt-in; used ONLY on the WOW page (Kedar, 2026-10-16).
+// Mouse only; off on touch and reduced motion.
+interface Props { href?: string; class?: string; tilt?: boolean }
+const { href, class: className, tilt = false } = Astro.props;
+const Tag = href ? 'a' : 'div';
+---
+<Tag class:list={['card', 'on-surface', { 'is-link': href }, className]} href={href} data-tilt={tilt ? '' : undefined}>
+  <slot />
+</Tag>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    color: var(--color-on-surface);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: var(--shadow-glow);
+    transform: perspective(var(--motion-tilt-depth)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transition:
+      transform var(--motion-card-raise) ease-out,
+      box-shadow var(--motion-card-raise) ease-out;
+  }
+  .is-link:hover { box-shadow: var(--shadow-glow), var(--shadow-raised); }
+</style>
+
+<script>
+  // 3D tilt toward the cursor. Angles come from --motion-tilt-max in tokens.css.
+  const canTilt = matchMedia('(hover: hover) and (pointer: fine)').matches
+    && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (canTilt) {
+    const max = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--motion-tilt-max'));
+    document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((card) => {
+      card.addEventListener('pointermove', (e) => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;  // -0.5 … 0.5
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.setProperty('--tilt-y', `${x * 2 * max}deg`);
+        card.style.setProperty('--tilt-x', `${-y * 2 * max}deg`);
+      });
+      card.addEventListener('pointerleave', () => {
+        card.style.removeProperty('--tilt-x');
+        card.style.removeProperty('--tilt-y');
+      });
+    });
+  }
+</script>

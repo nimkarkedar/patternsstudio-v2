@@ -1,0 +1,69 @@
+---
+// Portrait card (WOW page): cut-out photo on one side with the person's name + role over it,
+// heading + text on the other. Phones: photo on top. Not a link.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Card from './Card.astro';
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  name: string;
+  role: string;
+  heading: string;
+  side?: 'left' | 'right'; // photo side on desktop
+  tilt?: boolean;
+}
+const { image, alt, name, role, heading, side = 'left', tilt = false } = Astro.props;
+---
+<Card tilt={tilt}>
+  <div class:list={['portrait', `photo-${side}`]}>
+    <figure class="photo">
+      <Image src={image} alt={alt} widths={[480, 720, 960]} sizes="(min-width: 48rem) 470px, 100vw" />
+      <figcaption class="label">
+        <span class="t-body">{name}</span>
+        <span class="t-body">{role}</span>
+      </figcaption>
+    </figure>
+    <div class="body">
+      <h2 class="t-heading">{heading}</h2>
+      <p class="t-body"><slot /></p>
+    </div>
+  </div>
+</Card>
+
+<style>
+  .portrait { display: flex; flex-direction: column; }
+  .photo { position: relative; }
+  .photo :global(img) { width: 100%; height: auto; }
+  /* Phones: name + role sit under the photo, on the same left edge as the text below. */
+  .label {
+    display: flex;
+    flex-direction: column;
+    padding: var(--rhythm-card-pad) var(--rhythm-card-pad) 0;
+  }
+  .body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--rhythm-stack);
+    padding: var(--rhythm-card-pad);
+  }
+
+  @media (min-width: 48rem) {
+    .portrait { flex-direction: row; align-items: stretch; }
+    .photo { flex: none; align-self: flex-end; }
+    .photo :global(img) { width: auto; height: var(--size-portrait-h); }
+    /* Desktop: label over the photo, white on the dark clothing. */
+    .label {
+      position: absolute;
+      left: var(--rhythm-portrait-label-x);
+      bottom: var(--rhythm-card-pad);
+      right: var(--rhythm-card-pad); /* long roles wrap instead of running off the card */
+      padding: 0;
+      color: var(--color-on-button);
+    }
+    .body { flex: 1; }
+    .photo-right .photo { order: 1; }
+  }
+</style>

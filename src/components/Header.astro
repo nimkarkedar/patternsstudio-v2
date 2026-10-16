@@ -1,0 +1,142 @@
+---
+import Logo from './Logo.astro';
+import { nav, contactLink, routes } from '../data/site';
+
+const strip = (s: string) => s.replace(/\/$/, '');
+const here = strip(Astro.url.pathname);
+const isActive = (href: string) =>
+  href === routes.home ? here === strip(routes.home) || here.startsWith(routes.work('')) : here === strip(href) || here.startsWith(`${strip(href)}/`);
+const links = [...nav, contactLink];
+---
+<header class="header" data-header>
+  <div class="bar">
+    <a href={routes.home} class="home" aria-label="Patterns Studio — home"><Logo /></a>
+
+    <nav class="nav" aria-label="Main">
+      <ul role="list">
+        {nav.map((l) => (
+          <li><a class="t-nav link" href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <a class="t-nav link contact" href={contactLink.href} aria-current={isActive(contactLink.href) ? 'page' : undefined}>{contactLink.label}</a>
+
+    <button class="t-nav menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+      <span data-label-closed>Menu</span><span data-label-open hidden>Close</span>
+    </button>
+  </div>
+
+  <div class="sheet" id="mobile-menu" hidden data-menu>
+    <ul role="list" class="sheet-links">
+      {links.map((l) => (
+        <li><a class="t-display sheet-link" href={l.href} aria-current={isActive(l.href) ? 'page' : undefined} data-menu-link>{l.label}</a></li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<style>
+  /* Full-bleed: logo and Contact sit at the viewport edges (only the gutter between). Sticky. */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    padding: var(--rhythm-header-y) var(--rhythm-gutter);
+    background: var(--color-page);
+    border-bottom: var(--line-width) solid transparent; /* reserved so the line never shifts layout */
+    transition: border-bottom-color var(--motion-header-line) ease-out;
+  }
+  /* Soft line under the nav, faded in only while page content is passing beneath it (Kedar, 2026-10-15). */
+  .header[data-covering] { border-bottom-color: var(--color-line-on-page); }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--size-tap);
+  }
+  .home { display: inline-flex; position: relative; z-index: calc(var(--z-menu) + 1); }
+
+  .nav, .contact { display: none; }
+
+  .link {
+    color: var(--color-on-page-muted);
+  }
+  .link:hover, .link[aria-current='page'], .contact { color: var(--color-on-page); }
+
+  .menu-toggle {
+    position: relative;
+    z-index: calc(var(--z-menu) + 1);
+    min-height: var(--size-tap);
+    padding-inline: var(--space-2);
+    margin-inline-end: calc(var(--space-2) * -1);
+  }
+
+  .sheet {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-menu);
+    background: var(--color-page);
+    display: flex;
+    align-items: flex-end;
+    padding: var(--rhythm-gutter);
+    padding-bottom: var(--rhythm-section);
+  }
+  .sheet[hidden] { display: none; }
+  :global(html[data-menu-open]) { overflow: hidden; }
+  .sheet-links { display: grid; gap: var(--space-2); }
+  .sheet-link { color: var(--color-on-page-muted); display: inline-block; }
+  .sheet-link[aria-current='page'] { color: var(--color-on-page); }
+
+  @media (min-width: 48rem) {
+    .bar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+    }
+    .nav { display: block; }
+    .nav ul { display: flex; gap: var(--rhythm-nav); }
+    .contact { display: inline-block; justify-self: end; }
+    .menu-toggle, .sheet { display: none; }
+  }
+</style>
+
+<script>
+  // Mobile menu: open/close instantly. No animation.
+
+  const setOpen = (open: boolean) => {
+    const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+    const sheet = document.querySelector<HTMLElement>('[data-menu]');
+    if (!toggle || !sheet) return;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.querySelector('[data-label-closed]')?.toggleAttribute('hidden', open);
+    toggle.querySelector('[data-label-open]')?.toggleAttribute('hidden', !open);
+    document.documentElement.toggleAttribute('data-menu-open', open);
+    sheet.hidden = !open;
+  };
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('[data-menu-toggle]')) {
+      const open = document.querySelector('[data-menu-toggle]')?.getAttribute('aria-expanded') !== 'true';
+      setOpen(open);
+    } else if (target.closest('[data-menu-link]')) {
+      setOpen(false);
+    }
+  });
+  // Line under the header only once real content (the first text/image on the page)
+  // has slid up beneath it — not merely because the page moved.
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const firstContent = document.querySelector<HTMLElement>('main :is(h1, h2, p, img, a, li)');
+  const syncCovering = () => {
+    if (!header || !firstContent) return;
+    const covering = firstContent.getBoundingClientRect().top < header.getBoundingClientRect().bottom;
+    header.toggleAttribute('data-covering', covering);
+  };
+  window.addEventListener('scroll', syncCovering, { passive: true });
+  window.addEventListener('resize', syncCovering);
+  syncCovering();
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.documentElement.hasAttribute('data-menu-open')) setOpen(false);
+  });
+</script>

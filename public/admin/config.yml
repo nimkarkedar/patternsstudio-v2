@@ -1,0 +1,113 @@
+# Patterns Studio CMS — Sveltia CMS (https://github.com/sveltia/sveltia-cms).
+# Edits the same Markdown files the site is built from: src/content/work/<slug>/index.md (+ images beside it).
+#
+# Use it:
+#   On your Mac now  → npm run dev → open http://localhost:4322/admin/ in Chrome/Arc →
+#                      "Work with Local Repository" → pick this project folder. Saves straight to disk.
+#   Online           → https://nimkarkedar.github.io/patternsstudio-v2/admin/ → "Sign In Using Access Token".
+#                      Every save is a commit → GitHub Actions rebuilds the preview (~2 min).
+
+backend:
+  name: github
+  repo: nimkarkedar/patternsstudio-v2
+  branch: main
+
+# Don't write cleared optional fields as '' (the site also tolerates it — see src/content.config.ts).
+output:
+  omit_empty_optional_fields: true
+
+# Preview address (switch to https://patternsstudio.co at launch).
+site_url: https://nimkarkedar.github.io/patternsstudio-v2/
+display_url: https://nimkarkedar.github.io/patternsstudio-v2/
+logo_url: ../favicon.svg
+
+# Fallback library for uploads outside a post (not used yet). Post images live inside each post's folder (below).
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: work
+    label: Case studies
+    label_singular: Case study
+    description: >-
+      Each case study = one homepage card + its post page. Leave the body empty to keep the post hidden from
+      Google until it's written (the card still shows).
+    folder: src/content/work
+    path: "{{slug}}/index" # one folder per post; folder name = URL (/work/<folder>/)
+    media_folder: "" # images are saved inside the post's own folder…
+    public_folder: "" # …and written as plain file names
+    create: true
+    editor: { preview: false } # full width for writing; the real preview is the site itself (localhost:4322)
+    identifier_field: title
+    slug: "{{title}}"
+    summary: "{{order}} · {{brand}} — {{title}}"
+    sortable_fields: [order, brand, title, publishedDate]
+    # Order = how Kedar works: homepage card first (position → shape → image), then the post, writing last.
+    fields:
+      # ── Homepage card
+      - { name: order, label: Position on homepage, widget: number, value_type: int, hint: "Lowest number = first card (0 is fine)." }
+      - name: size
+        label: Card shape
+        widget: select
+        default: vertical
+        options:
+          - { label: "Vertical (half row, 4:5) — art + headline", value: vertical }
+          - { label: "Horizontal (full row) — testimonial", value: horizontal }
+        hint: "Vertical cards go in pairs between horizontal ones."
+      - name: image
+        label: Homepage card image
+        widget: image
+        required: false
+        hint: >-
+          **Vertical card: 908 × 1135 px (4:5).** No text in the art; the headline is added live. Keep the bottom third calm:
+          the headline panel sits there and takes its colour from it. Logo top-left, about 60 px in.
+
+
+          **Horizontal card: 940 × 940 px (square).** The person's photo on a white background, standing on the bottom edge.
+          Logo in a top corner, about 60 px in.
+
+
+          PNG or JPG. Empty = plain white card.
+      - { name: imageAlt, label: Card image description (alt text), widget: string }
+      # Vertical card text — sits on a panel in the image's own colour (picked automatically)
+      - { name: eyebrow, label: "Vertical card: supporting line", widget: string, required: false, hint: "Small line above the headline, e.g. “An intelligent piggy bank”." }
+      - { name: headline, label: "Vertical card: headline", widget: string, required: false, hint: "Up to ~25 characters stays on one line; two lines max." }
+      # Horizontal card = testimonial on white
+      - { name: quote, label: "Horizontal card: testimonial quote", widget: text, required: false, hint: "Around 150–200 characters reads best." }
+      - { name: name, label: "Horizontal card: person's name", widget: string, required: false }
+      - { name: role, label: "Horizontal card: person's role", widget: string, required: false, hint: "e.g. Co-founder of Neufin" }
+      - name: imageSide
+        label: "Horizontal card: photo side"
+        widget: select
+        default: right
+        required: false
+        options:
+          - { label: Photo on the left, value: left }
+          - { label: Photo on the right, value: right }
+      - { name: brand, label: Brand, widget: string, hint: "Client name. Used for the page title and screen readers." }
+      # ── Post
+      - { name: title, label: Post title, widget: string, required: false, hint: "Big headline on the post. Around 60 characters or fewer reads best in Google." }
+      - { name: description, label: Summary for Google & link previews, widget: text, required: false, hint: "Not shown on the page. 140–160 characters." }
+      - name: ogImage
+        label: Cover image
+        widget: image
+        required: false
+        hint: >-
+          **1200 × 630 px (1.9:1).** Shown at the top of the post AND when the link is shared (WhatsApp, LinkedIn, X).
+          Keep key content away from the edges. Name the file descriptively, e.g. jupiter-pots-savings-app.png.
+      - { name: ogImageAlt, label: Cover image description (alt text), widget: string, required: false }
+      - { name: publishedDate, label: Published, widget: datetime, required: false, time_format: false, format: YYYY-MM-DD }
+      - { name: updatedDate, label: Updated, widget: datetime, required: false, time_format: false, format: YYYY-MM-DD }
+      - name: body
+        label: Post
+        widget: markdown
+        required: false
+        modes: [rich_text, raw] # raw = plain Markdown (for tables)
+        hint: >-
+          ## Section · ### Sub-section · > Quote (last line "— Name" = who said it) · image caption = the image's title ·
+          a YouTube/Vimeo link alone on a line becomes a video · tables allowed. Leave empty to keep the post hidden from Google.
+
+
+
+          **Images in the post: 1440 px wide** (any height; 16:9 or 2:1 look best), descriptive file names, alt text always.
+      - { name: draft, label: Hide this post, widget: boolean, default: false, required: false, hint: "Hides the card and the page." }

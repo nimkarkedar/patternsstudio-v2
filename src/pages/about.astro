@@ -1,0 +1,71 @@
+---
+// About (design: MacBook Air - 7). No tilt on this page.
+// Book block ("Checkout my latest book" + Buy on Amazon) removed until the book is ready —
+// re-add with <Statement> + <Actions primary={{ label: labels.buyBook, href: site.bookUrl, external: true }} />.
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Actions from '../components/Actions.astro';
+import PortraitCard from '../components/PortraitCard.astro';
+import Card from '../components/Card.astro';
+import { routes, labels } from '../data/site';
+import kedar from '../assets/about/kedar-nimkar.png';
+import appIcons from '../assets/about/app-icons.png';
+
+const story = [
+  'At Patterns, Kedar works with founders, product and design teams who are in their 0 to 10 journey. He specialises in making digital products easy to use. But more importantly, giving personality to boring functional AI products.',
+  'Kedar has spent last 20 years building products across, travel, entertainment, fintech, prop-tech, med-tech and more...',
+  'Outside work, Kedar runs 2 other initiatives. The Gyaan Project, a podcast since 2016 with 300+ conversations with India’s top creative minds.',
+  'Kedar is partner at Indian Futures Lab, a micro-university in Goa that advocates long-term thinking and skills required to build it.',
+];
+---
+<BaseLayout title="About" description="An independent design studio based in Singapore.">
+  <Hero title="An independent design studio based in Singapore">
+    <Actions primary={{ label: labels.explore, href: routes.services }} />
+  </Hero>
+
+  <section class="container stack" aria-label="About Kedar">
+    <PortraitCard
+      image={kedar}
+      alt="Kedar Nimkar, smiling, in a black sweater"
+      name="Kedar Nimkar"
+      role="Founder of Patterns Studio Pte Ltd"
+      heading="Author, Designer, Podcaster"
+    >
+      Kedar is a seasoned design leader with over two decades of experience shaping India’s digital landscape. He has held pivotal design leadership roles at Cleartrip, BookMyShow, Jupiter, and PropertyGuru in Singapore, where he has built innovative digital products reaching millions of users.
+    </PortraitCard>
+
+    <Card>
+      <div class="story">
+        <div class="paragraphs">
+          {story.map((p) => <p class="t-body">{p}</p>)}
+        </div>
+        <Image
+          class="icons"
+          src={appIcons}
+          alt="Apps and projects Kedar has worked on: Wynk, Cleartrip, BookMyShow, Jupiter, PropertyGuru, The Gyaan Project, Legends of India, Indian Futures Lab"
+          widths={[240, 480]}
+          sizes="(min-width: 48rem) 220px, 50vw"
+        />
+      </div>
+    </Card>
+  </section>
+</BaseLayout>
+
+<style>
+  .stack { display: grid; gap: var(--rhythm-card-gap); padding-bottom: var(--rhythm-section); }
+  .story {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--rhythm-row);
+    padding: var(--rhythm-row) var(--rhythm-card-pad);
+  }
+  .paragraphs { display: flex; flex-direction: column; gap: var(--rhythm-paragraph); }
+  .story :global(.icons) { width: var(--size-about-icons); height: auto; }
+
+  @media (min-width: 48rem) {
+    .story { flex-direction: row; justify-content: space-around; }
+    .paragraphs { max-width: var(--width-about-text); }
+  }
+</style>

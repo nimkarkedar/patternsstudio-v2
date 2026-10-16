@@ -1,0 +1,65 @@
+---
+// Client logos scrolling inside the content container, faded at both edges (Kedar, 2026-10-15).
+// The only animation on the site — approved explicitly. Static row if the visitor prefers reduced motion.
+// Logo files: src/assets/clients/<file>.(svg|png|webp). Names render as text until a file exists.
+// Logos load eagerly: they scroll into view by transform, which never triggers lazy-loading (they'd stay blank).
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { clients } from '../data/site';
+
+const files = import.meta.glob<{ default: ImageMetadata }>('../assets/clients/*.{svg,png,webp}', { eager: true });
+const logoFor = (file: string) =>
+  Object.entries(files).find(([path]) => path.split('/').pop()?.replace(/\.\w+$/, '') === file)?.[1].default;
+const items = [...clients, ...clients]; // second copy makes the loop seamless
+---
+<section class="clients container" aria-label="Clients" style={`--logo-count: ${clients.length}`}>
+  <div class="viewport">
+    <ul role="list" class="track">
+      {items.map((c, i) => (
+        <li class="item" aria-hidden={i >= clients.length ? 'true' : undefined}>
+          {logoFor(c.file)
+            ? <Image src={logoFor(c.file)!} alt={i >= clients.length ? '' : c.name} class="logo" loading="eager" />
+            : <span class="t-heading">{c.name}</span>}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* Top: the hero already ends with --rhythm-hero-to-content, and tiles carry their own padding. */
+  .clients { padding-bottom: var(--rhythm-logo-strip); }
+  .viewport {
+    overflow: hidden;
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      var(--color-on-page) var(--rhythm-logo-fade),
+      var(--color-on-page) calc(100% - var(--rhythm-logo-fade)),
+      transparent
+    );
+  }
+  .track {
+    display: flex;
+    width: max-content;
+    animation: logo-scroll calc(var(--motion-logo-per-item) * var(--logo-count)) linear infinite;
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    height: var(--size-client-logo);
+    padding-inline-end: var(--rhythm-logo-gap); /* padding, not gap, so -50% lands exactly on the copy */
+    color: var(--color-on-page);
+    white-space: nowrap;
+  }
+  .logo { height: var(--size-client-logo); width: auto; }
+  @keyframes logo-scroll { to { transform: translateX(-50%); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .viewport { mask-image: none; }
+    .track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; row-gap: var(--space-5); }
+    .item[aria-hidden='true'] { display: none; }
+    .item { padding-inline: var(--rhythm-logo-gap-static); }
+    .track { column-gap: 0; }
+  }
+</style>

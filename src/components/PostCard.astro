@@ -1,0 +1,161 @@
+---
+// Homepage card = one blog post / case study (Kedar, 2026-10-16). Text is live, never baked into the image.
+//   vertical (4:5, half row): art fills the card; supporting line + headline sit on an App-Store-style
+//     panel — the art melts into the image's own base colour (picked at build time, src/lib/card-color.ts).
+//   horizontal (≥2:1, full row): testimonial on white — quote, name, role (Lato, one centred unit) — beside the person's photo
+//     (`imageSide` left | right) in a square slot. Phones: square photo above (left) or below (right) the quote.
+// Affordance: arrow-in-circle, always visible. Hover (approved): card rises, shadow deepens, arrow nudges.
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import { routes, labels } from '../data/site';
+import { cardColor } from '../lib/card-color';
+
+interface Props { post: CollectionEntry<'work'> }
+const { post } = Astro.props;
+const { data } = post;
+const horizontal = data.size === 'horizontal';
+const panel = !horizontal && (data.eyebrow || data.headline);
+const color = panel && data.image ? await cardColor(data.image) : undefined;
+---
+<a
+  class:list={['post', horizontal ? 'horizontal' : 'vertical', horizontal && data.imageSide, color?.tone]}
+  href={routes.work(post.id)}
+  style={color && `--card-bg: ${color.bg}`}
+>
+  <span class="visually-hidden">{labels.readCase}: {data.title ?? data.brand}</span>
+  {data.image && (
+    <Image
+      class="image"
+      src={data.image}
+      alt={data.imageAlt}
+      widths={horizontal ? [480, 720, 960] : [480, 720, 960, 1440]}
+      sizes={horizontal ? '(min-width: 48rem) 470px, 100vw' : '(min-width: 48rem) 454px, 100vw'}
+    />
+  )}
+
+  {panel && (
+    <span class="panel">
+      {data.eyebrow && <span class="t-body">{data.eyebrow}</span>}
+      {data.headline && <span class="t-subheading">{data.headline}</span>}
+    </span>
+  )}
+
+  {horizontal && data.quote && (
+    <span class="testimonial">
+      <q class="t-body">{data.quote}</q>
+      {data.name && (
+        <span class="person">
+          <span class="t-body-strong">{data.name}</span>
+          {data.role && <span class="t-body">{data.role}</span>}
+        </span>
+      )}
+    </span>
+  )}
+
+  <span class="cue" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 6l6 6-6 6" />
+    </svg>
+  </span>
+</a>
+
+<style>
+  .post {
+    --card-ink: var(--color-on-surface);
+    position: relative;
+    display: block;
+    aspect-ratio: var(--ratio-card-vertical);
+    background: var(--color-surface);
+    color: var(--card-ink);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: var(--shadow-glow), var(--shadow-rest);
+    transition:
+      transform var(--motion-lift) var(--ease-lift),
+      box-shadow var(--motion-lift) var(--ease-lift);
+  }
+  .light { --card-ink: var(--color-on-page); }
+  .image { width: 100%; height: 100%; object-fit: cover; }
+  .vertical .image { position: absolute; inset: 0; }
+
+  .cue {
+    position: absolute;
+    right: var(--rhythm-cue-inset);
+    bottom: var(--rhythm-cue-inset);
+    display: grid;
+    place-items: center;
+    width: var(--size-cue);
+    height: var(--size-cue);
+    border-radius: var(--radius-pill);
+    background: var(--color-button);
+    color: var(--color-on-button);
+  }
+  .cue svg {
+    width: var(--size-cue-icon);
+    height: var(--size-cue-icon);
+    transition: transform var(--motion-lift) var(--ease-lift);
+  }
+  /* On a coloured panel the cue takes the panel's colours. */
+  .post[style] { background: var(--card-bg); } /* fills any transparent corners in the art */
+  .post[style] .cue { background: var(--card-ink); color: var(--card-bg); }
+
+  /* Vertical: App-Store panel — art melts into its base colour, soft blur rising under the text. */
+  .panel {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    isolation: isolate;
+    display: grid;
+    gap: var(--rhythm-panel-lines);
+    padding: var(--rhythm-panel-fade) calc(var(--size-cue) + 2 * var(--rhythm-cue-inset)) var(--rhythm-panel) var(--rhythm-panel);
+    background: linear-gradient(to top, var(--card-bg, var(--color-surface)) 55%, transparent);
+  }
+  .panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    backdrop-filter: blur(var(--blur-panel));
+    mask-image: linear-gradient(to top, black 45%, transparent);
+  }
+
+  /* Horizontal: testimonial on white beside the photo. Phones: photo strip + quote, natural height. */
+  .horizontal { display: grid; aspect-ratio: auto; }
+  .horizontal:not(:has(.image, .testimonial)) { aspect-ratio: var(--ratio-card-vertical); } /* empty card */
+  /* Photo in a square slot (as tall as the card on desktop), shown whole — never trims the logo in the
+     photo's corner — and standing on the bottom edge. Photos are on white, so any spare space blends in. */
+  .horizontal .image { aspect-ratio: var(--ratio-photo); object-fit: contain; object-position: bottom; }
+  .horizontal.right .image { order: 1; }
+  /* Quote + name + role read as one unit, centred in the text area. */
+  .testimonial {
+    display: grid;
+    align-content: center;
+    gap: var(--rhythm-title-to-lead);
+    padding: var(--rhythm-card-pad);
+    padding-bottom: calc(var(--size-cue) + 2 * var(--rhythm-cue-inset));
+  }
+  .testimonial q { hanging-punctuation: first; } /* opening quote hangs outside the text edge (Safari) */
+  .person { display: grid; }
+  /* Photo below the text (phones, photo on the right): the arrow sits on the photo, no room needed. */
+  .right:has(.image) .testimonial { padding-bottom: var(--rhythm-card-pad); }
+
+  @media (hover: hover) {
+    .post:hover, .post:focus-visible {
+      transform: translateY(var(--motion-lift-y)) scale(var(--motion-lift-scale));
+      box-shadow: var(--shadow-glow), var(--shadow-lifted);
+    }
+    .post:hover .cue svg, .post:focus-visible .cue svg { transform: translateX(var(--motion-cue-nudge)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .post, .cue svg { transition: none; }
+    .post:hover, .post:focus-visible { transform: none; }
+  }
+
+  @media (min-width: 48rem) {
+    .horizontal { min-height: var(--height-card-horizontal); aspect-ratio: auto; }
+    .horizontal:has(.image) { grid-template-columns: var(--height-card-horizontal) minmax(0, 1fr); }
+    .horizontal.right:has(.image) { grid-template-columns: minmax(0, 1fr) var(--height-card-horizontal); }
+    .horizontal .image { aspect-ratio: auto; }
+    .testimonial { padding-bottom: var(--rhythm-card-pad); padding-right: calc(var(--size-cue) + 2 * var(--rhythm-cue-inset)); }
+  }
+</style>

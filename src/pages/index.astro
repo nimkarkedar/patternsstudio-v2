@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Actions from '../components/Actions.astro';
+import ClientLogos from '../components/ClientLogos.astro';
+import PostCard from '../components/PostCard.astro';
+import Statement from '../components/Statement.astro';
+import Button from '../components/Button.astro';
+import { routes, labels } from '../data/site';
+
+const posts = (await getCollection('work', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
+
+// Vertical cards sit two per row; an odd run between horizontal cards would leave a gap.
+let run: string[] = [];
+for (const p of [...posts, null]) {
+  if (p && p.data.size === 'vertical') { run.push(p.id); continue; }
+  if (run.length % 2) console.warn(`[work] Odd number of vertical cards in a row (${run.join(', ')}) — the grid will have a gap.`);
+  run = [];
+}
+---
+<BaseLayout description="An independent design studio with taste and AI chops.">
+  <Hero
+    title="An independent design studio with taste and AI chops."
+    lead="At Patterns, we design software, build brands, and bring products to market. We combine years of design experience and now augment with AI."
+  >
+    <Actions
+      primary={{ label: labels.explore, href: routes.services }}
+      secondary={{ label: labels.connect, href: routes.email }}
+    />
+  </Hero>
+
+  <ClientLogos />
+
+  <section class="container" aria-label="Work">
+    <ul role="list" class="grid">
+      {posts.map((post) => (
+        <li class:list={['cell', post.data.size === 'horizontal' && 'span-full']}>
+          <PostCard post={post} />
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <Statement title="More work coming soon.">
+    <div class="meanwhile">
+      <p class="t-body">Meanwhile... know my</p>
+      <Button href={routes.wow} variant="ghost">Ways of working (WOW)</Button>
+    </div>
+  </Statement>
+</BaseLayout>
+
+<style>
+  /* Line + ghost button read as one sentence: same small gap as a primary → ghost pair. */
+  .meanwhile { display: grid; justify-items: center; gap: var(--rhythm-action-pair); }
+  .grid { display: grid; gap: var(--rhythm-card-gap); }
+  @media (min-width: 48rem) {
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .span-full { grid-column: 1 / -1; container-type: inline-size; } /* testimonial card sizes from it */
+  }
+</style>

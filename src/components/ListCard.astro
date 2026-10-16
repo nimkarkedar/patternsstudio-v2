@@ -1,0 +1,30 @@
+---
+// White card with a heading and a bulleted list (WOW page "fit" cards).
+import Card from './Card.astro';
+
+interface Props { heading: string; items: string[]; tilt?: boolean }
+const { heading, items, tilt = false } = Astro.props;
+---
+<Card tilt={tilt}>
+  <div class="body">
+    <h2 class="t-heading">{heading}</h2>
+    <ul class="list">
+      {items.map((item) => <li class="t-body">{item}</li>)}
+    </ul>
+  </div>
+</Card>
+
+<style>
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rhythm-paragraph);
+    padding: var(--rhythm-card-pad);
+  }
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rhythm-list);
+    padding-inline-start: var(--space-5);
+  }
+</style>

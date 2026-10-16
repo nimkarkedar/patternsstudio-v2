@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Patterns Studio CMS</title>
+    <!-- Same typefaces as the site, so writing looks like the published post. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,900;1,400&family=Libre+Baskerville&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+    <style>
+      /* Post writing area (Sveltia's rich-text editor = .lexical-root): tall like a full page and typeset
+         like the case-study page — Lato 20/32 in a 720px column, Montserrat headings, Baskerville quotes.
+         Admin-only styles: mirror src/styles/tokens.css values by hand if those change. */
+      /* Save (top-right; also Cmd+S): bigger, and still clearly visible while greyed out
+         (it stays grey until something changes). */
+      button[data-label="Save"] {
+        min-width: 112px !important;
+        height: 40px !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+      }
+      button[data-label="Save"][aria-disabled="true"] {
+        opacity: 1 !important;
+        background: transparent !important;
+        color: inherit !important;
+        border: 1px solid currentColor !important;
+        cursor: default;
+      }
+      /* The Post field is wider than the other fields (Sveltia's 768px) — up to 1280, like a page. */
+      section[data-key-path="body"] .field-wrapper { max-width: 1280px !important; }
+      .lexical-root[contenteditable] {
+        min-height: 80vh !important;
+        padding: 48px max(24px, calc((100% - 720px) / 2)) 96px !important;
+        font-family: "Lato", system-ui, sans-serif !important;
+        font-size: 20px !important;
+        line-height: 1.6 !important;
+      }
+      .lexical-root[contenteditable] > * { margin: 0 0 24px !important; }
+      .lexical-root[contenteditable] :is(h1, h2, h3, h4) {
+        margin: 56px 0 12px !important;
+        font-family: "Montserrat", system-ui, sans-serif !important;
+        font-weight: 700 !important;
+        line-height: 1.25 !important;
+      }
+      .lexical-root[contenteditable] > :first-child { margin-top: 0 !important; }
+      .lexical-root[contenteditable] :is(h1, h2) { font-size: 32px !important; }
+      .lexical-root[contenteditable] :is(h3, h4) { font-size: 24px !important; margin-top: 40px !important; }
+      .lexical-root[contenteditable] strong, .lexical-root[contenteditable] b { font-weight: 900 !important; }
+      .lexical-root[contenteditable] blockquote {
+        margin: 40px 0 !important;
+        padding: 32px 0 !important;
+        border: 0 !important;
+        border-block: 1px solid color-mix(in srgb, currentColor 20%, transparent) !important;
+        font-family: "Libre Baskerville", Georgia, serif !important;
+        font-size: 28px !important;
+        line-height: 1.4 !important;
+        text-align: center;
+        font-style: normal !important;
+      }
+      .lexical-root[contenteditable] :is(ul, ol) { padding-inline-start: 24px !important; }
+      .lexical-root[contenteditable] li + li { margin-top: 4px !important; }
+      .lexical-root[contenteditable] img { max-width: 100%; height: auto; border-radius: 16px; }
+    </style>
+  </head>
+  <body>
+    <!-- Sveltia CMS (open source, Decap-compatible). Settings: ./config.yml. Pinned version; upgrade deliberately. -->
+    <script src="https://unpkg.com/@sveltia/cms@0.227.0/dist/sveltia-cms.js"></script>
+  </body>
+</html>

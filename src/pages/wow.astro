@@ -1,0 +1,85 @@
+---
+// Ways of working (design: MacBook Air - 5).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Actions from '../components/Actions.astro';
+import PortraitCard from '../components/PortraitCard.astro';
+import Statement from '../components/Statement.astro';
+import ListCard from '../components/ListCard.astro';
+import { routes, labels } from '../data/site';
+import hitchcock from '../assets/wow/hitchcock.png';
+import wongKarWai from '../assets/wow/wong-kar-wai.png';
+
+const bestIf = [
+  'Care deeply about craft & design',
+  'Like attention to details and sweat it out.',
+  'Want to build something useful, meaningful, and commercially solid',
+  'Understand that brand, product, business, and culture are all connected',
+];
+const notAFitIf = [
+  'Talk about growth at ‘any cost’',
+  'Treat users like metrics on a dashboard',
+  'Build addictive products and call it engagement',
+  'Lack imagination',
+  'Consider ‘ethics and accessibility’ as a PR strategy',
+  'Want PPT folks',
+];
+---
+<BaseLayout title="Ways of working" description="There are just 2 ways of working.">
+  <Hero
+    title="There are just 2 ways of working."
+    lead="Be it building digital products, making a film or cooking dinner."
+  >
+    <Actions
+      primary={{ label: labels.explore, href: routes.services }}
+      secondary={{ label: labels.connect, href: routes.email }}
+    />
+  </Hero>
+
+  <section class="container stack" aria-label="Two ways of working">
+    <PortraitCard
+      image={hitchcock}
+      alt="Alfred Hitchcock, finger to his lips"
+      name="Alfred Hitchcock"
+      role="Filmmaker"
+      heading="Meticulous planning"
+      side="left"
+      tilt
+    >
+      Hitchcock mapped out every shot, sequence, script detail, and technical continuity before filming began. He believed that if a film was thoroughly written and storyboarded, the creative work was largely complete. The actual shooting was simply a matter of execution.
+    </PortraitCard>
+
+    <PortraitCard
+      image={wongKarWai}
+      alt="Wong Kar-wai in sunglasses, smiling"
+      name="Wong Kar-wai"
+      role="Filmmaker"
+      heading="Creative Improvisation"
+      side="right"
+      tilt
+    >
+      Wong Kar-wai often began filming without a finished script, developing scenes and dialogue as he went. Rather than planning every detail beforehand, he discovered the story through shooting and editing, allowing actors, locations, and unexpected moments to shape the final film.
+    </PortraitCard>
+  </section>
+
+  <Statement title="I am fine with both. How about you?">
+    <Actions primary={{ label: 'Connect when ready', href: routes.email }} />
+  </Statement>
+
+  <section class="container fit" aria-label="Working together">
+    <ListCard heading="I work best if you..." items={bestIf} tilt />
+    <ListCard heading="I’m not a fit if you…" items={notAFitIf} tilt />
+  </section>
+</BaseLayout>
+
+<style>
+  .stack { display: grid; gap: var(--rhythm-card-gap); }
+  .fit {
+    display: grid;
+    gap: var(--rhythm-card-gap);
+    padding-bottom: var(--rhythm-section);
+  }
+  @media (min-width: 48rem) {
+    .fit { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

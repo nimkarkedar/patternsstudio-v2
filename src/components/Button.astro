@@ -1,0 +1,29 @@
+---
+// Pill button. `primary` = dark filled; `ghost` = transparent, tinted on hover. Renders an <a>.
+// `fill` makes it take its container's width (used by <Actions> so paired buttons match).
+interface Props { href: string; variant?: 'primary' | 'ghost'; fill?: boolean; class?: string; external?: boolean }
+const { href, variant = 'primary', fill = false, class: className, external = false } = Astro.props;
+---
+<a
+  class:list={['t-body', 'button', variant, { fill }, className]}
+  href={href}
+  {...(external ? { target: '_blank', rel: 'noopener' } : {})}
+><slot /></a>
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--size-button-h);
+    padding-inline: var(--rhythm-button-x);
+    border-radius: var(--radius-pill);
+    text-align: center;
+    text-box: trim-both cap alphabetic; /* optically centre the label in the pill */
+  }
+  .fill { width: 100%; }
+  .primary { background: var(--color-button); color: var(--color-on-button); }
+  .primary:hover { background: var(--color-button-hover); }
+  .ghost { background: transparent; color: var(--color-on-page); }
+  .ghost:hover { background: var(--color-ghost-hover); }
+</style>

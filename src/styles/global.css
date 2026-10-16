@@ -1,0 +1,255 @@
+/*
+ * Global base + the TEXT STYLE system.
+ * Every piece of text on the site uses exactly one .t-* class below.
+ * Never set font-family / font-size / font-weight anywhere else.
+ */
+@import "@fontsource/montserrat/latin-700.css";
+@import "@fontsource/montserrat/latin-800.css";
+@import "@fontsource/lato/latin-400.css";
+@import "@fontsource/lato/latin-400-italic.css"; /* <em> in case studies */
+@import "@fontsource/lato/latin-900.css";
+@import "@fontsource/libre-baskerville/latin-400.css"; /* case-study pull quotes only */
+@import "./tokens.css";
+
+/* ── Reset ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--color-page);
+  color: var(--color-on-page);
+}
+body {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-lato);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, svg, video { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
+:focus-visible { outline: var(--line-width) solid var(--color-focus); outline-offset: var(--space-1); }
+.on-surface :focus-visible { outline-color: var(--color-focus-on-surface); }
+.visually-hidden {
+  position: absolute; width: var(--line-width); height: var(--line-width); overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+/* ── Text styles: EXACTLY these 7. Nothing else, ever. ──
+ *  .t-display  Montserrat 58 ExtraBold   page heroes, big statements
+ *  .t-title    Montserrat 49 ExtraBold   project-detail title
+ *  .t-nav      Montserrat 16 Bold        navigation only
+ *  .t-heading  Lato 32 Black             headings inside cards / sections
+ *  .t-body     Lato 20 Regular           all running text, buttons, names, links
+ *  .t-tiny     Lato 12 Regular           footer only
+ *  .t-quote    Libre Baskerville 32 Regular, centred   case-study pull quotes
+ *  .t-body-strong Lato 20 Black          bold text inside paragraphs
+ *
+ * Case-study page only (Kedar's design "MacBook Air - 11", 2026-10-16):
+ *  .prose h2   Montserrat 32 Bold / 40     .prose h3  Montserrat 24 Bold / 30
+ *  .prose p/li Lato 20 / 30                image caption = .t-tiny size
+ */
+.t-display, .t-title {
+  font-family: var(--font-montserrat);
+  font-weight: var(--weight-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+.t-display { font-size: var(--size-display); }
+.t-title { font-size: var(--size-title); line-height: var(--leading-snug); } /* 48/60 */
+.t-nav {
+  font-family: var(--font-montserrat);
+  font-weight: var(--weight-bold);
+  font-size: var(--size-nav);
+  line-height: var(--leading-snug);
+}
+.t-heading {
+  font-family: var(--font-lato);
+  font-weight: var(--weight-black);
+  font-size: var(--size-heading);
+  line-height: var(--leading-snug);
+  text-wrap: balance;
+}
+.t-body, .prose :is(p, li, td, th, figcaption) {
+  font-family: var(--font-lato);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-body);
+  line-height: var(--leading-body);
+  text-wrap: pretty;
+}
+.t-tiny {
+  font-family: var(--font-lato);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-tiny);
+  line-height: var(--leading-snug);
+}
+.t-quote, .prose blockquote {
+  font-family: var(--font-baskerville);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-quote);
+  line-height: var(--leading-quote);
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* Lato 20 Black — bold text inside paragraphs. */
+.t-subheading {
+  font-family: var(--font-montserrat);
+  font-weight: var(--weight-bold);
+  font-size: var(--size-subheading);
+  line-height: var(--leading-snug);
+  text-wrap: balance;
+}
+.t-body-strong {
+  font-family: var(--font-lato);
+  font-weight: var(--weight-black);
+  font-size: var(--size-body);
+  line-height: var(--leading-snug);
+}
+.prose :is(strong, b, th) { font-weight: var(--weight-black); }
+.prose em { font-style: italic; }
+
+/* ── Shared layout primitives ──────────────────────────── */
+.container {
+  width: 100%;
+  max-width: calc(var(--width-content) + 2 * var(--rhythm-gutter));
+  margin-inline: auto;
+  padding-inline: var(--rhythm-gutter);
+}
+.on-surface { color: var(--color-on-surface); }
+
+/* ── Prose: case-study Markdown ─────────────────────────────
+ * One centred reading column (--width-post, 720). Plain Markdown output (no classes) → CMS-friendly.
+ * Rhythm by proximity: every block is --rhythm-prose apart; images/tables/quotes get more air;
+ * a heading has lots of space above and little below, so it belongs to the text it introduces. */
+.prose {
+  max-width: var(--width-post);
+  margin-inline: auto;
+  color: var(--color-on-surface);
+}
+.prose > * + * { margin-top: var(--rhythm-prose); }
+.prose > :where(figure, .embed, .table-scroll, .pull-quote, hr),
+.prose > :where(figure, .embed, .table-scroll, .pull-quote, hr) + * { margin-top: var(--rhythm-prose-block); }
+.prose > * + :where(h2) { margin-top: var(--rhythm-prose-section); }
+.prose > * + :where(h3) { margin-top: var(--rhythm-prose-subsection); }
+.prose > :where(h2, h3) + * { margin-top: var(--rhythm-prose-heading); }
+.prose > :first-child { margin-top: 0; }
+
+/* Headings: Montserrat Bold — h2 32/40, h3 24/30 */
+.prose :is(h2, h3) {
+  font-family: var(--font-montserrat);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  text-wrap: balance;
+  scroll-margin-top: var(--rhythm-prose-section);
+}
+.prose h2 { font-size: var(--size-heading); }
+.prose h3 { font-size: var(--size-subheading); }
+
+/* Running text: Lato 20/32 */
+.prose :is(p, li) { line-height: var(--leading-prose); }
+.prose :is(strong, b, th) { font-weight: var(--weight-black); }
+.prose em { font-style: italic; }
+.prose a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-thickness: var(--underline-width);
+  text-underline-offset: var(--underline-offset);
+}
+.prose a:hover { color: var(--color-on-surface); }
+
+.prose :is(ul, ol) { padding-inline-start: var(--space-5); }
+.prose li + li, .prose li > :is(ul, ol) { margin-top: var(--rhythm-prose-list); }
+.prose li::marker { color: var(--color-on-surface); }
+
+/* Pull quote: hairline above + below, Libre Baskerville centred, optional "— Person name" (Montserrat Bold).
+ * Written as a Markdown quote; a last line starting with "— " becomes the name. */
+.prose .pull-quote {
+  display: grid;
+  gap: var(--rhythm-prose);
+  padding-block: var(--rhythm-prose-inset);
+  border-block: var(--line-width) solid var(--color-line-on-surface);
+}
+.prose blockquote p { font: inherit; }
+.prose blockquote p + p { margin-top: var(--rhythm-prose); }
+.prose .pull-quote figcaption {
+  font-family: var(--font-montserrat);
+  font-weight: var(--weight-bold);
+  font-size: var(--size-body);
+  line-height: var(--leading-snug);
+  color: var(--color-on-surface);
+  text-align: center;
+}
+
+.prose hr {
+  border: 0;
+  border-top: var(--line-width) solid var(--color-line-on-surface);
+}
+
+/* Image + caption. The image is a button that opens it larger (lightbox in PostLayout). */
+.prose figure { display: grid; gap: var(--rhythm-caption); }
+.prose .zoom {
+  position: relative;
+  display: block;
+  cursor: zoom-in;
+  border-radius: var(--radius-card);
+}
+.prose .zoom img { width: 100%; height: auto; border-radius: var(--radius-card); }
+.prose .zoom-icon {
+  position: absolute;
+  right: var(--rhythm-expand-inset);
+  bottom: var(--rhythm-expand-inset);
+  display: grid;
+  place-items: center;
+  width: var(--size-expand);
+  height: var(--size-expand);
+  border-radius: var(--radius-pill);
+  background: var(--color-button);
+  color: var(--color-on-button);
+}
+.prose .zoom:hover .zoom-icon { background: var(--color-button-hover); }
+.prose .zoom-icon svg { width: var(--size-expand-icon); height: var(--size-expand-icon); }
+.prose figure > figcaption {
+  font-size: var(--size-tiny);
+  line-height: var(--leading-body);
+  color: var(--color-on-surface);
+  text-align: center;
+}
+
+.prose .embed iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--ratio-video);
+  border: 0;
+  border-radius: var(--radius-card);
+  background: var(--color-on-surface);
+}
+
+/* Table: compact light-blue panel, white hairlines between rows, values right-aligned. */
+.prose .table-scroll {
+  overflow-x: auto;
+  border-radius: var(--radius-card);
+  background: var(--color-surface-tint);
+}
+.prose table { width: 100%; border-collapse: collapse; }
+.prose :is(th, td) {
+  padding: var(--rhythm-cell-y) var(--rhythm-cell-x);
+  border-bottom: var(--line-width) solid var(--color-surface);
+  line-height: var(--leading-body);
+  text-align: start;
+  vertical-align: top;
+}
+.prose tr:last-child td { border-bottom: 0; }
+.prose :is(th, td):last-child:not(:first-child) { text-align: end; }
+.prose code {
+  font: inherit;
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-media);
+  background: var(--color-surface-muted);
+}

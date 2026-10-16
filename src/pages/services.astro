@@ -1,0 +1,54 @@
+---
+// Services (design: MacBook Air - 6).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Actions from '../components/Actions.astro';
+import ProblemList from '../components/ProblemList.astro';
+import Statement from '../components/Statement.astro';
+import { routes, labels } from '../data/site';
+
+const problems = [
+  {
+    problem: 'AI is reshaping our market. Where do we place our bets?',
+    solutions: 'Product discovery, UX research, Product strategy, AI prototyping',
+  },
+  {
+    problem: 'We have the idea. How do we turn it into a working product?',
+    solutions: 'Product design, UI & UX design, Prototyping, Frontend development',
+  },
+  {
+    problem: "We're getting users. Why aren't more of them paying or staying?",
+    solutions: 'Funnel analysis, Growth design, Onboarding, Conversion & retention optimisation',
+  },
+  {
+    problem: "The company has grown up. The brand hasn't.",
+    solutions: 'Brand strategy, Visual identity, Logo design, Brand guidelines',
+  },
+  {
+    problem: "We're scaling, and design quality is slipping.",
+    solutions: 'Design audits, Design systems, Design operations, Team mentoring',
+  },
+];
+
+const actions = {
+  primary: { label: labels.exploreWow, href: routes.wow },
+  secondary: { label: labels.connect, href: routes.email },
+};
+---
+<BaseLayout title="Services" description="Different problems. Familiar patterns.">
+  <Hero
+    title="Different problems. Familiar patterns."
+    lead="Over 20 years of solving business, brand and product problems, I’ve learned to recognise what causes them. I use creativity, design thinking and common sense to find solutions that work."
+  >
+    <Actions {...actions} />
+  </Hero>
+
+  <section class="container" aria-label="Problems I solve">
+    <ProblemList items={problems} />
+  </section>
+
+  <Statement title="Beyond this?">
+    <p class="t-body">I facilitate workshops, learning and development programs for design teams around Design, AI, typography, MVP and communication.</p>
+    <Actions {...actions} />
+  </Statement>
+</BaseLayout>

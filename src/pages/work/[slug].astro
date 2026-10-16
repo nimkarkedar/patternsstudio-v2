@@ -1,0 +1,32 @@
+---
+// Case-study page for every post. Posts without a written body yet are noindex (thin content)
+// and are left out of the sitemap, RSS and llms.txt until Kedar writes them.
+import { getCollection, render } from 'astro:content';
+import PostLayout from '../../layouts/PostLayout.astro';
+import { readingMinutes } from '../../lib/seo';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('work', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { data } = post;
+const { Content } = await render(post);
+const written = Boolean(post.body?.trim());
+---
+<PostLayout
+  title={data.title ?? data.brand}
+  description={data.description}
+  publishedDate={data.publishedDate}
+  updatedDate={data.updatedDate}
+  readMinutes={written ? readingMinutes(post.body) : undefined}
+  ogImage={data.ogImage ?? data.image}
+  ogImageAlt={data.ogImage ? data.ogImageAlt : data.imageAlt}
+  cover={written ? (data.ogImage ?? data.image) : undefined}
+  coverAlt={data.ogImage ? data.ogImageAlt : data.imageAlt}
+  noindex={!written}
+  hasBody={written}
+>
+  <Content />
+</PostLayout>
