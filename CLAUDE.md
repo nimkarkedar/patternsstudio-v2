@@ -17,7 +17,8 @@ Agent-specific Astro tips are in [AGENTS.md](AGENTS.md).
 | Styling | Plain CSS + tokens. No Tailwind. |
 | Motion | None by default. Only animations Kedar explicitly approves (see Motion). No GSAP/Lenis/View Transitions installed. |
 | Fonts | Self-hosted via @fontsource (only the weights listed below). |
-| Hosting | GitHub Pages via GitHub Actions — **later**. Domain is bought; DNS set-up deferred. First goal: everything working on localhost. |
+| Hosting | **Preview live (2026-10-16):** repo `nimkarkedar/patternsstudio-v2` (public) → GitHub Actions (`.github/workflows/deploy.yml`) → https://nimkarkedar.github.io/patternsstudio-v2/ on every push to `main` (incl. CMS saves). Preview build = `SITE_URL` + `BASE_PATH=/patternsstudio-v2` + `PREVIEW=true` (every page noindex, robots.txt blocks all). The live site patternsstudio.co still comes from the OLD repo `nimkarkedar/patternsstudio.co` — untouched. **Launch:** in deploy.yml drop BASE_PATH/PREVIEW, set SITE_URL=https://patternsstudio.co, move the custom domain from the old repo to this one. |
+| Paths | Every internal link/asset goes through `path()` in `src/data/site.ts` (adds `import.meta.env.BASE_URL`), so the same code works at a domain root and under `/patternsstudio-v2/`. Never write a root-relative `'/…'` link by hand. |
 
 ## Commands
 - `npm run dev` → http://localhost:4322 (port 4322 is this project; never touch 4321). If styles look stale: stop it and restart with `-- --force`.
@@ -38,8 +39,8 @@ Agent-specific Astro tips are in [AGENTS.md](AGENTS.md).
 
 ## CMS (Sveltia CMS, chosen 2026-10-16)
 - Why: two static files, no server, no custom Astro code; edits the same Markdown files the site builds from; works on GitHub Pages.
-- **Local (now):** `npm run dev` → http://localhost:4322/admin/index.html in Chrome/Arc → "Work with Local Repository" → pick the project folder (must be a git repo — `git init` done 2026-10-16, nothing committed). Saves straight to disk; the dev server picks it up.
-- **Online (later):** once on GitHub, set `backend.repo` in `public/admin/config.yml`, open `/admin/`, sign in with a GitHub access token (or add the Sveltia auth worker for the "Sign in with GitHub" button). Each save = a commit → GitHub Pages rebuilds.
+- **Local (now):** `npm run dev` → http://localhost:4322/admin/index.html in Chrome/Arc → "Work with Local Repository" → pick the project folder (the project is the git repo of `nimkarkedar/patternsstudio-v2`). Saves straight to disk; the dev server picks it up.
+- **Online:** https://nimkarkedar.github.io/patternsstudio-v2/admin/ → "Sign In Using Access Token" (GitHub fine-grained token with Contents read/write on `patternsstudio-v2`). Each save = a commit → Actions rebuilds the preview (~2 min). ("Sign in with GitHub" button would need the Sveltia auth worker.)
 - Post images upload into the post's own folder (`media_folder: ""`), saved as bare file names — Astro resolves them relative to the post (tested). Name files descriptively for SEO.
 - **Keep `config.yml` fields in sync with `src/content.config.ts`.** Fields the CMS doesn't know may be dropped on save — old card teaser copy was moved to `docs/old-card-teasers.md` for that reason.
 - `/admin/` is disallowed in robots.txt and has `noindex`.
