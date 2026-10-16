@@ -1,6 +1,6 @@
 /*
  * Global base + the TEXT STYLE system.
- * Every piece of text on the site uses exactly one .t-* class below.
+ * Every piece of text on the site uses exactly one .t-* class below (or a .prose element mapped onto one).
  * Never set font-family / font-size / font-weight anywhere else.
  */
 @import "@fontsource/montserrat/latin-700.css";
@@ -40,19 +40,23 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
   clip-path: inset(50%); white-space: nowrap;
 }
 
-/* ── Text styles: EXACTLY these 7. Nothing else, ever. ──
- *  .t-display  Montserrat 58 ExtraBold   page heroes, big statements
- *  .t-title    Montserrat 49 ExtraBold   project-detail title
- *  .t-nav      Montserrat 16 Bold        navigation only
- *  .t-heading  Lato 32 Black             headings inside cards / sections
- *  .t-body     Lato 20 Regular           all running text, buttons, names, links
- *  .t-tiny     Lato 12 Regular           footer only
- *  .t-quote    Libre Baskerville 32 Regular, centred   case-study pull quotes
- *  .t-body-strong Lato 20 Black          bold text inside paragraphs
- *
- * Case-study page only (Kedar's design "MacBook Air - 11", 2026-10-16):
- *  .prose h2   Montserrat 32 Bold / 40     .prose h3  Montserrat 24 Bold / 30
- *  .prose p/li Lato 20 / 30                image caption = .t-tiny size
+/* ── Text styles ─────────────────────────────────────────
+ * The whole site uses ONLY these. Each is defined once; case-study Markdown (.prose …) is mapped
+ * onto the same styles here, never styled separately. Phone sizes come from the fluid size tokens.
+ *  Montserrat — names & headlines
+ *   .t-display      58 ExtraBold  page heroes, big statements, phone menu
+ *   .t-title        49 ExtraBold  case-study title
+ *   .t-section      32 Bold       case-study section heading (## in Markdown)
+ *   .t-subheading   24 Bold       case-study sub-section (###), homepage card headline
+ *   .t-nav          16 Bold       navigation
+ *  Lato — reading
+ *   .t-heading      32 Black      headings inside cards (WOW, Services, About)
+ *   .t-body         20 Regular    all running text, buttons, links, card quotes, roles
+ *   .t-body-strong  20 Black      people's names, bold text
+ *   .t-tiny         12 Regular    footer, image captions
+ *  Libre Baskerville — case-study pull quote ONLY
+ *   .t-quote        32 Regular    pull quotes in posts
+ * Line heights: display tight · headings snug · body 1.4 · long-form post text 1.6 (.prose p, li).
  */
 .t-display, .t-title {
   font-family: var(--font-montserrat);
@@ -63,6 +67,14 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
 }
 .t-display { font-size: var(--size-display); }
 .t-title { font-size: var(--size-title); line-height: var(--leading-snug); } /* 48/60 */
+.t-section, .t-subheading, .prose :is(h2, h3) {
+  font-family: var(--font-montserrat);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  text-wrap: balance;
+}
+.t-section, .prose h2 { font-size: var(--size-heading); }
+.t-subheading, .prose h3 { font-size: var(--size-subheading); }
 .t-nav {
   font-family: var(--font-montserrat);
   font-weight: var(--weight-bold);
@@ -76,18 +88,24 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
   line-height: var(--leading-snug);
   text-wrap: balance;
 }
-.t-body, .prose :is(p, li, td, th, figcaption) {
+.t-body, .prose :is(p, li, td, th) {
   font-family: var(--font-lato);
   font-weight: var(--weight-regular);
   font-size: var(--size-body);
   line-height: var(--leading-body);
   text-wrap: pretty;
 }
-.t-tiny {
+.t-body-strong, .prose .pull-quote figcaption {
+  font-family: var(--font-lato);
+  font-weight: var(--weight-black);
+  font-size: var(--size-body);
+  line-height: var(--leading-snug);
+}
+.t-tiny, .prose figure:not(.pull-quote) > figcaption {
   font-family: var(--font-lato);
   font-weight: var(--weight-regular);
   font-size: var(--size-tiny);
-  line-height: var(--leading-snug);
+  line-height: var(--leading-body);
 }
 .t-quote, .prose blockquote {
   font-family: var(--font-baskerville);
@@ -97,23 +115,6 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
   text-align: center;
   text-wrap: balance;
 }
-
-/* Lato 20 Black — bold text inside paragraphs. */
-.t-subheading {
-  font-family: var(--font-montserrat);
-  font-weight: var(--weight-bold);
-  font-size: var(--size-subheading);
-  line-height: var(--leading-snug);
-  text-wrap: balance;
-}
-.t-body-strong {
-  font-family: var(--font-lato);
-  font-weight: var(--weight-black);
-  font-size: var(--size-body);
-  line-height: var(--leading-snug);
-}
-.prose :is(strong, b, th) { font-weight: var(--weight-black); }
-.prose em { font-style: italic; }
 
 /* ── Shared layout primitives ──────────────────────────── */
 .container {
@@ -141,16 +142,8 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
 .prose > :where(h2, h3) + * { margin-top: var(--rhythm-prose-heading); }
 .prose > :first-child { margin-top: 0; }
 
-/* Headings: Montserrat Bold — h2 32/40, h3 24/30 */
-.prose :is(h2, h3) {
-  font-family: var(--font-montserrat);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-snug);
-  text-wrap: balance;
-  scroll-margin-top: var(--rhythm-prose-section);
-}
-.prose h2 { font-size: var(--size-heading); }
-.prose h3 { font-size: var(--size-subheading); }
+/* Headings use .t-section / .t-subheading (above). */
+.prose :is(h2, h3) { scroll-margin-top: var(--rhythm-prose-section); }
 
 /* Running text: Lato 20/32 */
 .prose :is(p, li) { line-height: var(--leading-prose); }
@@ -168,7 +161,7 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
 .prose li + li, .prose li > :is(ul, ol) { margin-top: var(--rhythm-prose-list); }
 .prose li::marker { color: var(--color-on-surface); }
 
-/* Pull quote: hairline above + below, Libre Baskerville centred, optional "— Person name" (Montserrat Bold).
+/* Pull quote: hairline above + below, Libre Baskerville centred, optional "— Person name" (.t-body-strong).
  * Written as a Markdown quote; a last line starting with "— " becomes the name. */
 .prose .pull-quote {
   display: grid;
@@ -178,14 +171,7 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
 }
 .prose blockquote p { font: inherit; }
 .prose blockquote p + p { margin-top: var(--rhythm-prose); }
-.prose .pull-quote figcaption {
-  font-family: var(--font-montserrat);
-  font-weight: var(--weight-bold);
-  font-size: var(--size-body);
-  line-height: var(--leading-snug);
-  color: var(--color-on-surface);
-  text-align: center;
-}
+.prose .pull-quote figcaption { color: var(--color-on-surface); text-align: center; }
 
 .prose hr {
   border: 0;
@@ -215,12 +201,7 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
 }
 .prose .zoom:hover .zoom-icon { background: var(--color-button-hover); }
 .prose .zoom-icon svg { width: var(--size-expand-icon); height: var(--size-expand-icon); }
-.prose figure > figcaption {
-  font-size: var(--size-tiny);
-  line-height: var(--leading-body);
-  color: var(--color-on-surface);
-  text-align: center;
-}
+.prose figure:not(.pull-quote) > figcaption { color: var(--color-on-surface); text-align: center; } /* .t-tiny */
 
 .prose .embed iframe {
   display: block;

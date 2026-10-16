@@ -1,9 +1,9 @@
 ---
 // Contact (design: MacBook Air - 8). Centred between header and footer.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { routes } from '../data/site';
+import { routes, site } from '../data/site';
 ---
-<BaseLayout title="Contact" description="Hello! Email me.">
+<BaseLayout title="Contact" description={`Hello! Email me at ${site.email}. I hope you value design.`}>
   <section class="contact">
     <h1 class="t-display">
       Hello!<br />

@@ -17,7 +17,6 @@
   --grey-50: #f7f7f7;
   --blue-50: #ebf6ff;   /* case-study table panel (Kedar's design, MacBook Air - 11) */
   --grey-200: #d9d9d9;
-  --grey-600: #656565;
 
   /* ── Roles: colour ──────────────────────────────────── */
   --color-page: var(--blue-600);
@@ -28,7 +27,6 @@
   --color-surface: var(--white);
   --color-surface-muted: var(--grey-50);
   --color-on-surface: var(--ink-900);
-  --color-on-surface-muted: var(--grey-600);
   --color-accent: var(--blue-600);
   --color-placeholder: var(--grey-200);
   --color-surface-tint: var(--blue-50);     /* case-study table panel */
@@ -146,14 +144,11 @@
   --size-tap: 2.75rem;         /* 44 — minimum touch target */
   --size-button-h: 3.5rem;     /* 56 — pill button height */
   --size-logo-h: 1.5625rem;    /* 25 — header logo height (native SVG size) */
-  --size-mark-h: 0.75rem;      /* wave divider height */
   --size-client-logo: 4.5rem;  /* 72 — client logo tile height (tiles are 400×150 with padding built in) */
-  --size-card-logo: 1.5rem;    /* 24 — brand logo height inside a post card */
   --size-cue: 2.75rem;         /* 44 — arrow circle on post cards */
   --size-cue-icon: 1.25rem;    /* 20 — arrow inside it (also the case-study back button) */
   --size-expand: 2.25rem;      /* 36 — enlarge button on case-study images */
   --size-expand-icon: 1.125rem;
-  --ratio-card-image: 5 / 4;   /* Media `fixed` frame */
   --ratio-card-vertical: 4 / 5;    /* homepage vertical card (export 908×1135, no text on the art) */
   --size-about-icons: 13.75rem; /* 220 — About page app-icon grid (one image, 2×4 icons) */
   --width-about-text: 25rem;   /* 400 — About story column beside the icons */

@@ -72,21 +72,23 @@ All text pairs must pass WCAG AA.
 
 **Card glow:** every card has a soft light-violet glow (`--shadow-glow`, from `--violet-300` #B9A4FF at 35%, 64px blur). Hover shadows are layered on top of it.
 
-### Typography — EXACTLY 7 styles (Kedar, 2026-10-15). No other family, size or weight.
+### Typography — the ONLY text styles (consolidated 2026-10-16). No other family, size or weight.
+Three families: **Montserrat** (headlines, nav), **Lato** (everything you read), **Libre Baskerville** (case-study pull quotes ONLY — nowhere else, not on cards).
+Each style is defined once in `global.css`; case-study Markdown (`.prose h2/h3/p/li/td/th`, captions, quote names) is mapped onto the same styles.
+
 | Class | Spec (desktop) | Phone | Used for |
 |---|---|---|---|
-| `.t-display` | Montserrat 58 ExtraBold (was 64; changed 2026-10-16) | 40 | page heroes, big statements, mobile menu links |
-| `.t-title` | Montserrat 49 ExtraBold, line-height 1.25 (design says 48/60; 49 kept) | 32 | case-study title |
+| `.t-display` | Montserrat 58 ExtraBold | 40 | page heroes, big statements, phone menu |
+| `.t-title` | Montserrat 49 ExtraBold, lh 1.25 | 32 | case-study title |
+| `.t-section` | Montserrat 32 Bold, lh 1.25 | 24 | case-study `##` |
+| `.t-subheading` | Montserrat 24 Bold, lh 1.25 | 20 | case-study `###`, homepage vertical-card headline |
 | `.t-nav` | Montserrat 16 Bold | 16 | navigation only |
-| `.t-heading` | Lato 32 Black | 24 | headings inside cards/sections (WOW card titles, Services problems, About role line, detail section heads), brand names until logos arrive |
-| `.t-body` | Lato 20 Regular | 18 | ALL running text, buttons, links, names, roles |
-| `.t-tiny` | Lato 12 Regular | 12 | footer only |
-| `.t-quote` | **Libre Baskerville 32 Regular / 45, centred** (MacBook Air - 11) | 24 | case-study pull quotes: hairline above + below, optional `— Person name` (Montserrat Bold 20) |
-| `.t-body-strong` | Lato 20 Black | 18 | **bold** inside case-study paragraphs. Lato 400 *italic* also loaded for `*emphasis*`. |
-
-**Case-study page only** (Kedar's design MacBook Air - 11, 2026-10-16) — styled via `.prose` in `global.css`:
-h2 Montserrat 32 Bold / 40 · h3 Montserrat 24 Bold / 30 · paragraphs + lists Lato 20 / 32, list spacing 4 (spec 5) · table heading Lato Black 20, rows Lato 20 / 28 · image caption Lato 12, centred, ink.
-Never set `font-*` outside `global.css`. Sizes are fluid `clamp()` from phone → spec at 1280.
+| `.t-heading` | Lato 32 Black | 24 | headings inside cards (WOW, Services, About) |
+| `.t-body` | Lato 20 Regular, lh 1.4 (posts 1.6) | 18 | ALL running text, buttons, links, card quotes, roles, supporting lines |
+| `.t-body-strong` | Lato 20 Black | 18 | people's names (cards, pull-quote name), **bold** |
+| `.t-tiny` | Lato 12 Regular | 12 | footer, image captions |
+| `.t-quote` | Libre Baskerville 32 Regular / 45, centred | 24 | case-study pull quotes only |
+Lato 400 *italic* is loaded for `*emphasis*`. Never set `font-*` outside `global.css` (`npm run check:tokens` enforces). Sizes are fluid `clamp()` from phone → spec at 1280.
 
 ### Spacing
 Use `--rhythm-*` role tokens (page-top, title-to-lead, lead-to-actions, action-pair, hero-to-content, section, card-gap, card-pad, label, stack, paragraph, list, row, nav, footer). Need a new gap? **Add a rhythm role**, don't pick a number.
@@ -99,9 +101,9 @@ Use `--rhythm-*` role tokens (page-top, title-to-lead, lead-to-actions, action-p
 Full-bleed: logo and Contact at the viewport edges (only the gutter between). **Sticky** with the page colour. A soft line (`--color-line-on-page`, same as footer) fades in under it (`--motion-header-line`, 250 ms) only when the first content on the page slides beneath it; fades out when it doesn't. Nav links centred, 48 apart. Phone: logo + "Menu" → full-screen sheet with big links.
 
 ## Components (`src/components/`)
-- `Header`, `Footer`, `Logo` (wordmark SVG, `currentColor`), `WaveMark` (wave from the logo symbol — divider)
+- `Header`, `Footer`, `Logo` (wordmark SVG, `currentColor`)
 - `Hero` (display title + lead + slot), `Actions` (primary + ghost pill, stacked, always equal width: full content width on phones, width of the wider label ≥48rem), `Button` (`primary` | `ghost`; height `--size-button-h`, side padding `--rhythm-button-x`), `Statement` (big centred heading block)
-- `Card` (white surface; a link with raised hover shadow only when given `href`; tilts only with `tilt`, WOW page only), `Media` (optimised image **or labelled placeholder**; `fixed` = 5:4 crop), `PostCard` (homepage card: vertical art + headline panel, horizontal testimonial), `ClientLogos` (scrolling logo strip), `PortraitCard` (WOW + About: cut-out photo + name label over it, text beside; phones: name + role under the photo, aligned with the text), `ListCard` (heading + bullets), `ProblemList` (Services problem/solution card — plain: no tilt, no colour play).
+- `Card` (white surface; a link with raised hover shadow only when given `href`; tilts only with `tilt`, WOW page only), `PostCard` (homepage card: vertical art + headline panel, horizontal testimonial), `ClientLogos` (scrolling logo strip), `PortraitCard` (WOW + About: cut-out photo + name label over it, text beside; phones: name + role under the photo, aligned with the text), `ListCard` (heading + bullets), `ProblemList` (Services problem/solution card — plain: no tilt, no colour play).
 - Site data (nav, email, footer, Amazon link, client list, shared button labels `labels.explore` / `labels.connect`): `src/data/site.ts` — never inline URLs/labels in pages.
 
 ## Content: posts (blog posts / case studies)
@@ -130,6 +132,7 @@ Full-bleed: logo and Contact at the viewport edges (only the gutter between). **
 - A post with an empty body stays live (homepage card links to it) but is `noindex` and left out of sitemap / RSS / llms.txt until written.
 
 ## SEO & AI crawling
+- **Meta descriptions** (2026-10-16) = Kedar's own page copy, ~120–150 chars: home = hero intro; WOW/Services/About = headline + lead; Contact = "Hello! Email me at … I hope you value design." Case studies: `description` field, else the card's words (testimonial "quote — name, role", or supporting line + headline), else the site description. Open Graph / X use the same title + description; image = post cover (1200×630) or `public/og-default.png`.
 - `astro.config.mjs` `site: https://patternsstudio.co` (TODO confirm domain). Every page: unique title + description, canonical (trailing slash), Open Graph + X cards (default image `public/og-default.png`), RSS link.
 - JSON-LD on every page (`src/lib/seo.ts`): Organization/ProfessionalService (UEN, Singapore, email), WebSite, Person (Kedar). Case studies add BlogPosting + BreadcrumbList.
 - `/sitemap-index.xml` (@astrojs/sitemap), `/rss.xml`, `/robots.txt` (all search + AI crawlers explicitly allowed), `/llms.txt` (plain summary for AI assistants) — all generated from site data, never hand-edited.
@@ -152,6 +155,8 @@ Kedar (2026-10-15): "Don't add any animation unless I say. I hate random movemen
 - Placeholders must be plainly labelled (`TODO(Kedar)`, "Image: …").
 
 ## Open items / waiting on Kedar
+- **Status at end of 2026-10-16:** design system, all 6 page types, CMS and GitHub preview done. Waiting on content: case-study texts, vertical card art + text for PropertyGuru, Jupiter debit card, Lumosity, BookMyShow, BookMyShow R&R, Project Pratima; covers (1200×630); `site.sameAs` profiles; Amazon book link; domain launch.
+- Clean-up 2026-10-16: removed unused `Media`, `WaveMark`, `quote-mark.svg` and their tokens. If the wave mark is wanted again, it's in the logo SVG.
 - Images: all card photos/covers, client logo FILES (19 names listed in `src/data/site.ts`; drop files in `src/assets/clients/` named as `file`), testimonial brand logos, About app icons, WOW portraits.
 - Amazon book link (`src/data/site.ts`). Email is set: kedar@patternsstudio.co (`routes.email` = mailto link).
 - Homepage: Jupiter goals card and Lumosity card reuse the Cleartrip text in the design — real summaries needed.

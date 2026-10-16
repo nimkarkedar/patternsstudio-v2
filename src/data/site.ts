@@ -15,9 +15,9 @@ export const site = {
   country: 'SG',
   founder: 'Kedar Nimkar',
   founderRole: 'Founder of Patterns Studio Pte Ltd',
-  // Default meta description (Kedar's homepage headline + intro, verbatim).
+  // Who we are, for structured data / llms.txt / RSS (Kedar's homepage headline + intro, verbatim).
   description:
-    'An independent design studio with taste and AI chops. At Patterns, we design software, build brands, and bring products to market.',
+    'An independent design studio with taste and AI chops. At Patterns, we design software, build brands, and bring products to market. Combining years of design experience with AI.',
   // TODO(Kedar): public profiles (LinkedIn, Substack, The Gyaan Project…) — they strengthen search + AI entity matching.
   sameAs: [] as string[],
 };

@@ -115,7 +115,6 @@ const jsonLd = [
   </article>
 
   <dialog class="lightbox" aria-label={labels.enlarged}>
-    <img class="lightbox-image" alt="" />
     <form method="dialog">
       <button class="lightbox-close" aria-label={labels.close}>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
@@ -129,12 +128,15 @@ const jsonLd = [
 <script>
   // Lightbox: any body image opens larger; Esc, the × button or a click outside the image closes it.
   const dialog = document.querySelector<HTMLDialogElement>('.lightbox');
-  const big = dialog?.querySelector<HTMLImageElement>('.lightbox-image');
-  if (dialog && big) {
+  // The enlarged <img> is created on first open (an empty <img> would be invalid).
+  const big = document.createElement('img');
+  big.className = 'lightbox-image';
+  if (dialog) {
     document.querySelectorAll<HTMLButtonElement>('.prose .zoom').forEach((button) => {
       button.addEventListener('click', () => {
         const img = button.querySelector('img');
         if (!img) return;
+        if (!big.isConnected) dialog.prepend(big);
         big.src = img.currentSrc || img.src;
         big.alt = img.alt;
         dialog.showModal();
@@ -213,7 +215,7 @@ const jsonLd = [
   }
   .lightbox[open] { display: grid; place-items: center; }
   .lightbox::backdrop { background: var(--color-lightbox); }
-  .lightbox-image {
+  .lightbox :global(.lightbox-image) {
     max-width: 100%;
     max-height: 100%;
     width: auto;
