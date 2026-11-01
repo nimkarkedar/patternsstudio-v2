@@ -4,11 +4,11 @@ import { nav, contactLink, routes } from '../data/site';
 
 const strip = (s: string) => s.replace(/\/$/, '');
 const here = strip(Astro.url.pathname);
-const isActive = (href: string) =>
-  href === routes.home ? here === strip(routes.home) || here.startsWith(routes.work('')) : here === strip(href) || here.startsWith(`${strip(href)}/`);
+const isActive = (href: string) => here === strip(href) || here.startsWith(`${strip(href)}/`);
 const links = [...nav, contactLink];
+const { postTitle } = Astro.props as { postTitle?: string };
 ---
-<header class="header" data-header>
+<header class="header" data-header data-post={postTitle ? '' : undefined}>
   <div class="bar">
     <a href={routes.home} class="home" aria-label="Patterns Studio — home"><Logo /></a>
 
@@ -20,12 +20,16 @@ const links = [...nav, contactLink];
       </ul>
     </nav>
 
+    {postTitle && <a class="t-nav post-title" href="#top" tabindex="-1" aria-hidden="true">{postTitle}</a>}
+
     <a class="t-nav link contact" href={contactLink.href} aria-current={isActive(contactLink.href) ? 'page' : undefined}>{contactLink.label}</a>
 
     <button class="t-nav menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
       <span data-label-closed>Menu</span><span data-label-open hidden>Close</span>
     </button>
   </div>
+
+  {postTitle && <div class="progress" aria-hidden="true" data-progress></div>}
 
   <div class="sheet" id="mobile-menu" hidden data-menu>
     <ul role="list" class="sheet-links">
@@ -54,6 +58,25 @@ const links = [...nav, contactLink];
     align-items: center;
     justify-content: space-between;
     min-height: var(--size-tap);
+  }
+  /* Reading progress: a white line along the bottom that fills as you read. */
+  .progress {
+    position: absolute;
+    inset-inline: 0;
+    bottom: calc(var(--line-width) * -1);
+    height: var(--size-progress);
+    background: var(--color-on-page);
+    transform: scaleX(var(--progress, 0));
+    transform-origin: left;
+  }
+  /* Post title takes the nav's place once the big title has gone under the header (≥48rem). */
+  .post-title {
+    display: none;
+    color: var(--color-on-page);
+    max-width: var(--width-header-title);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .home { display: inline-flex; position: relative; z-index: calc(var(--z-menu) + 1); }
 
@@ -93,10 +116,18 @@ const links = [...nav, contactLink];
       display: grid;
       grid-template-columns: 1fr auto 1fr;
     }
-    .nav { display: block; }
+    .nav { display: block; grid-area: 1 / 2; }
+    /* Apple-style: the bar never moves; nav and post title cross-fade in place. */
+    .nav, .post-title { transition: opacity var(--motion-header-line) ease-out, visibility var(--motion-header-line); }
+    .post-title { display: block; grid-area: 1 / 2; justify-self: center; opacity: 0; visibility: hidden; }
+    .header[data-titled] .nav { opacity: 0; visibility: hidden; }
+    .header[data-titled] .post-title { opacity: 1; visibility: visible; }
     .nav ul { display: flex; gap: var(--rhythm-nav); }
     .contact { display: inline-block; justify-self: end; }
     .menu-toggle, .sheet { display: none; }
+  }
+  @media (min-width: 48rem) and (prefers-reduced-motion: reduce) {
+    .nav, .post-title { transition: none; }
   }
 </style>
 
@@ -135,6 +166,26 @@ const links = [...nav, contactLink];
   window.addEventListener('scroll', syncCovering, { passive: true });
   window.addEventListener('resize', syncCovering);
   syncCovering();
+
+  // Blog posts: post title replaces the nav once the big title is under the header; reading progress.
+  if (header?.hasAttribute('data-post')) {
+    const bigTitle = document.querySelector<HTMLElement>('main h1');
+    const article = document.querySelector<HTMLElement>('main .sheet') ?? document.querySelector<HTMLElement>('main');
+    const syncPost = () => {
+      const height = header.offsetHeight;
+      if (bigTitle) header.toggleAttribute('data-titled', bigTitle.getBoundingClientRect().bottom < height);
+      // 0 when the article's top reaches the header, 1 when its end reaches the bottom of the screen.
+      if (article) {
+        const box = article.getBoundingClientRect();
+        const span = box.height - window.innerHeight + height;
+        const read = span > 0 ? (height - box.top) / span : 1;
+        header.style.setProperty('--progress', String(Math.min(1, Math.max(0, read))));
+      }
+    };
+    window.addEventListener('scroll', syncPost, { passive: true });
+    window.addEventListener('resize', syncPost);
+    syncPost();
+  }
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && document.documentElement.hasAttribute('data-menu-open')) setOpen(false);

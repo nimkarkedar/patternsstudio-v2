@@ -1,0 +1,159 @@
+---
+// Homepage client reviews (Kedar, 2026-10-30): a horizontal scroller that drifts gently right → left
+// on its own and can also be swiped / trackpad-scrolled / stepped with the arrows ("like Apple").
+// Approved motion. The drift eases to a stop while the mouse or keyboard focus is on it, resumes a few
+// seconds after a swipe or arrow press, and never runs under reduced motion (the strip is then a plain scroller).
+// The list is rendered five times and the strip lives in the middle copy: once a scroll settles it jumps
+// back by exactly one set, which looks identical. Five (not two) so a fast fling on a wide screen never
+// reaches either end (that showed as a stop, then a sudden jump).
+// Below: "See all client reviews" ghost button (centre) and the arrows (right).
+import ReviewCard from './ReviewCard.astro';
+import Button from './Button.astro';
+import { clientReviews as reviews, labels, routes } from '../data/site';
+
+const SETS = 5;
+const items = Array.from({ length: SETS }, () => reviews).flat();
+---
+<section class="reviews" aria-label="Client reviews" data-reviews data-sets={SETS}>
+  <ul role="list" class="track" data-track>
+    {items.map((r, i) => (
+      <li class="item" aria-hidden={i >= reviews.length ? 'true' : undefined} data-item>
+        <ReviewCard review={r} />
+      </li>
+    ))}
+  </ul>
+
+  <div class="container controls">
+    <Button href={routes.reviews} variant="ghost" class="see-all">{labels.seeAllReviews}</Button>
+    <div class="arrows">
+      <button class="arrow" type="button" aria-label={labels.previous} data-step="-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6" /></svg>
+      </button>
+      <button class="arrow" type="button" aria-label={labels.next} data-step="1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6" /></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .reviews {
+    margin-top: calc(var(--rhythm-hero-to-reviews) - var(--rhythm-hero-to-content)); /* hero already ends with the latter */
+    padding-bottom: var(--rhythm-section);
+  }
+  .track {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    /* First card starts on the content edge (as in the design); the strip bleeds off both sides. */
+    padding-inline: max(var(--rhythm-gutter), (100% - var(--width-content)) / 2);
+    /* A scroller clips both axes: make room for the cards' glow, then pull the space back. */
+    padding-block: var(--space-9);
+    margin-block: calc(var(--space-9) * -1);
+  }
+  .track::-webkit-scrollbar { display: none; }
+  .item { flex: none; padding-inline-end: var(--rhythm-card-gap); } /* padding, not gap: one set = exact loop distance */
+
+  .item :global(.card) { width: var(--width-review-card); }
+
+  /* Link centred under the cards (as in the design), arrows on the right. */
+  .controls {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    margin-top: var(--rhythm-review-controls);
+  }
+  .controls :global(.see-all) { grid-column: 2; }
+  .arrows { grid-column: 3; justify-self: end; display: none; gap: var(--rhythm-action-pair); }
+  @media (min-width: 48rem) { .arrows { display: flex; } } /* phones swipe instead */
+  .arrow {
+    display: grid;
+    place-items: center;
+    width: var(--size-review-arrow);
+    height: var(--size-review-arrow);
+    border-radius: var(--radius-pill);
+    background: var(--color-ghost-hover);
+    color: var(--color-on-page);
+  }
+  .arrow:hover { background: var(--color-line-on-page); }
+  .arrow svg { width: var(--size-cue-icon); height: var(--size-cue-icon); }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-reviews]');
+  const track = root?.querySelector<HTMLElement>('[data-track]');
+  const items = track ? [...track.querySelectorAll<HTMLElement>('[data-item]')] : [];
+
+  if (root && track && items.length > 1) {
+    const css = getComputedStyle(document.documentElement);
+    const token = (name: string) => parseFloat(css.getPropertyValue(name));
+    const speed = token('--motion-review-speed');      // px per second
+    const ease = token('--motion-review-ease');        // 1/seconds
+    const resumeAfter = token('--motion-review-resume'); // ms
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+
+    const sets = Number(root.dataset.sets);
+    const perSet = items.length / sets;
+    const home = Math.floor(sets / 2); // the middle copy
+    const loop = () => items[perSet].offsetLeft - items[0].offsetLeft; // width of one full set
+    const step = () => items[1].offsetLeft - items[0].offsetLeft;    // one card + gap
+
+    let pos = 0;                  // float position (scrollLeft may round)
+    let velocity = 0;
+    let hovering = false;
+    let focused = false;
+    let visible = true;
+    let idleUntil = 0;            // a swipe or arrow press holds the drift until this time
+    let driving = false;          // true while we set scrollLeft ourselves
+    let settle = 0;
+    let last = 0;
+
+    // Bring the position back into the middle copy, so there's plenty of room both ways.
+    const wrapped = (x: number) => {
+      const d = loop();
+      const offset = (((x - home * d) % d) + d) % d;
+      return home * d + offset;
+    };
+    const jump = (x: number) => {
+      pos = x;
+      if (Math.round(x) !== track.scrollLeft) { driving = true; track.scrollLeft = x; }
+    };
+    jump(home * loop()); // start on the middle copy — looks identical to the first
+
+    const frame = (now: number) => {
+      const dt = last ? Math.min((now - last) / 1000, 0.1) : 0;
+      last = now;
+      const running = !reduced.matches && !hovering && !focused && visible && now >= idleUntil;
+      velocity += ((running ? speed : 0) - velocity) * Math.min(1, dt * ease);
+      if (velocity > 0.5 && now >= idleUntil) jump(wrapped(pos + velocity * dt));
+      requestAnimationFrame(frame);
+    };
+
+    track.addEventListener('scroll', () => {
+      if (driving) { driving = false; return; }
+      // The visitor scrolled: hold the drift, then carry on from where they left it.
+      // Wrap only once the scroll has settled, so a swipe or arrow glide is never cut short.
+      idleUntil = performance.now() + resumeAfter;
+      velocity = 0;
+      pos = track.scrollLeft;
+      clearTimeout(settle);
+      settle = window.setTimeout(() => jump(wrapped(track.scrollLeft)), 150);
+    }, { passive: true });
+
+    root.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') hovering = true; });
+    root.addEventListener('pointerleave', () => { hovering = false; });
+    // Keyboard focus only — a mouse click on an arrow shouldn't stop the drift for good.
+    root.addEventListener('focusin', (e) => { focused = (e.target as HTMLElement).matches(':focus-visible'); });
+    root.addEventListener('focusout', () => { focused = false; });
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(root);
+
+    root.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((button) => {
+      button.addEventListener('click', () => {
+        idleUntil = performance.now() + resumeAfter;
+        track.scrollBy({ left: Number(button.dataset.step) * step(), behavior: reduced.matches ? 'auto' : 'smooth' });
+      });
+    });
+
+    requestAnimationFrame(frame);
+  }
+</script>

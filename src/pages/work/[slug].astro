@@ -14,22 +14,18 @@ const { post } = Astro.props;
 const { data } = post;
 const { Content } = await render(post);
 const written = Boolean(post.body?.trim());
-// Meta description: the written summary, else the card's own words (testimonial or supporting line + headline).
-const cardWords = data.quote
-  ? `“${data.quote}” — ${[data.name, data.role].filter(Boolean).join(', ')}`
-  : [data.eyebrow, data.headline].filter(Boolean).join('. ').replace(/\.\./g, '.');
-const description = data.description ?? (cardWords || undefined);
 ---
 <PostLayout
   title={data.title ?? data.brand}
-  description={description}
+  description={data.description}
   publishedDate={data.publishedDate}
   updatedDate={data.updatedDate}
   readMinutes={written ? readingMinutes(post.body) : undefined}
-  ogImage={data.ogImage ?? data.image}
-  ogImageAlt={data.ogImage ? data.ogImageAlt : data.imageAlt}
-  cover={written ? (data.ogImage ?? data.image) : undefined}
-  coverAlt={data.ogImage ? data.ogImageAlt : data.imageAlt}
+  ogImage={data.ogImage}
+  ogImageAlt={data.ogImageAlt}
+  brand={data.brand}
+  logo={data.logo}
+  facts={data.facts}
   noindex={!written}
   hasBody={written}
 >

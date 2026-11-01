@@ -1,15 +1,19 @@
 ---
 // Page hero: big display title, optional lead, optional actions (pass <Actions> in the slot).
-// `lead` can be a list of lines — each new line starts after a line break.
-interface Props { title: string; lead?: string | string[] }
-const { title, lead } = Astro.props;
+// `title` and `lead` can be a list of lines — each new line starts after a line break.
+// `bigLead` sets the lead in .t-lead (30) instead of .t-body — homepage only.
+// A `lead` slot replaces the `lead` prop when the lead needs markup (homepage word swap).
+interface Props { title: string | string[]; lead?: string | string[]; bigLead?: boolean }
+const { title, lead, bigLead = false } = Astro.props;
+const titleLines = Array.isArray(title) ? title : [title];
 const leadLines = lead === undefined ? [] : Array.isArray(lead) ? lead : [lead];
+const hasLeadSlot = Astro.slots.has('lead');
 ---
 <section class="hero">
-  <h1 class="t-display title">{title}</h1>
-  {leadLines.length > 0 && (
-    <p class="t-body lead">
-      {leadLines.map((line, i) => <>{i > 0 && <br />}{line}</>)}
+  <h1 class="t-display title">{titleLines.map((line, i) => <>{i > 0 && <br />}{line}</>)}</h1>
+  {(hasLeadSlot || leadLines.length > 0) && (
+    <p class:list={[bigLead ? 't-lead' : 't-body', 'lead']}>
+      {hasLeadSlot ? <slot name="lead" /> : leadLines.map((line, i) => <>{i > 0 && <br />}{line}</>)}
     </p>
   )}
   {Astro.slots.has('default') && <div class="actions"><slot /></div>}

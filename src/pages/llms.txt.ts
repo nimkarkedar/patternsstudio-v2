@@ -16,6 +16,7 @@ export async function GET({ site: origin }: APIContext) {
     `${site.name} (${site.legalName}, UEN ${site.uenNumber}) is an independent design studio in ${site.locality}, founded by ${site.founder}. Contact: ${site.email}.`,
     '',
     '## Pages',
+    `- [Home](${url(routes.home)})`,
     ...nav.map((n) => `- [${n.label}](${url(n.href)})`),
     `- [Contact](${url(routes.contact)})`,
     '',

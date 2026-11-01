@@ -1,0 +1,89 @@
+---
+// Top of a post's white sheet (Kedar, 2026-11-01): client logo on the left, project details on the right,
+// set like a spec sheet — small grey label above each value, hairline above each item. Long values
+// (Scope, Impact…) take the full row; a list value (Impact, one point per Notion line) shows as bullets. Two across on every screen; phones put the logo on top.
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Fact { label: string; value: string | string[]; href?: string }
+interface Props { brand: string; logo?: ImageMetadata; facts?: Fact[] }
+const { brand, logo, facts = [] } = Astro.props;
+
+const WIDE = 32; // characters — a longer value gets the whole row
+// One-item lists read as a plain sentence; two or more become bullets.
+const points = (f: Fact) => (Array.isArray(f.value) ? f.value.filter(Boolean) : [f.value]);
+const shown = (f: Fact) => {
+  const text = points(f).join(' ');
+  return f.href ? text.replace(/^https?:\/\//, '').replace(/\/$/, '') : text;
+};
+const isList = (f: Fact) => points(f).length > 1;
+---
+{(logo || facts.length > 0) && (
+  <header class="intro">
+    {logo && (
+      <div class="logo">
+        <Image src={logo} alt={`${brand} logo`} />
+      </div>
+    )}
+    {facts.length > 0 && (
+      <dl class="facts">
+        {facts.map((f) => (
+          <div class:list={['fact', { wide: isList(f) || shown(f).length > WIDE }]}>
+            <dt class="t-tiny label">{f.label}</dt>
+            <dd class="t-lead value">
+              {isList(f)
+                ? <ul class="points">{points(f).map((p) => <li>{p}</li>)}</ul>
+                : f.href ? <a href={f.href} rel="noopener" target="_blank">{shown(f)}</a> : shown(f)}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    )}
+  </header>
+)}
+
+<style>
+  .intro {
+    display: grid;
+    gap: var(--rhythm-intro-gap);
+    padding-bottom: var(--rhythm-intro-bottom);
+    margin-bottom: var(--rhythm-intro-bottom);
+    border-bottom: var(--line-width) solid var(--color-line-on-surface);
+  }
+  .logo :global(img) {
+    width: auto;
+    height: auto;
+    max-width: var(--width-intro-logo);
+    max-height: var(--size-intro-logo);
+  }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--grid-gutter);
+    row-gap: var(--rhythm-intro-row);
+  }
+  .fact {
+    display: grid;
+    align-content: start;
+    gap: var(--rhythm-label);
+    padding-top: var(--rhythm-intro-rule);
+    border-top: var(--line-width) solid var(--color-line-on-surface);
+  }
+  .wide { grid-column: 1 / -1; }
+  .label { color: var(--color-on-surface-muted); }
+  .value { color: var(--color-on-surface); text-wrap: pretty; }
+  .points { display: grid; gap: var(--rhythm-prose-list); padding-inline-start: var(--space-5); list-style: disc; }
+  .points li::marker { color: var(--color-on-surface-muted); }
+  .value a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-thickness: var(--underline-width);
+    text-underline-offset: var(--underline-offset);
+  }
+  .value a:hover { color: var(--color-on-surface); }
+
+  @media (min-width: 48rem) {
+    /* Logo: 4 of 12 columns; details: the other 8, two across (three wrapped "1 month (October 2026)"). */
+    .intro { grid-template-columns: 1fr 2fr; column-gap: var(--grid-gutter); align-items: start; }
+  }
+</style>

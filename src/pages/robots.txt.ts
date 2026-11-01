@@ -12,11 +12,10 @@ export function GET({ site }: APIContext) {
     'User-agent: *',
     'Allow: /',
     `Disallow: ${path('/styleguide/')}`,
-    `Disallow: ${path('/admin/')}`,
     '',
     '# AI crawlers, explicitly allowed',
     ...['GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'Claude-SearchBot', 'Claude-User', 'PerplexityBot', 'Perplexity-User', 'Google-Extended', 'Applebot-Extended', 'CCBot', 'Meta-ExternalAgent', 'Bingbot']
-      .flatMap((bot) => [`User-agent: ${bot}`, 'Allow: /', `Disallow: ${path('/styleguide/')}`, `Disallow: ${path('/admin/')}`, '']),
+      .flatMap((bot) => [`User-agent: ${bot}`, 'Allow: /', `Disallow: ${path('/styleguide/')}`, '']),
     `Sitemap: ${new URL(path('/sitemap-index.xml'), site).href}`,
     '',
   ].join('\n');

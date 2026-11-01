@@ -1,0 +1,44 @@
+---
+// What we do: "Traditionally what we do is called" — 2 × 3 grid of cards (2 columns ≥48rem, 1 on phones),
+// Apple-style (Kedar's reference, 2026-10-30): each service its own white card, a bare brand-blue icon
+// (Phosphor Regular — SF Symbols-like outlines; SF Symbols itself is not licensed for websites. Kedar, 2026-10-30; no tile) above a big heading, lots of air. Cards tilt like every card except /work.
+// Icons: src/icons/services/<icon>.svg — Phosphor Icons v2, regular weight (MIT), from @phosphor-icons/core.
+import Card from './Card.astro';
+
+interface Item { label: string; icon: string }
+interface Props { items: Item[] }
+const { items } = Astro.props;
+
+const icons = import.meta.glob<string>('../icons/services/*.svg', { eager: true, query: '?raw', import: 'default' });
+const svg = (name: string) => icons[`../icons/services/${name}.svg`] ?? '';
+---
+<ul class="grid" role="list">
+  {items.map((item) => (
+    <li>
+      <Card tilt class="service">
+        <span class="icon" aria-hidden="true" set:html={svg(item.icon)} />
+        <h3 class="t-heading">{item.label}</h3>
+      </Card>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .grid { display: grid; gap: var(--rhythm-card-gap); }
+  .grid > li { display: grid; }
+  .grid :global(.service) {
+    gap: var(--rhythm-service-icon);
+    padding: var(--rhythm-row) var(--rhythm-card-pad);
+  }
+  .icon { color: var(--color-service-icon); }
+  .icon :global(svg) {
+    display: block;
+    width: var(--size-service-icon);
+    height: var(--size-service-icon);
+    fill: currentColor;
+  }
+
+  @media (min-width: 48rem) {
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

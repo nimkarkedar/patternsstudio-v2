@@ -22,6 +22,8 @@ interface Props {
   noindex?: boolean;
   /** Extra schema.org nodes for this page. */
   jsonLd?: Record<string, unknown>[];
+  /** Blog posts: the header shows this title once the big one scrolls away, hides going down, and shows reading progress. */
+  postTitle?: string;
 }
 const {
   title,
@@ -33,6 +35,7 @@ const {
   updatedDate,
   noindex = false,
   jsonLd = [],
+  postTitle,
 } = Astro.props;
 
 const origin = Astro.site ?? new URL(Astro.url.origin);
@@ -84,7 +87,7 @@ const graph = { '@context': 'https://schema.org', '@graph': [...siteGraph(origin
     <script is:inline type="application/ld+json" set:html={JSON.stringify(graph)} />
   </head>
   <body>
-    <Header />
+    <Header postTitle={postTitle} />
     <main class="main" id="main">
       <slot />
     </main>

@@ -3,18 +3,16 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 /*
- * `work` = blog posts / case studies. Every homepage card is one post; the card is ONLY an image
- * (custom-designed per case study) and links to /work/<folder>.
+ * `work` = blog posts / case studies. Every /work card is one post (Kedar, 2026-11-01): the card is ONLY
+ * Kedar's graphic, at the link-preview ratio 1200:630, and links to /work/<folder>. The same graphic is
+ * the cover at the top of the post and the image shown when the link is shared (WhatsApp, LinkedIn, X).
  *
- *   src/content/work/<slug>/index.md   ← frontmatter = the card; Markdown body = the case study
- *   src/content/work/<slug>/<descriptive-name>.png  ← card image + case-study images.
+ *   src/content/work/<slug>/index.md   ← frontmatter = card + SEO; Markdown body = the post
+ *   src/content/work/<slug>/<descriptive-name>.png  ← card graphic + post images.
  *   File names are part of SEO: describe the image (e.g. creating-a-jupiter-pot-in-under-30-seconds.png).
  *
- * SEO fields: `title` (≤ 60 chars ideal), `description` (the short summary shown under the title,
- * used for search results and link previews; ~140–160 chars), `publishedDate`, `ogImage` (wide image
- * for link previews; 1.9:1 works best).
- *
- * size: vertical (half row, 4:5): art + eyebrow/headline | horizontal (full row): testimonial + person photo.
+ * SEO fields: `title` (≤ 60 chars ideal), `description` (Google + link previews, not shown on the page;
+ * ~140–160 chars), `publishedDate`, `ogImage` (the card graphic).
  * Old card teaser copy lives in docs/old-card-teasers.md.
  */
 // The CMS can save a cleared optional field as '' (or null) — treat that as "not set".
@@ -29,24 +27,19 @@ const work = defineCollection({
   schema: ({ image }) =>
     z.object({
       order: z.number(),
-      size: z.enum(['vertical', 'horizontal']),
       brand: z.string(), // used for the link's accessible name and page title
-      title: z.string().optional(), // case-study title; falls back to brand
-      description: z.string().optional(), // SEO summary / subtitle under the title
+      title: z.string(), // post title; the CMS also makes the folder name (= URL) from it
+      description: z.string().optional(), // Google + link previews
       publishedDate: z.preprocess(blank, z.coerce.date().optional()),
       updatedDate: z.preprocess(blank, z.coerce.date().optional()),
-      ogImage: z.preprocess(blank, image().optional()), // link-preview image; falls back to the site default
+      ogImage: z.preprocess(blank, image().optional()), // card graphic = post cover = link preview; empty white card until supplied
       ogImageAlt: z.string().optional(),
-      image: z.preprocess(blank, image().optional()), // empty white card until supplied
-      imageAlt: z.string(),
-      // Vertical card text (live, on the App-Store panel): supporting line above, headline below.
-      eyebrow: z.string().optional(),
-      headline: z.string().optional(),
-      // Horizontal card = testimonial on white; `image` is the person's photo.
-      quote: z.string().optional(),
-      name: z.string().optional(),
-      role: z.string().optional(),
-      imageSide: z.enum(['left', 'right']).default('right'),
+      // Post header (Kedar, 2026-11-01): client logo on the left, project details on the right.
+      // The card graphic is NOT repeated at the top of the post any more.
+      logo: z.preprocess(blank, image().optional()), // colour logo for a white background (SVG or PNG)
+      facts: z
+        .array(z.object({ label: z.string(), value: z.union([z.string(), z.array(z.string())]), href: z.url().optional() }))
+        .optional(), // Notion header columns; short values first, long ones last. A list (Impact) shows as bullets
       draft: z.boolean().default(false),
     }),
 });

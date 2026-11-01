@@ -3,7 +3,7 @@
 Portfolio + services site for Patterns Studio (Singapore). Astro, static, token-driven design system.
 
 - **Preview:** https://nimkarkedar.github.io/patternsstudio-v2/ (noindex; rebuilt on every push to `main`)
-- **CMS:** https://nimkarkedar.github.io/patternsstudio-v2/admin/ (Sveltia CMS, sign in with a GitHub access token)
+- **Posts:** written in Notion ("Patterns Work Blog Posts"), converted to Markdown in `src/content/work/`
 - **Notes & decisions:** [CLAUDE.md](CLAUDE.md)
 
 ```sh

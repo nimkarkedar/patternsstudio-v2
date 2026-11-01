@@ -44,19 +44,20 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
  * The whole site uses ONLY these. Each is defined once; case-study Markdown (.prose …) is mapped
  * onto the same styles here, never styled separately. Phone sizes come from the fluid size tokens.
  *  Montserrat — names & headlines
- *   .t-display      58 ExtraBold  page heroes, big statements, phone menu
- *   .t-title        49 ExtraBold  case-study title
- *   .t-section      32 Bold       case-study section heading (## in Markdown)
- *   .t-subheading   24 Bold       case-study sub-section (###), homepage card headline
- *   .t-nav          16 Bold       navigation
+ * Scale (Kedar, 2026-10-30): title 42/52 · excerpt 22/28 · H2 30/36 · H3 22/28 · body 20/32 · caption 14/20.
+ *   .t-display      58 ExtraBold  page heroes, big statements, phone menu (outside the scale)
+ *   .t-title        42/52 Bold    case-study title (H1), tight tracking
+ *   .t-section      30/36 Bold    H2: case-study sections, review-card quotes
+ *   .t-subheading   22/28 Bold    H3: case-study sub-sections, work-card headlines
+ *   .t-nav          16 Bold       navigation (outside the scale)
  *  Lato — reading
- *   .t-heading      32 Black      headings inside cards (WOW, Services, About)
- *   .t-body         20 Regular    all running text, buttons, links, card quotes, roles
+ *   .t-heading      30/36 Black   headings inside cards (WOW, Services, About)
+ *   .t-lead         22/28 Regular subtitle / excerpt, homepage intro
+ *   .t-body         20/32 Regular all running text, buttons, links, roles
  *   .t-body-strong  20 Black      people's names, bold text
- *   .t-tiny         12 Regular    footer, image captions
+ *   .t-tiny         14/20 Regular footer, image captions
  *  Libre Baskerville — case-study pull quote ONLY
  *   .t-quote        32 Regular    pull quotes in posts
- * Line heights: display tight · headings snug · body 1.4 · long-form post text 1.6 (.prose p, li).
  */
 .t-display, .t-title {
   font-family: var(--font-montserrat);
@@ -66,15 +67,15 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
   text-wrap: balance;
 }
 .t-display { font-size: var(--size-display); }
-.t-title { font-size: var(--size-title); line-height: var(--leading-snug); } /* 48/60 */
+.t-title { font-size: var(--size-title); font-weight: var(--weight-bold); line-height: var(--leading-title); } /* 42/52 */
 .t-section, .t-subheading, .prose :is(h2, h3) {
   font-family: var(--font-montserrat);
   font-weight: var(--weight-bold);
-  line-height: var(--leading-snug);
   text-wrap: balance;
 }
-.t-section, .prose h2 { font-size: var(--size-heading); }
-.t-subheading, .prose h3 { font-size: var(--size-subheading); }
+.t-section { font-size: var(--size-heading); line-height: var(--leading-heading); }
+.prose h2 { font-size: var(--size-prose-h2); line-height: var(--leading-prose-h2); } /* 26/32 (Kedar, 2026-11-01) */
+.t-subheading, .prose h3 { font-size: var(--size-subheading); line-height: var(--leading-subheading); }
 .t-nav {
   font-family: var(--font-montserrat);
   font-weight: var(--weight-bold);
@@ -85,7 +86,7 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
   font-family: var(--font-lato);
   font-weight: var(--weight-black);
   font-size: var(--size-heading);
-  line-height: var(--leading-snug);
+  line-height: var(--leading-heading);
   text-wrap: balance;
 }
 .t-body, .prose :is(p, li, td, th) {
@@ -94,6 +95,13 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
   font-size: var(--size-body);
   line-height: var(--leading-body);
   text-wrap: pretty;
+}
+.t-lead {
+  font-family: var(--font-lato);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-lead);
+  line-height: var(--leading-subheading);
+  text-wrap: balance;
 }
 .t-body-strong, .prose .pull-quote figcaption {
   font-family: var(--font-lato);
@@ -105,7 +113,7 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
   font-family: var(--font-lato);
   font-weight: var(--weight-regular);
   font-size: var(--size-tiny);
-  line-height: var(--leading-body);
+  line-height: var(--leading-tiny);
 }
 .t-quote, .prose blockquote {
   font-family: var(--font-baskerville);
@@ -124,16 +132,30 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
   padding-inline: var(--rhythm-gutter);
 }
 .on-surface { color: var(--color-on-surface); }
+/* Card tilt toward the mouse (all cards except /work; angles set by src/scripts/tilt.ts). */
+[data-tilt] {
+  transform: perspective(var(--motion-tilt-depth)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform var(--motion-card-raise) ease-out;
+}
 
 /* ── Prose: case-study Markdown ─────────────────────────────
- * One centred reading column (--width-post, 720). Plain Markdown output (no classes) → CMS-friendly.
+ * Text sits in one centred reading column (--width-post, 680); images and videos break out to the
+ * full width of the white sheet (Kedar, 2026-11-01 — like Medium; the work deserves the room).
  * Rhythm by proximity: every block is --rhythm-prose apart; images/tables/quotes get more air;
  * a heading has lots of space above and little below, so it belongs to the text it introduces. */
 .prose {
-  max-width: var(--width-post);
-  margin-inline: auto;
+  display: grid;
+  grid-template-columns: [wide-start] minmax(0, 1fr) [text-start] minmax(0, var(--width-post)) [text-end] minmax(0, 1fr) [wide-end];
   color: var(--color-on-surface);
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+  hanging-punctuation: first;
 }
+.prose > * { grid-column: text; }
+.prose > :is(figure:not(.pull-quote), .embed) { grid-column: wide; }
+.prose :is(p, li, td) { color: var(--color-on-prose); }
+/* The first paragraph opens the story a size up: Lato 22/34. */
+.prose > p:first-child { font-size: var(--size-lead); line-height: var(--leading-prose-lead); }
 .prose > * + * { margin-top: var(--rhythm-prose); }
 .prose > :where(figure, .embed, .table-scroll, .pull-quote, hr),
 .prose > :where(figure, .embed, .table-scroll, .pull-quote, hr) + * { margin-top: var(--rhythm-prose-block); }
@@ -141,6 +163,10 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
 .prose > * + :where(h3) { margin-top: var(--rhythm-prose-subsection); }
 .prose > :where(h2, h3) + * { margin-top: var(--rhythm-prose-heading); }
 .prose > :first-child { margin-top: 0; }
+/* Images get more air (Kedar, 2026-11-01): 80 above the image and 80 below its caption, in every post.
+   A heading right above an image keeps its own tight gap, so the heading still belongs to it. */
+.prose > :not(h2, h3) + figure:not(.pull-quote),
+.prose > figure:not(.pull-quote) + * { margin-top: var(--rhythm-figure); }
 
 /* Headings use .t-section / .t-subheading (above). */
 .prose :is(h2, h3) { scroll-margin-top: var(--rhythm-prose-section); }
@@ -200,8 +226,19 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
   color: var(--color-on-button);
 }
 .prose .zoom:hover .zoom-icon { background: var(--color-button-hover); }
+/* Enlarge button only while the image is hovered or keyboard-focused (Kedar, 2026-11-01: always-on was
+   annoying). Instant, no fade. On touch screens it stays hidden; tapping the image still enlarges it. */
+.prose .zoom:not(:hover, :focus-visible) .zoom-icon { visibility: hidden; }
 .prose .zoom-icon svg { width: var(--size-expand-icon); height: var(--size-expand-icon); }
-.prose figure:not(.pull-quote) > figcaption { color: var(--color-on-surface); text-align: center; } /* .t-tiny */
+/* Captions (Kedar, 2026-11-01): centred under the image in the quiet grey of the post-header labels,
+   never wider than the reading column. */
+.prose figure:not(.pull-quote) > figcaption {
+  justify-self: center;
+  max-width: var(--width-post);
+  text-align: center;
+  color: var(--color-on-surface-muted);
+  text-wrap: pretty;
+} /* .t-tiny */
 
 .prose .embed iframe {
   display: block;

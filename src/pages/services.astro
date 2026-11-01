@@ -1,54 +1,68 @@
 ---
-// Services (design: MacBook Air - 6).
+// What we do (Kedar's design, MacBook Air - 20, 2026-10-30): hero, problem → probable solution table,
+// "Traditionally what we do is called" + 2 × 3 service grid with icons, "Check out what we have done".
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Actions from '../components/Actions.astro';
+import Button from '../components/Button.astro';
 import ProblemList from '../components/ProblemList.astro';
-import Statement from '../components/Statement.astro';
+import ServiceGrid from '../components/ServiceGrid.astro';
 import { routes, labels } from '../data/site';
 
+// Kedar's words, verbatim (typos stay until he fixes them).
 const problems = [
-  {
-    problem: 'AI is reshaping our market. Where do we place our bets?',
-    solutions: 'Product discovery, UX research, Product strategy, AI prototyping',
-  },
-  {
-    problem: 'We have the idea. How do we turn it into a working product?',
-    solutions: 'Product design, UI & UX design, Prototyping, Frontend development',
-  },
-  {
-    problem: "We're getting users. Why aren't more of them paying or staying?",
-    solutions: 'Funnel analysis, Growth design, Onboarding, Conversion & retention optimisation',
-  },
-  {
-    problem: "The company has grown up. The brand hasn't.",
-    solutions: 'Brand strategy, Visual identity, Logo design, Brand guidelines',
-  },
-  {
-    problem: "We're scaling, and design quality is slipping.",
-    solutions: 'Design audits, Design systems, Design operations, Team mentoring',
-  },
+  { problem: 'Our product looks like any other product in the market due to AI', solution: 'Design System + Brand Identity' },
+  { problem: 'We’ve leaky funnels, slow adoption and low conversion.', solution: 'UI and UX optimisation + Storytelling' },
+  { problem: 'We’ve grown too fast. Our product looks in-coherent', solution: 'Design System' },
+  { problem: 'Users / Clients are unclear about our offerings', solution: 'Product Marketing + Brand communication + Storytelling' },
+  { problem: 'We want to adopt AI and grow.', solution: 'Design Advisory' },
 ];
 
-const actions = {
-  primary: { label: labels.exploreWow, href: routes.wow },
-  secondary: { label: labels.connect, href: routes.email },
-};
+const services = [
+  { label: 'Brand and communication design', icon: 'brand' },
+  { label: 'Product & Experience Design with Prototyping', icon: 'product' },
+  { label: 'MVP and GTM Design', icon: 'mvp' },
+  { label: 'Growth and design advisory', icon: 'growth' },
+  { label: 'AI transformation of your business', icon: 'ai' },
+  { label: 'Workshops and elevating teams with C-Suite', icon: 'workshops' },
+];
 ---
-<BaseLayout title="Services" description="Different problems. Familiar patterns. Over 20 years of solving business, brand and product problems, I’ve learned to recognise what causes them.">
+<BaseLayout title="What we do" description="Different problems. Familiar patterns. Over 20 years of solving business, brand and product problems. We’ve learned to recognise what causes them.">
   <Hero
     title="Different problems. Familiar patterns."
-    lead="Over 20 years of solving business, brand and product problems, I’ve learned to recognise what causes them. I use creativity, design thinking and common sense to find solutions that work."
-  >
-    <Actions {...actions} />
-  </Hero>
+    lead="Over 20 years of solving business, brand and product problems. We’ve learned to recognise what causes them. We use creativity, design thinking and common sense to find solutions that work."
+    bigLead
+  />
 
-  <section class="container" aria-label="Problems I solve">
-    <ProblemList items={problems} />
-  </section>
+  <div class="container page">
+    <section aria-label="Problems we solve">
+      <ProblemList items={problems} problemLabel="Problem" solutionLabel="Probable Solution (We provide)" />
+      <div class="next">
+        <p class="t-body">{labels.solvedBefore}</p>
+        <Actions primary={{ label: labels.seeOurWork, href: routes.workList }} />
+      </div>
+    </section>
 
-  <Statement title="Beyond this?">
-    <p class="t-body">I facilitate workshops, learning and development programs for design teams around Design, AI, typography, MVP and communication.</p>
-    <Actions {...actions} />
-  </Statement>
+    <section aria-labelledby="what-we-do">
+      <h2 id="what-we-do" class="t-display heading">Traditionally what we do is called</h2>
+      <ServiceGrid items={services} />
+    </section>
+
+    <div class="actions"><Button href={routes.workList} variant="ghost">{labels.checkOutWork}</Button></div>
+  </div>
 </BaseLayout>
+
+<style>
+  .page { padding-bottom: var(--rhythm-section); }
+  .heading { text-align: center; margin-block: var(--rhythm-team-heading); }
+  /* Micro-copy + primary button under the table → /work. */
+  .next {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--rhythm-title-to-lead);
+    margin-top: var(--rhythm-hero-to-content);
+    text-align: center;
+  }
+  .actions { display: flex; justify-content: center; margin-top: var(--rhythm-team-heading); }
+</style>

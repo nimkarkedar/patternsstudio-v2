@@ -1,0 +1,59 @@
+---
+// A word in a white highlight that swaps with the next one in a loop, sliding up (Kedar, 2026-10-30:
+// homepage lead "scale-up" ⇄ "start-up"). Approved motion. The highlight never moves or resizes:
+// all words share one grid cell, so it's as wide as the longest. Screen readers get the words once,
+// as plain text; reduced motion shows the first word only.
+interface Props { words: string[] }
+const { words } = Astro.props;
+---
+<span class="visually-hidden">{words.join(' / ')}</span><span class="swap" aria-hidden="true" data-swap>
+  {words.map((w, i) => <span class="word" data-state={i === 0 ? 'in' : 'below'}>{w}</span>)}
+</span>
+
+<style>
+  .swap {
+    display: inline-grid;
+    overflow: hidden;
+    padding-inline: var(--rhythm-highlight-x);
+    border-radius: var(--radius-highlight);
+    background: var(--color-highlight);
+    color: var(--color-on-highlight);
+    vertical-align: bottom;
+  }
+  .word {
+    grid-area: 1 / 1;
+    justify-self: center;
+    white-space: nowrap;
+    transition: transform var(--motion-swap) var(--ease-lift);
+  }
+  .word[data-state='below'] { transform: translateY(100%); }
+  .word[data-state='above'] { transform: translateY(-100%); }
+  /* Parked below without animating, ready to come in again. */
+  .word[data-state='reset'] { transform: translateY(100%); transition: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .word { transition: none; }
+  }
+</style>
+
+<script>
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const hold = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--motion-swap-hold'));
+
+  document.querySelectorAll<HTMLElement>('[data-swap]').forEach((swap) => {
+    const words = [...swap.querySelectorAll<HTMLElement>('.word')];
+    if (words.length < 2) return;
+    let current = 0;
+    setInterval(() => {
+      if (reduced.matches || document.hidden) return;
+      const next = (current + 1) % words.length;
+      // Park the incoming word below instantly, then slide both on the next frame.
+      words[next].dataset.state = 'reset';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        words[current].dataset.state = 'above';
+        words[next].dataset.state = 'in';
+        current = next;
+      }));
+    }, hold);
+  });
+</script>

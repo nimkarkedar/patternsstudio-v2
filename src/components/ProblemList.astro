@@ -1,50 +1,45 @@
 ---
-// Services: "Problem / Solutions" card. Deliberately plain — no tilt, no colour play (Kedar, 2026-10-16).
+// What we do: "Problem / Probable Solution" table card (Kedar's design, MacBook Air - 20, 2026-10-30).
+// Pale-blue header band (as in the case-study tables); each row = the problem + its solution as plain text (no pills — Kedar, 2026-10-30).
+// Desktop: two columns. Phones: each problem with its solution under it. Tilts like every card except /work.
 import Card from './Card.astro';
 
-interface Item { problem: string; solutions: string }
-interface Props { items: Item[] }
-const { items } = Astro.props;
+interface Item { problem: string; solution: string }
+interface Props { items: Item[]; problemLabel: string; solutionLabel: string }
+const { items, problemLabel, solutionLabel } = Astro.props;
 ---
-<Card>
-  <header class="band">
-    <h2 class="t-heading">Problem</h2>
-    <p class="t-body">Solutions</p>
-  </header>
-  <ol role="list" class="rows">
+<Card tilt>
+  <div class="table" role="table" aria-label={`${problemLabel} / ${solutionLabel}`}>
+    <div class="head" role="row">
+      <span class="t-subheading" role="columnheader">{problemLabel}</span>
+      <span class="t-subheading" role="columnheader">{solutionLabel}</span>
+    </div>
     {items.map((item) => (
-      <li class="row">
-        <h3 class="t-heading problem">{item.problem}</h3>
-        <p class="t-body solutions">{item.solutions}</p>
-      </li>
+      <div class="row" role="row">
+        <p class="t-lead problem" role="cell">{item.problem}</p>
+        <p class="t-lead solution" role="cell">{item.solution}</p>
+      </div>
     ))}
-  </ol>
+  </div>
 </Card>
 
 <style>
-  .band {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--rhythm-label);
-    padding: var(--rhythm-card-pad);
-    background: var(--color-surface-muted);
-    text-align: center;
-  }
-  .rows {
-    display: flex;
-    flex-direction: column;
-    gap: var(--rhythm-row);
-    padding: var(--rhythm-row) var(--rhythm-card-pad);
-  }
-  .row {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .head, .row {
+    display: grid;
     gap: var(--rhythm-stack);
-    max-width: var(--width-prose);
-    margin-inline: auto;
-    text-align: center;
+    padding: var(--rhythm-panel) var(--rhythm-card-pad);
+  }
+  .head {
+    background: var(--color-table-head);
+    color: var(--color-on-table-head);
+  }
+  .row + .row { border-top: var(--line-width) solid var(--color-line-on-surface); }
+
+  @media (min-width: 48rem) {
+    .head, .row {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--rhythm-card-gap);
+      align-items: start;
+    }
   }
 </style>
-
