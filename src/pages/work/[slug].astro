@@ -6,11 +6,15 @@ import PostLayout from '../../layouts/PostLayout.astro';
 import { readingMinutes } from '../../lib/seo';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('work', ({ data }) => !data.draft);
-  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+  // Next post = the following one in Notion's Order, wrapping round to the first (none if there's only one).
+  const posts = (await getCollection('work', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: { post, next: posts.length > 1 ? posts[(i + 1) % posts.length] : undefined },
+  }));
 }
 
-const { post } = Astro.props;
+const { post, next } = Astro.props;
 const { data } = post;
 const { Content } = await render(post);
 const written = Boolean(post.body?.trim());
@@ -23,9 +27,11 @@ const written = Boolean(post.body?.trim());
   readMinutes={written ? readingMinutes(post.body) : undefined}
   ogImage={data.ogImage}
   ogImageAlt={data.ogImageAlt}
+  cover={written ? data.ogImage : undefined}
+  coverAlt={data.ogImageAlt}
   brand={data.brand}
-  logo={data.logo}
   facts={data.facts}
+  next={next}
   noindex={!written}
   hasBody={written}
 >

@@ -3,6 +3,7 @@
 // (1200:630) — the same image is the post's cover and its WhatsApp/LinkedIn/X preview. No live text,
 // no arrow: the graphic is the whole card. Without a graphic it's a plain white card of the same shape.
 // Hover = the approved Apple-style lift (CLAUDE.md, Motion item 4).
+// The post title sits under the card, outside it, centred (Kedar, 2026-11-01); card + title are one link.
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 
@@ -10,7 +11,8 @@ interface Props { post: CollectionEntry<'work'>; href: string; eager?: boolean }
 const { post, href, eager = false } = Astro.props;
 const { data } = post;
 ---
-<a class="post on-surface" href={href}>
+<a class="item" href={href}>
+  <span class="post on-surface">
   {data.ogImage
     ? <Image
         class="image"
@@ -20,10 +22,15 @@ const { data } = post;
         sizes="(min-width: 64rem) 1120px, 100vw"
         loading={eager ? 'eager' : 'lazy'}
       />
-    : <span class="visually-hidden">{data.title ?? data.brand}</span>}
+    : null}
+  </span>
+  <span class="t-tiny title">{data.title ?? data.brand}</span>
 </a>
 
 <style>
+  /* Title = an image caption, as inside posts: .t-tiny, 12 below, centred, quiet (the page's muted tone). */
+  .item { display: grid; gap: var(--rhythm-caption); }
+  .title { justify-self: center; max-width: var(--width-post); color: var(--color-on-page-muted); text-align: center; text-wrap: pretty; }
   .post {
     display: block;
     aspect-ratio: var(--ratio-cover);
@@ -38,13 +45,13 @@ const { data } = post;
   .image { display: block; width: 100%; height: 100%; object-fit: cover; }
 
   @media (hover: hover) {
-    .post:hover, .post:focus-visible {
+    .item:hover .post, .item:focus-visible .post {
       transform: translateY(var(--motion-lift-y)) scale(var(--motion-lift-scale));
       box-shadow: var(--shadow-glow), var(--shadow-lifted);
     }
   }
   @media (prefers-reduced-motion: reduce) {
     .post { transition: none; }
-    .post:hover, .post:focus-visible { transform: none; }
+    .item:hover .post, .item:focus-visible .post { transform: none; }
   }
 </style>

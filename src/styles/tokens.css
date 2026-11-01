@@ -61,7 +61,6 @@
   --size-title: clamp(2rem, 1.6rem + 1.25vw, 2.625rem);      /* 32 → 42 */
   --size-heading: clamp(1.5rem, 1.25rem + 0.75vw, 1.875rem); /* 24 → 30 — H2, card headings, review quotes */
   --size-subheading: clamp(1.25rem, 1.2rem + 0.15vw, 1.375rem); /* 20 → 22 — H3 */
-  --size-intro-logo: 3.5rem;                                 /* 56 — client logo height in the post header, at most */
   --size-prose-h2: clamp(1.375rem, 1.3rem + 0.3vw, 1.625rem); /* 22 → 26 — post H2 (Kedar, 2026-11-01: was 30; Montserrat is wide) */
   --size-quote: clamp(1.5rem, 1.1rem + 1.25vw, 2rem);         /* 24 → 32 — pull quotes */
   --size-lead: clamp(1.25rem, 1.2rem + 0.15vw, 1.375rem);    /* 20 → 22 — subtitle / excerpt, homepage intro */
@@ -125,7 +124,6 @@
   --rhythm-prose-subsection: var(--space-7);                            /* → h3 (40) */
   --rhythm-prose-block: var(--space-7);                                 /* around images, video, tables, quotes, dividers (40) */
   --rhythm-prose-inset: var(--space-6);                                 /* pull quote: hairline → text (32) */
-  --rhythm-intro-gap: var(--space-7);                                   /* post header: logo → details (40) */
   --rhythm-intro-row: var(--space-6);                                   /* post header: row → row of details (32) */
   --rhythm-intro-rule: var(--space-3);                                  /* post header: hairline → label (12) */
   --rhythm-intro-bottom: var(--rhythm-prose-section);                   /* post header → hairline → first paragraph (48 → 64) */
@@ -156,7 +154,6 @@
   --width-hero: var(--width-content);  /* 1120 — big display headings stay inside the card edges (Kedar, 2026-10-16) */
   --width-prose: 42.5rem;      /* 680 — Services intro column */
   --width-post: 42.5rem;       /* 680 — post reading column (~70–75 characters of Lato 20; Medium 680). Was 720 (Kedar, 2026-11-01) */
-  --width-intro-logo: 12.5rem; /* 200 — client logo in the post header, at most */
   --ratio-cover: 1200 / 630;   /* case-study cover = the link-preview (Open Graph) image */
   --ratio-video: 16 / 9;
   --width-lead: 50rem;         /* hero lead paragraph (800) */

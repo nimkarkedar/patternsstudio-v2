@@ -27,7 +27,7 @@ const posts = (await getCollection('work', ({ data }) => !data.draft)).sort((a, 
 </BaseLayout>
 
 <style>
-  .stack { display: grid; gap: var(--rhythm-card-gap); }
+  .stack { display: grid; gap: var(--rhythm-figure); } /* same 80 as images + captions inside a post */
   /* The cards end the page: same space before the footer as between big sections. */
   section { padding-bottom: var(--rhythm-section); }
 </style>

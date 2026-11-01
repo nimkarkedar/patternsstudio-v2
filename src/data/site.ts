@@ -37,7 +37,9 @@ export const labels = {
   buyBook: 'Buy on Amazon',
   back: 'Back',
   toTop: 'Back to top',                  // floating button on posts (screen readers)
-  seeAllWork: 'Impressed? See all work', // end of every case study
+  seeAllWork: 'Impressed? See all work',
+  nextPost: 'Next post',                 // label above the next post's card at the end of a post
+  impressedTalk: 'Impressed? Let’s talk',  // end of every case study (Kedar, 2026-11-01: one CTA, → /contact)
   connectAnytime: 'Connect anytime',
   enlarged: 'Enlarged image',            // lightbox (screen readers)
   close: 'Close',

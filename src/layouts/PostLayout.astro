@@ -1,10 +1,10 @@
 ---
 // Case-study / blog-post page — Kedar's design "MacBook Air - 11" (2026-10-16).
 //   On the blue page: back button + title (title starts on grid column 2)
-//   → white sheet: PostIntro (client logo + project details) → the Markdown body.
-//   Posts no longer repeat the /work card graphic as a cover (Kedar, 2026-11-01); `cover` is only
-//   used by Markdown pages such as /styleguide.
-//   → "Impressed? See all work" / "Connect anytime".
+//   → cover = the /work card graphic, full content width (Kedar, 2026-11-01: back again, replaces the logo)
+//   → white sheet: PostIntro (project details) → the Markdown body.
+//   → one button, "Impressed? Let’s talk" (→ /contact; Kedar, 2026-11-01) → "Next post": the next post's /work card.
+//   Floating ↑ (to top) appears once the top back button scrolls away (the floating ← was removed 2026-11-01).
 //   Images in the body open larger in a lightbox (<dialog>, no animation).
 //   Floating back + to-top buttons (Kedar, 2026-11-01), bottom-right, shown once the top back button
 //   has scrolled out of view. Appear instantly; to-top jumps (no smooth scroll — Motion rules).
@@ -14,6 +14,8 @@ import { Image } from 'astro:assets';
 import BaseLayout from './BaseLayout.astro';
 import Actions from '../components/Actions.astro';
 import PostIntro from '../components/PostIntro.astro';
+import PostCard from '../components/PostCard.astro';
+import type { CollectionEntry } from 'astro:content';
 import { routes, labels, path } from '../data/site';
 import { ids, canonicalFor } from '../lib/seo';
 
@@ -29,18 +31,19 @@ interface Props {
   /** Hero image. ImageMetadata from a post, or a /public path from a Markdown page. */
   cover?: ImageMetadata | string;
   coverAlt?: string;
-  /** Post header: client name, colour logo and project details. */
+  /** Post header: client name and project details. */
   brand?: string;
-  logo?: ImageMetadata;
   facts?: { label: string; value: string | string[]; href?: string }[];
   noindex?: boolean;
+  /** The post after this one in Notion's Order (wraps to the first); shown under the CTA as its /work card. */
+  next?: CollectionEntry<'work'>;
   /** False for a post not written yet: no white sheet. */
   hasBody?: boolean;
   /** Present when used as a Markdown page layout. */
   frontmatter?: Omit<Props, 'frontmatter'>;
 }
 const props = Astro.props.frontmatter ? { ...Astro.props.frontmatter, ...Astro.props } : Astro.props;
-const { title, description, readMinutes, ogImage, ogImageAlt, cover, coverAlt = '', brand = '', logo, facts, noindex = false, hasBody = true } = props;
+const { title, description, readMinutes, ogImage, ogImageAlt, cover, coverAlt = '', facts, next, noindex = false, hasBody = true } = props;
 const publishedDate = props.publishedDate ? new Date(props.publishedDate) : undefined;
 const updatedDate = props.updatedDate ? new Date(props.updatedDate) : undefined;
 
@@ -109,7 +112,7 @@ const jsonLd = [
     {hasBody && (
       <div class="container">
         <div class:list={['sheet on-surface', { 'after-title': !cover }]}>
-          <PostIntro brand={brand} logo={logo} facts={facts} />
+          <PostIntro facts={facts} />
           <div class="prose">
             <slot />
           </div>
@@ -118,19 +121,18 @@ const jsonLd = [
     )}
 
     <div class="end container">
-      <Actions
-        primary={{ label: labels.seeAllWork, href: routes.workList }}
-        secondary={{ label: labels.connectAnytime, href: routes.email }}
-      />
+      <Actions primary={{ label: labels.impressedTalk, href: routes.contact }} />
     </div>
+
+    {next && (
+      <nav class="next container" aria-labelledby="next-post">
+        <h2 id="next-post" class="t-body next-label">{labels.nextPost}</h2>
+        <PostCard post={next} href={routes.work(next.id)} />
+      </nav>
+    )}
   </article>
 
   <div class="float" data-float hidden>
-    <a class="float-button" href={routes.workList} aria-label={labels.back}>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M15 6l-6 6 6 6" />
-      </svg>
-    </a>
     <a class="float-button" href="#top" aria-label={labels.toTop} data-to-top>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M6 15l6-6 6 6" />
@@ -234,6 +236,14 @@ const jsonLd = [
   }
   /* No cover: the sheet follows the title with the same space a cover would get. */
   .sheet.after-title { margin-top: var(--rhythm-hero-to-content); }
+
+  /* Next post (Kedar, 2026-11-01): its /work card, under the CTA. */
+  .next {
+    display: grid;
+    gap: var(--rhythm-stack);
+    margin-top: var(--rhythm-section);
+  }
+  .next-label { color: var(--color-on-page); text-align: center; }
 
   .end {
     display: grid;
