@@ -19,7 +19,7 @@ const items = [...clients, ...clients]; // second copy makes the loop seamless
         <li class="item" aria-hidden={i >= clients.length ? 'true' : undefined}>
           {logoFor(c.file)
             ? <Image src={logoFor(c.file)!} alt={i >= clients.length ? '' : c.name} class="logo" loading="eager" />
-            : <span class="t-heading">{c.name}</span>}
+            : <span class="t-p-bold">{c.name}</span>}
         </li>
       ))}
     </ul>

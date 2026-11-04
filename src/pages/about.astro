@@ -1,78 +1,73 @@
 ---
-// About (Kedar's design, MacBook Air - 17 + 18 open card, 2026-10-30): hero, team cards, Advisors.
-// Clicking a card flips it in 3D to a short bio (TeamCard). No tilt on this page.
+// About (Kedar's design, MacBook Air - 23 + 29 open card, 2026-11-04): hero, team cards, Advisors.
+// Clicking a card flips it in 3D to a short bio (TeamCard).
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Actions from '../components/Actions.astro';
-import Button from '../components/Button.astro';
 import TeamCard from '../components/TeamCard.astro';
-import { routes, labels, reviews } from '../data/site';
-import kedar from '../assets/about/kedar-nimkar.png';
-import john from '../assets/about/john-pathrose.png';
-import andrew from '../assets/reviews/andrew-mcglinchey.png';
-import audrey from '../assets/reviews/audrey-woo.png';
-import jeremy from '../assets/reviews/jeremy-williams.png';
-import manav from '../assets/reviews/manav-kamboj.png';
+import { routes, labels } from '../data/site';
+import kedar from '../assets/about/kedar-nimkar.webp';
+import john from '../assets/about/john-pathrose.webp';
+import andrew from '../assets/about/andrew-mcglinchey.webp';
+import raena from '../assets/about/raena-lim.webp';
+import manav from '../assets/about/manav-kamboj.webp';
 
-// TODO(Kedar): LinkedIn URLs (the mark becomes a link once `linkedin` is set); John's + Audrey's bios;
-// 2× photos of Audrey, Jeremy + Manav (380 wide now).
-// Andrew's, Jeremy's + Manav's bios are drafts from public sources (2026-10-30) — each person to approve before launch.
+// TODO(Kedar): LinkedIn URLs (the mark becomes a link once `linkedin` is set); John's bio.
+// Andrew's bio is Kedar's (MacBook Air - 29). Raena's is shortened from her own, to match the others' length. Manav's is a draft from public sources (2026-10-30); he should approve it before launch.
 const team = [
   {
     name: 'Kedar Nimkar',
-    role: 'Principal at Patterns Studio',
+    role: 'Designer',
     photo: kedar,
     alt: 'Kedar Nimkar, smiling, in a black sweater',
     bio: 'Kedar brings 20 years of experience in Design. He has previously led design teams at Cleartrip, PropertyGuru, BookMyShow, Jupiter and Webchutney (later acquired by Dentsu). He is an author of “The Design In Everything” book and host, producer of India’s longest running podcast on Design and Art with over 10M views. He is based in Singapore',
   },
-  { name: 'John Pathrose', role: 'Principal at Patterns Studio', photo: john, alt: 'John Pathrose, smiling, in a white shirt', bio: 'TODO(Kedar): John’s short bio.' },
+  { name: 'John Pathrose', role: 'Storyteller', photo: john, alt: 'John Pathrose, smiling, in a dark blazer', bio: 'TODO(Kedar): John’s short bio.' },
 ];
 
-// Advisors' roles come from their client reviews (Kedar, 2026-10-30), so the two stay in step.
-const reviewRole = (name: string) => reviews.find((r) => r.name === name)!.role;
-
 const advisors = [
-  { name: 'Andrew McGlinchey', role: reviewRole('Andrew McGlinchey'), photo: andrew, alt: 'Andrew McGlinchey, smiling, in a patterned shirt',
-    bio: 'Andrew is a product leader with a long career in consumer internet. He was VP of Products at PropertyGuru Group in Singapore. Before that he was Director of Product Management at Indeed and a Senior Product Manager at Google, with earlier roles at Microsoft and muvee Technologies.' },
-  { name: 'Audrey Woo', role: reviewRole('Audrey Woo'), photo: audrey, alt: 'Audrey Woo', bio: 'TODO(Kedar): Audrey’s short bio.' },
-  { name: 'Jeremy Williams', role: reviewRole('Jeremy Williams'), photo: jeremy, alt: 'Jeremy Williams',
-    bio: 'Jeremy has run the finances and operations of online marketplaces in Asia. He was Chief Operating Officer and then Managing Director of Marketplaces at PropertyGuru Group in Singapore. Before that he was Group CFO of CarTrade Tech in India, the company behind CarWale.' },
-  { name: 'Manav Kamboj', role: reviewRole('Manav Kamboj'), photo: manav, photoAlign: 'right' as const, alt: 'Manav Kamboj',
+  { name: 'Andrew McGlinchey', role: 'Product', photo: andrew, alt: 'Andrew McGlinchey, smiling, in a patterned shirt',
+    bio: 'Andrew McGlinchey is a seasoned product leader with extensive experience building and scaling consumer internet products. Former VP of Products at PropertyGuru Group, he has held product leadership roles at Indeed and Google, with earlier experience at Microsoft and muvee Technologies.' },
+  { name: 'Raena Lim', role: 'Finance', photo: raena, alt: 'Raena Lim, smiling', bio: 'Raena is a Managing Partner at AUD’NCO, where she advises founders as a fractional COO. She co-founded Style Theory, Southeast Asia’s largest fashion rental platform, and as COO raised ~$30M and scaled it across three markets. She began in community banking in Kenya before joining Goldman Sachs in Asia.' },
+  { name: 'Manav Kamboj', role: 'Technology', photo: manav, alt: 'Manav Kamboj, smiling, in glasses and a blazer',
     bio: 'Manav is a technology leader and founder. He joined PropertyGuru Group as Chief Technology Officer in 2017, doubled its technology team and went on to also lead its fintech business as Managing Director. Earlier he was VP of Technology at Snapdeal and founded the mobile studio Letsgomo Labs. He studied at IIT Roorkee.' },
 ];
 ---
-<BaseLayout title="About" description="An independent design studio based in Singapore. Led by experienced seasoned professionals from the industry.">
+<BaseLayout title="About" description="An independent design studio based in Singapore. A team of seasoned industry professionals. We connect market patterns with the finer details.">
   <Hero
-    title="An independent design studio based in Singapore"
-    lead="Led by experienced seasoned professionals from the industry. Mature enough to see the macro patterns and agile enough to roll their sleeves to get the craft right."
-    bigLead
-  />
+    title={['An independent design', 'studio based in 🇸🇬']}
+    lead="A team of seasoned industry professionals. We connect market patterns with the finer details that help your business grow."
+  >
+    <Actions primary={{ label: labels.exploreServices, href: routes.services }} />
+  </Hero>
 
   <div class="container page">
-    <section aria-label="Team">
-      <div class="grid">
-        {team.map((person) => <TeamCard {...person} />)}
-      </div>
-      <div class="actions"><Actions primary={{ label: labels.exploreWhatWeDo, href: routes.services }} /></div>
+    <section class="cards" aria-label="Team">
+      {team.map((person) => <div class="cell"><TeamCard {...person} /></div>)}
     </section>
 
     <section aria-labelledby="advisors">
-      <h2 id="advisors" class="t-display heading">Advisors</h2>
-      <div class="grid">
-        {advisors.map((person) => <TeamCard {...person} />)}
+      <h2 id="advisors" class="t-h2 heading">Advisors</h2>
+      <div class="cards">
+        {advisors.map((person) => <div class="cell"><TeamCard {...person} /></div>)}
       </div>
-      <div class="actions"><Button href={routes.wow} variant="ghost">{labels.exploreOurWow}</Button></div>
+      <div class="actions"><Actions primary={{ label: labels.exploreWork, href: routes.workList }} /></div>
     </section>
   </div>
 </BaseLayout>
 
 <style>
   .page { padding-bottom: var(--rhythm-section); }
-  .grid { display: grid; gap: var(--rhythm-card-gap); align-items: start; }
-  .actions { display: flex; justify-content: center; margin-top: var(--rhythm-team-actions); }
+  /* Three-card columns; the two team cards sit centred in the same column width. */
+  .cards { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--rhythm-card-gap); }
+  .cell { display: grid; width: 100%; }
+  .actions { display: flex; justify-content: center; margin-top: var(--rhythm-team-heading); }
   .heading { text-align: center; margin-block: var(--rhythm-team-heading); }
 
   @media (min-width: 48rem) {
-    .grid { grid-template-columns: 1fr 1fr; align-items: stretch; }
+    .cell { width: calc((100% - var(--rhythm-card-gap)) / 2); }
+  }
+  @media (min-width: 64rem) {
+    .cell { width: calc((100% - 2 * var(--rhythm-card-gap)) / 3); }
   }
 </style>

@@ -1,8 +1,6 @@
 ---
-// All work (was the homepage until Kedar's MacBook Air - 16 redesign, 2026-10-30).
-// Cards (Kedar, 2026-11-01): one full-width card per post, stacked, as wide as the Our Way (Hitchcock)
-// cards. Each card is just Kedar's graphic at the link-preview ratio and opens its post.
-// Header (Kedar, 2026-11-01): only the heading "Work that speaks for itself", then the cards.
+// All work (Kedar's design, MacBook Air - 31, 2026-11-04): heading, then one full-width card per post, stacked.
+// Each card is Kedar's graphic at the link-preview ratio and opens its post.
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
@@ -11,9 +9,8 @@ import { routes } from '../../data/site';
 
 const posts = (await getCollection('work', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
 ---
-<BaseLayout title="Work" description="At Patterns, we design software, build brands, and bring products to market. Combining years of design experience with AI.">
-  <!-- Kedar 2026-11-01: heading only, then straight into the cards (no lead, buttons or logo strip). -->
-  <Hero title="Work that speaks for itself" />
+<BaseLayout title="Work" description="Doing good work. Case studies from Patterns Studio across brand, communication, product design and strategic growth advisory.">
+  <Hero title="Doing good work" />
 
   {posts.length > 0 && (
     <section class="container" aria-label="Work">
@@ -27,7 +24,7 @@ const posts = (await getCollection('work', ({ data }) => !data.draft)).sort((a, 
 </BaseLayout>
 
 <style>
-  .stack { display: grid; gap: var(--rhythm-figure); } /* same 80 as images + captions inside a post */
+  .stack { display: grid; gap: var(--rhythm-work-card); }
   /* The cards end the page: same space before the footer as between big sections. */
   section { padding-bottom: var(--rhythm-section); }
 </style>

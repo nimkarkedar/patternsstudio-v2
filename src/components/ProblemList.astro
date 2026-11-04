@@ -1,5 +1,5 @@
 ---
-// What we do: "Problem / Probable Solution" table card (Kedar's design, MacBook Air - 20, 2026-10-30).
+// Services: "Problem / Probable solution" table card (Kedar's design, MacBook Air - 30, 2026-11-04).
 // Pale-blue header band (as in the case-study tables); each row = the problem + its solution as plain text (no pills — Kedar, 2026-10-30).
 // Desktop: two columns. Phones: each problem with its solution under it. Tilts like every card except /work.
 import Card from './Card.astro';
@@ -11,13 +11,13 @@ const { items, problemLabel, solutionLabel } = Astro.props;
 <Card tilt>
   <div class="table" role="table" aria-label={`${problemLabel} / ${solutionLabel}`}>
     <div class="head" role="row">
-      <span class="t-subheading" role="columnheader">{problemLabel}</span>
-      <span class="t-subheading" role="columnheader">{solutionLabel}</span>
+      <span class="t-p-bold" role="columnheader">{problemLabel}</span>
+      <span class="t-p-bold" role="columnheader">{solutionLabel}</span>
     </div>
     {items.map((item) => (
       <div class="row" role="row">
-        <p class="t-lead problem" role="cell">{item.problem}</p>
-        <p class="t-lead solution" role="cell">{item.solution}</p>
+        <p class="t-p problem" role="cell">{item.problem}</p>
+        <p class="t-p solution" role="cell">{item.solution}</p>
       </div>
     ))}
   </div>

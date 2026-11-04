@@ -8,13 +8,19 @@ publishedDate: 2026-11-01
 ogImage: ./neufin-energy-website-on-laptop-and-phone.png
 ogImageAlt: The new Neufin Energy website on a laptop and a phone, with the headline "Cut Energy Cost. On Your Terms."
 logo: ./neufin-energy-logo.svg
-# From the Notion columns Client, Industry, Time frame, View work, Scope (short values first, long ones last).
+# Details from Kedar's frame (MacBook Air - 32, 2026-11-04). Short values go in column 1; Scope in 2; long values in 3.
 facts:
   - { label: Client, value: Neufin Energy }
-  - { label: Industry, value: Climate Tech }
-  - { label: Time frame, value: 1 month (October 2026) }
-  - { label: View work, value: "https://neufin.energy/", href: "https://neufin.energy/" }
-  - { label: Scope, value: "Identity Design, Brand Storybook, Communication strategy and Marketing website" }
+  - { label: Industry, value: Climate and Energy }
+  - { label: Status (Live), value: "https://neufin.energy/", href: "https://neufin.energy/" }
+  - label: Scope
+    value:
+      - Identity Design
+      - Brand Storybook
+      - Communication strategy
+      - Marketing website
+      - Ongoing work
+  - { label: Client testimonial, value: "Kedar thought outside the box, bringing the “X-factor” we needed for a distinctive brand architecture." }
 ---
 
 Neufin Energy helps Indian businesses buy cheaper, cleaner power from solar, wind, battery storage and the power exchange, and tracks every unit with its own software, Lumen.

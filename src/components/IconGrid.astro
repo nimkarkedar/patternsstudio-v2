@@ -1,0 +1,46 @@
+---
+// One white card split into cells with hairlines (Kedar's design, MacBook Air - 24 + 30, 2026-11-04): an icon above a
+// line of text in each. Three across (one on phones). Tilts like every card except /work.
+// Icons: src/icons/<set>/<icon>.svg — Phosphor Icons v2, regular weight (MIT); the design's grey circles mark where they go.
+import Card from './Card.astro';
+
+interface Item { label: string; icon: string }
+interface Props { set: 'services' | 'approach'; items: Item[] }
+const { set, items } = Astro.props;
+
+const icons = import.meta.glob<string>('../icons/*/*.svg', { eager: true, query: '?raw', import: 'default' });
+const svg = (name: string) => icons[`../icons/${set}/${name}.svg`] ?? '';
+---
+<Card tilt>
+  <ul class="grid" role="list">
+    {items.map((item) => (
+      <li class="cell">
+        <span class="icon" aria-hidden="true" set:html={svg(item.icon)} />
+        <p class="t-p">{item.label}</p>
+      </li>
+    ))}
+  </ul>
+</Card>
+
+<style>
+  /* The hairlines are the grid's background showing through a 1px gap. */
+  .grid { display: grid; gap: var(--line-width); background: var(--color-line-on-surface); }
+  .cell {
+    display: grid;
+    align-content: start;
+    gap: var(--rhythm-service-icon);
+    padding: var(--rhythm-icon-cell);
+    background: var(--color-surface);
+  }
+  .icon { color: var(--color-service-icon); }
+  .icon :global(svg) {
+    display: block;
+    width: var(--size-service-icon);
+    height: var(--size-service-icon);
+    fill: currentColor;
+  }
+
+  @media (min-width: 48rem) {
+    .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+</style>

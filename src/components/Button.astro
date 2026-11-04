@@ -5,7 +5,7 @@ interface Props { href: string; variant?: 'primary' | 'ghost'; fill?: boolean; c
 const { href, variant = 'primary', fill = false, class: className, external = false } = Astro.props;
 ---
 <a
-  class:list={['t-body', 'button', variant, { fill }, className]}
+  class:list={['t-p', 'button', variant, { fill }, className]}
   href={href}
   {...(external ? { target: '_blank', rel: 'noopener' } : {})}
 ><slot /></a>

@@ -5,7 +5,7 @@ interface Props { title: string; as?: 'h1' | 'h2' }
 const { title, as: Tag = 'h2' } = Astro.props;
 ---
 <section class="statement">
-  <Tag class="t-display">{title}</Tag>
+  <Tag class="t-h1">{title}</Tag>
   {Astro.slots.has('default') && <div class="body"><slot /></div>}
 </section>
 

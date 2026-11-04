@@ -20,7 +20,7 @@ const { postTitle } = Astro.props as { postTitle?: string };
       </ul>
     </nav>
 
-    {postTitle && <a class="t-nav post-title" href="#top" tabindex="-1" aria-hidden="true">{postTitle}</a>}
+    {postTitle && <a class="t-nav post-h1" href="#top" tabindex="-1" aria-hidden="true">{postTitle}</a>}
 
     <a class="t-nav link contact" href={contactLink.href} aria-current={isActive(contactLink.href) ? 'page' : undefined}>{contactLink.label}</a>
 
@@ -34,7 +34,7 @@ const { postTitle } = Astro.props as { postTitle?: string };
   <div class="sheet" id="mobile-menu" hidden data-menu>
     <ul role="list" class="sheet-links">
       {links.map((l) => (
-        <li><a class="t-display sheet-link" href={l.href} aria-current={isActive(l.href) ? 'page' : undefined} data-menu-link>{l.label}</a></li>
+        <li><a class="t-h1 sheet-link" href={l.href} aria-current={isActive(l.href) ? 'page' : undefined} data-menu-link>{l.label}</a></li>
       ))}
     </ul>
   </div>
@@ -70,7 +70,7 @@ const { postTitle } = Astro.props as { postTitle?: string };
     transform-origin: left;
   }
   /* Post title takes the nav's place once the big title has gone under the header (≥48rem). */
-  .post-title {
+  .post-h1 {
     display: none;
     color: var(--color-on-page);
     max-width: var(--width-header-title);
@@ -118,16 +118,16 @@ const { postTitle } = Astro.props as { postTitle?: string };
     }
     .nav { display: block; grid-area: 1 / 2; }
     /* Apple-style: the bar never moves; nav and post title cross-fade in place. */
-    .nav, .post-title { transition: opacity var(--motion-header-line) ease-out, visibility var(--motion-header-line); }
-    .post-title { display: block; grid-area: 1 / 2; justify-self: center; opacity: 0; visibility: hidden; }
+    .nav, .post-h1 { transition: opacity var(--motion-header-line) ease-out, visibility var(--motion-header-line); }
+    .post-h1 { display: block; grid-area: 1 / 2; justify-self: center; opacity: 0; visibility: hidden; }
     .header[data-titled] .nav { opacity: 0; visibility: hidden; }
-    .header[data-titled] .post-title { opacity: 1; visibility: visible; }
+    .header[data-titled] .post-h1 { opacity: 1; visibility: visible; }
     .nav ul { display: flex; gap: var(--rhythm-nav); }
     .contact { display: inline-block; justify-self: end; }
     .menu-toggle, .sheet { display: none; }
   }
   @media (min-width: 48rem) and (prefers-reduced-motion: reduce) {
-    .nav, .post-title { transition: none; }
+    .nav, .post-h1 { transition: none; }
   }
 </style>
 

@@ -1,15 +1,13 @@
 ---
-// Contact (design: MacBook Air - 8). Centred between header and footer.
+// Contact (Kedar's design, MacBook Air - 26, 2026-11-04). Centred between header and footer.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { routes, site } from '../data/site';
 ---
-<BaseLayout title="Contact" description={`Hello! Email me at ${site.email}. I hope you value design.`}>
+<BaseLayout title="Contact" description={`Hello! Best way to get in touch is, email us at ${site.email}. We hope you value good design.`}>
   <section class="contact">
-    <h1 class="t-display">
-      Hello!<br />
-      <a class="email" href={routes.email}>Email me</a>
-    </h1>
-    <p class="t-body note">I hope you value design</p>
+    <h1 class="t-h1">Hello!</h1>
+    <p class="t-large lead">Best way to get in touch is, email us at<br /><a class="email" href={routes.email}>{site.email}</a></p>
+    <p class="t-p note">We hope you value good design</p>
   </section>
 </BaseLayout>
 
@@ -23,11 +21,12 @@ import { routes, site } from '../data/site';
     text-align: center;
     padding: var(--rhythm-page-top) var(--rhythm-gutter);
   }
+  .lead { margin-top: var(--rhythm-title-to-lead); }
   .email {
     text-decoration: underline;
     text-decoration-thickness: var(--underline-width);
     text-underline-offset: var(--underline-offset);
   }
   .email:hover { color: var(--color-on-page-muted); }
-  .note { margin-top: var(--rhythm-title-to-lead); }
+  .note { margin-top: var(--rhythm-stack); color: var(--color-on-page-muted); }
 </style>

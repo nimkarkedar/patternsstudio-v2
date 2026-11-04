@@ -1,0 +1,74 @@
+---
+// Approach (Kedar's design, MacBook Air - 24, 2026-11-04): hero, two portrait cards, "Typically you can expect..." grid.
+// Kedar's words, verbatim (typos stay until he fixes them).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Actions from '../components/Actions.astro';
+import IconGrid from '../components/IconGrid.astro';
+import PortraitCard from '../components/PortraitCard.astro';
+import { routes, labels } from '../data/site';
+import hitchcock from '../assets/approach/hitchcock.webp';
+import wongKarWai from '../assets/approach/wong-kar-wai.webp';
+
+const expect = [
+  { label: 'Senior hands only. That too hands-on.', icon: 'senior' },
+  { label: 'No padded decks & stickies. Actual prototypes and visuals.', icon: 'prototypes' },
+  { label: 'WCGA complaint. We take accessibility seriously', icon: 'accessible' },
+  { label: 'Deep care about craft. Acute attention to detail.', icon: 'craft' },
+  { label: 'Long lasting. Highly robust and commercially solid.', icon: 'robust' },
+  { label: 'Output thats tangibly measurable.', icon: 'measurable' },
+  { label: 'Deliverables that you can proudly own and keep using.', icon: 'deliverables' },
+  { label: 'Systems that can run without us in the world of AI.', icon: 'systems' },
+  { label: 'Fun and creative People whom you would love working with', icon: 'fun' },
+];
+---
+<BaseLayout title="Approach" description="There are just two ways of working. Be it building digital products, making a film, mowing lawn or cooking a dinner; same pattern applies.">
+  <Hero
+    title={['There are just', 'two ways of working.']}
+    lead={['Be it building digital products, making a film, mowing lawn', 'or cooking a dinner; same pattern applies.']}
+  >
+    <Actions primary={{ label: labels.exploreWork, href: routes.workList }} />
+  </Hero>
+
+  <div class="container page">
+    <section class="stack" aria-label="Two ways of working">
+      <PortraitCard
+        image={hitchcock}
+        alt="Alfred Hitchcock, finger to his lips"
+        name="Alfred Hitchcock"
+        role="Filmmaker"
+        heading="Meticulous planning"
+        side="left"
+        tilt
+      >
+        Hitchcock mapped out every shot, sequence, script detail, and technical continuity before filming began. The actual shooting was simply a matter of execution.
+      </PortraitCard>
+
+      <PortraitCard
+        image={wongKarWai}
+        alt="Wong Kar-wai in sunglasses, smiling"
+        name="Wong Kar-wai"
+        role="Filmmaker"
+        heading="Creative Improvisation"
+        side="right"
+        tilt
+      >
+        Wong Kar-wai often began filming without a finished script, developing scenes and dialogue as he went. More organic way of exploring as we go embracing the ambiguity.
+      </PortraitCard>
+    </section>
+
+    <section aria-labelledby="expect">
+      <h2 id="expect" class="t-h2 heading">Typically you can expect...</h2>
+      <IconGrid set="approach" items={expect} />
+    </section>
+
+    <div class="actions"><Actions primary={{ label: labels.exploreWork, href: routes.workList }} /></div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page { padding-bottom: var(--rhythm-section); }
+  .stack { display: grid; gap: var(--rhythm-card-gap); }
+  .heading { text-align: center; margin-block: var(--rhythm-team-heading); }
+  .actions { display: flex; justify-content: center; margin-top: var(--rhythm-team-heading); }
+</style>

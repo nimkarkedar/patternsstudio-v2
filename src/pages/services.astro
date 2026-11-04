@@ -1,12 +1,11 @@
 ---
-// What we do (Kedar's design, MacBook Air - 20, 2026-10-30): hero, problem → probable solution table,
-// "Traditionally what we do is called" + 2 × 3 service grid with icons, "Check out what we have done".
+// Services (Kedar's design, MacBook Air - 30, 2026-11-04): hero, problem → probable solution table,
+// "Traditionally it’s called" + service grid. The frame repeats one service as a placeholder; the six services stay as they were.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Actions from '../components/Actions.astro';
-import Button from '../components/Button.astro';
 import ProblemList from '../components/ProblemList.astro';
-import ServiceGrid from '../components/ServiceGrid.astro';
+import IconGrid from '../components/IconGrid.astro';
 import { routes, labels } from '../data/site';
 
 // Kedar's words, verbatim (typos stay until he fixes them).
@@ -27,42 +26,30 @@ const services = [
   { label: 'Workshops and elevating teams with C-Suite', icon: 'workshops' },
 ];
 ---
-<BaseLayout title="What we do" description="Different problems. Familiar patterns. Over 20 years of solving business, brand and product problems. We’ve learned to recognise what causes them.">
+<BaseLayout title="Services" description="Different problems. Familiar patterns. We’ve learned to recognise common patterns to grow brands and products.">
   <Hero
-    title="Different problems. Familiar patterns."
-    lead="Over 20 years of solving business, brand and product problems. We’ve learned to recognise what causes them. We use creativity, design thinking and common sense to find solutions that work."
-    bigLead
-  />
+    title={['Different problems.', 'Familiar patterns.']}
+    lead="We’ve learned to recognise common patterns to grow brands and products. We use design thinking and creativity to solve them."
+  >
+    <Actions primary={{ label: labels.exploreWork, href: routes.workList }} />
+  </Hero>
 
   <div class="container page">
     <section aria-label="Problems we solve">
-      <ProblemList items={problems} problemLabel="Problem" solutionLabel="Probable Solution (We provide)" />
-      <div class="next">
-        <p class="t-body">{labels.solvedBefore}</p>
-        <Actions primary={{ label: labels.seeOurWork, href: routes.workList }} />
-      </div>
+      <ProblemList items={problems} problemLabel="Problem / Situation" solutionLabel="Probable solution (we provide)" />
     </section>
 
-    <section aria-labelledby="what-we-do">
-      <h2 id="what-we-do" class="t-display heading">Traditionally what we do is called</h2>
-      <ServiceGrid items={services} />
+    <section aria-labelledby="called">
+      <h2 id="called" class="t-h2 heading">Traditionally it’s called</h2>
+      <IconGrid set="services" items={services} />
     </section>
 
-    <div class="actions"><Button href={routes.workList} variant="ghost">{labels.checkOutWork}</Button></div>
+    <div class="actions"><Actions primary={{ label: labels.exploreWork, href: routes.workList }} /></div>
   </div>
 </BaseLayout>
 
 <style>
   .page { padding-bottom: var(--rhythm-section); }
   .heading { text-align: center; margin-block: var(--rhythm-team-heading); }
-  /* Micro-copy + primary button under the table → /work. */
-  .next {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--rhythm-title-to-lead);
-    margin-top: var(--rhythm-hero-to-content);
-    text-align: center;
-  }
   .actions { display: flex; justify-content: center; margin-top: var(--rhythm-team-heading); }
 </style>

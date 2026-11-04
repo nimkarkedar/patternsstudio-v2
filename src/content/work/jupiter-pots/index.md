@@ -14,7 +14,11 @@ facts:
   - { label: Time frame, value: 3 month (Nov 2021) }
   - { label: Role & Responsibilities, value: VP of Design }
   - { label: View work, value: "https://jupiter.money/pots/", href: "https://jupiter.money/pots/" }
-  - { label: Scope, value: "Identity Design, Product Marketing and Communication strategy" }
+  - label: Scope
+    value:
+      - Identity Design
+      - Product Marketing
+      - Communication strategy
   - label: Impact
     value:
       - "Pots created in 1st Month: 6,467"

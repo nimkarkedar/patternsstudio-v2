@@ -1,72 +1,66 @@
 ---
-// Top of a post's white sheet (Kedar, 2026-11-01): the project details, set like a spec sheet — small grey
-// label above each value, hairline above each item. Short values sit four across (two on phones); long
-// values and lists (Impact, one point per Notion line, as bullets) take the full row. No logo: the cover
-// image above the sheet already shows the brand.
+// Project details at the top of a post (Kedar's design, MacBook Air - 32, 2026-11-04): a pale-blue panel with three
+// columns: short values stacked (Client, Industry, Status), then Scope, then the long values (Client testimonial, Impact).
+// Small grey label over a P-Bold value; lists are plain lines. One column on phones.
 
 interface Fact { label: string; value: string | string[]; href?: string }
 interface Props { facts?: Fact[] }
 const { facts = [] } = Astro.props;
 
-const WIDE = 32; // characters — a longer value gets the whole row
-// One-item lists read as a plain sentence; two or more become bullets.
+const WIDE = 32; // characters — a longer value leaves the first column
 const points = (f: Fact) => (Array.isArray(f.value) ? f.value.filter(Boolean) : [f.value]);
 const shown = (f: Fact) => {
   const text = points(f).join(' ');
   return f.href ? text.replace(/^https?:\/\//, '').replace(/\/$/, '') : text;
 };
-const isList = (f: Fact) => points(f).length > 1;
+const isLong = (f: Fact) => points(f).length > 1 || shown(f).length > WIDE;
+const columns = [
+  facts.filter((f) => !isLong(f)),
+  facts.filter((f) => isLong(f) && f.label === 'Scope'),
+  facts.filter((f) => isLong(f) && f.label !== 'Scope'),
+].filter((c) => c.length > 0);
 ---
 {facts.length > 0 && (
-  <header class="intro">
-      <dl class="facts">
-        {facts.map((f) => (
-          <div class:list={['fact', { wide: isList(f) || shown(f).length > WIDE }]}>
-            <dt class="t-tiny label">{f.label}</dt>
-            <dd class="t-lead value">
-              {isList(f)
-                ? <ul class="points">{points(f).map((p) => <li>{p}</li>)}</ul>
+  <dl class="facts">
+    {columns.map((column) => (
+      <div class="column">
+        {column.map((f) => (
+          <div class="fact">
+            <dt class="t-small label">{f.label}</dt>
+            <dd class="t-p-bold">
+              {points(f).length > 1
+                ? <ul class="points" role="list">{points(f).map((p) => <li>{p}</li>)}</ul>
                 : f.href ? <a href={f.href} rel="noopener" target="_blank">{shown(f)}</a> : shown(f)}
             </dd>
           </div>
         ))}
-      </dl>
-  </header>
+      </div>
+    ))}
+  </dl>
 )}
 
 <style>
-  .intro {
-    padding-bottom: var(--rhythm-intro-bottom);
-    margin-bottom: var(--rhythm-intro-bottom);
-    border-bottom: var(--line-width) solid var(--color-line-on-surface);
-  }
   .facts {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--grid-gutter);
-    row-gap: var(--rhythm-intro-row);
+    gap: var(--rhythm-intro-row);
+    padding: var(--rhythm-facts-pad);
+    border-radius: var(--radius-card);
+    background: var(--color-surface-tint);
+    color: var(--color-on-surface);
   }
-  .fact {
-    display: grid;
-    align-content: start;
-    gap: var(--rhythm-label);
-    padding-top: var(--rhythm-intro-rule);
-    border-top: var(--line-width) solid var(--color-line-on-surface);
-  }
-  .wide { grid-column: 1 / -1; }
+  .column { display: grid; align-content: start; gap: var(--rhythm-intro-row); }
+  .fact { display: grid; gap: var(--rhythm-label); }
   .label { color: var(--color-on-surface-muted); }
-  .value { color: var(--color-on-surface); text-wrap: pretty; }
-  .points { display: grid; gap: var(--rhythm-prose-list); padding-inline-start: var(--space-5); list-style: disc; }
-  .points li::marker { color: var(--color-on-surface-muted); }
-  .value a {
+  .points { display: grid; }
+  a {
     color: var(--color-accent);
     text-decoration: underline;
     text-decoration-thickness: var(--underline-width);
     text-underline-offset: var(--underline-offset);
   }
-  .value a:hover { color: var(--color-on-surface); }
+  a:hover { color: var(--color-on-surface); }
 
   @media (min-width: 48rem) {
-    .facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--grid-gutter); }
   }
 </style>

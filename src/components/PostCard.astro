@@ -3,7 +3,7 @@
 // (1200:630) — the same image is the post's cover and its WhatsApp/LinkedIn/X preview. No live text,
 // no arrow: the graphic is the whole card. Without a graphic it's a plain white card of the same shape.
 // Hover = the approved Apple-style lift (CLAUDE.md, Motion item 4).
-// The post title sits under the card, outside it, centred (Kedar, 2026-11-01); card + title are one link.
+// No title under the card (MacBook Air - 31, 2026-11-04).
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 
@@ -24,13 +24,10 @@ const { data } = post;
       />
     : null}
   </span>
-  <span class="t-tiny title">{data.title ?? data.brand}</span>
 </a>
 
 <style>
-  /* Title = an image caption, as inside posts: .t-tiny, 12 below, centred, quiet (the page's muted tone). */
-  .item { display: grid; gap: var(--rhythm-caption); }
-  .title { justify-self: center; max-width: var(--width-post); color: var(--color-on-page-muted); text-align: center; text-wrap: pretty; }
+  .item { display: block; }
   .post {
     display: block;
     aspect-ratio: var(--ratio-cover);

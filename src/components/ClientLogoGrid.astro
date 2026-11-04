@@ -1,6 +1,7 @@
 ---
-// /reviews: grid of every client logo (Kedar, 2026-10-30). Static — no motion.
-// Logo files are white on page-blue tiles (400 × 150, padding built in), so they sit straight on the page, no card.
+// /reviews: grid of every client logo (Kedar, 2026-10-30; MacBook Air - 33, 2026-11-04). Static — no motion.
+// Logo files are white on page-blue tiles (400 × 150, padding built in), so they sit straight on the page, no card;
+// slightly see-through, so they stay quieter than the headings around them.
 // 4 per row ≥48rem, 2 on phones. Hairlines between logos only, never on the outer edges (Kedar, 2026-10-30):
 // each cell draws its left + top line, and the wrapper clips the first column's left and first row's top.
 // Names render as text until a file exists.
@@ -22,7 +23,7 @@ const logoFor = (file: string) =>
           <li class="item">
             {logo
               ? <Image src={logo} alt={c.name} class="logo" widths={[240, 480]} sizes="(min-width: 48rem) 200px, 45vw" />
-              : <span class="t-body-strong">{c.name}</span>}
+              : <span class="t-p-bold">{c.name}</span>}
           </li>
         );
       })}
@@ -46,7 +47,7 @@ const logoFor = (file: string) =>
     color: var(--color-on-page);
     text-align: center;
   }
-  .logo { width: 100%; max-width: var(--width-client-logo-grid); height: auto; }
+  .logo { width: 100%; max-width: var(--width-client-logo-grid); height: auto; opacity: var(--opacity-client-logo); }
 
   @media (min-width: 48rem) {
     .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }

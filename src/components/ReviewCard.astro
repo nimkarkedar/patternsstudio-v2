@@ -1,8 +1,7 @@
 ---
-// One client review card (Kedar's design, MacBook Air - 16): quote, portrait standing on the bottom edge,
-// name + role in white on the photo bottom-left, over a short soft black fade (Kedar, 2026-10-30). Used by the homepage strip and /reviews.
-// Quotes: max three lines. The quote box is always three lines tall, so every photo — and every head —
-// starts at the same height. Portraits: src/assets/reviews/<file>.png, cropped to 12px above the head.
+// One client review card (Kedar's design, MacBook Air - 22 + 27, 2026-11-04): on white, the quote (P, three lines
+// tall so every name lines up), name (P-Bold), role (Small-P, grey), then the portrait standing on the bottom edge.
+// Used by the homepage strip and /reviews. Portraits: src/assets/reviews/<file>.webp, cropped from the frame.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import type { reviews } from '../data/site';
@@ -14,13 +13,13 @@ const files = import.meta.glob<{ default: ImageMetadata }>('../assets/reviews/*.
 const photo = Object.entries(files).find(([path]) => path.split('/').pop()?.replace(/\.\w+$/, '') === review.file)?.[1].default;
 ---
 <figure class="card" data-tilt>
-  <blockquote class="t-section quote"><p>{review.quote}</p></blockquote>
-  {/* Eager: in the homepage strip they move in by scrolling script, which can miss lazy-loading. */}
-  {photo && <Image src={photo} alt="" class="photo" loading="eager" quality="max" />}
+  <blockquote class="t-p quote"><p>{review.quote}</p></blockquote>
   <figcaption class="person">
-    <span class="t-body-strong">{review.name}</span>
-    <span class="t-body">{review.role}</span>
+    <span class="t-p-bold">{review.name}</span>
+    <span class="t-small role">{review.role}</span>
   </figcaption>
+  {/* Eager: in the homepage strip they move in by scrolling script, which can miss lazy-loading. */}
+  {photo && <Image src={photo} alt="" class="photo" loading="eager" widths={[400, 800, 1023]} sizes="(min-width: 48rem) 352px, 80vw" />}
 </figure>
 
 <script>
@@ -29,35 +28,24 @@ const photo = Object.entries(files).find(([path]) => path.split('/').pop()?.repl
 
 <style>
   .card {
-    position: relative;
     display: flex;
     flex-direction: column;
-    aspect-ratio: var(--ratio-review-card);
+    height: 100%;
     overflow: hidden;
     border-radius: var(--radius-card);
     background: var(--color-surface);
     color: var(--color-on-surface);
     box-shadow: var(--shadow-glow);
   }
-  /* Always three lines tall, so the photos (and heads) start at the same height on every card. */
   .quote {
     min-height: calc(3lh + var(--rhythm-card-pad));
     padding: var(--rhythm-card-pad) var(--rhythm-card-pad) 0;
-    margin-bottom: var(--rhythm-review-quote-gap);
-    text-wrap: pretty; /* fill each line (balance made lines short and left space on the right) */
   }
-  /* Name + role in white on the photo, bottom-left, over a short soft black fade (no hard edge). */
   .person {
-    position: absolute;
-    inset: auto 0 0;
     display: grid;
     gap: var(--rhythm-label);
-    align-content: end;
-    height: var(--size-review-shade);
-    padding: 0 var(--rhythm-card-pad) var(--rhythm-panel);
-    color: var(--color-on-page);
-    background: var(--gradient-review-shade);
+    padding: var(--rhythm-review-name) var(--rhythm-card-pad);
   }
-  /* Photo fills the rest of the card from the top; any extra is trimmed at the bottom edge. */
-  .photo { flex: 1; min-height: 0; width: 100%; object-fit: cover; object-position: top; }
+  .role { color: var(--color-on-surface-muted); }
+  .photo { width: 100%; height: auto; aspect-ratio: var(--ratio-review-photo); margin-top: auto; }
 </style>

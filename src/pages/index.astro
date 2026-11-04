@@ -1,19 +1,16 @@
 ---
-// Homepage (Kedar's design, MacBook Air - 16, 2026-10-30): hero + scrolling client reviews.
-// The work cards moved to /work.
+// Homepage (Kedar's design, MacBook Air - 22, 2026-11-04): hero + scrolling client reviews.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Actions from '../components/Actions.astro';
 import ClientReviews from '../components/ClientReviews.astro';
-import WordSwap from '../components/WordSwap.astro';
-import { routes, labels } from '../data/site';
+import { routes, labels, site } from '../data/site';
 ---
-<BaseLayout description="Growth has a pattern. Let’s find yours. We help scale-up businesses with brand, communications, product design and strategic growth advice.">
+<BaseLayout description={site.description}>
   <Hero
     title={['Growth has a pattern.', 'Let’s find yours.']}
-    bigLead
+    lead="We help scale-up businesses with brand, communication, product design and strategic growth advisory."
   >
-    <Fragment slot="lead">We help <WordSwap words={['scale-up', 'start-up']} /> businesses with brand, communications, product design and strategic growth advice.</Fragment>
     <Actions primary={{ label: labels.exploreWork, href: routes.workList }} />
   </Hero>
 
