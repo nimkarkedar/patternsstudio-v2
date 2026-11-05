@@ -42,9 +42,9 @@ const blocks = [reviews.slice(0, FIRST), reviews.slice(FIRST)];
 <style>
   .page { padding-bottom: var(--rhythm-section); }
   .grid { display: grid; gap: var(--rhythm-card-gap); }
-  .heading { text-align: center; margin-block: var(--rhythm-team-heading); }
+  .heading { text-align: var(--align-page); margin-block: var(--rhythm-heading-above) var(--rhythm-heading-below); }
   .heading br { display: none; }
-  .more, .actions { margin-top: var(--rhythm-team-heading); }
+  .more, .actions { margin-top: var(--rhythm-page-actions); }
   .actions { display: flex; justify-content: center; }
   @media (min-width: 48rem) {
     .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

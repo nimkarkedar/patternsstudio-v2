@@ -31,6 +31,9 @@ function videoEmbedUrl(href) {
   return null;
 }
 
+// Body images: phone (2× and 3× screens), then laptop to large Retina desktop. Sizes above the file's own width are skipped.
+const IMAGE_WIDTHS = [750, 1170, 1920, 2400, 2880];
+
 function transform(node) {
   if (!node.children) return;
   node.children = node.children.map((child) => {
@@ -44,6 +47,9 @@ function transform(node) {
         const img = kids[0];
         const caption = img.properties.title;
         delete img.properties.title;
+        // Edge to edge, so one file becomes several sizes and each screen downloads only what it can show.
+        img.properties.widths = IMAGE_WIDTHS;
+        img.properties.sizes = '100vw';
         const zoom = el('button', { type: 'button', className: ['zoom'], ariaHaspopup: 'dialog' }, [img, zoomIcon()]);
         return el('figure', {}, caption ? [zoom, el('figcaption', {}, [text(String(caption))])] : [zoom]);
       }

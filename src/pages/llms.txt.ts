@@ -21,7 +21,7 @@ export async function GET({ site: origin }: APIContext) {
     `- [Contact](${url(routes.contact)})`,
     '',
     '## Case studies',
-    ...posts.map((p) => `- [${p.data.title ?? p.data.brand}](${url(routes.work(p.id))})${p.data.description ? `: ${p.data.description}` : ''}`),
+    ...posts.map((p) => `- [${p.data.title}](${url(routes.work(p.id))})${p.data.description ? `: ${p.data.description}` : ''}`),
     '',
     '## Optional',
     `- [RSS feed](${url(path('/rss.xml'))})`,

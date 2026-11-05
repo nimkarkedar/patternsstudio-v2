@@ -27,19 +27,20 @@ const work = defineCollection({
   schema: ({ image }) =>
     z.object({
       order: z.number(),
-      brand: z.string(), // used for the link's accessible name and page title
+      client: z.string(), // Notion "Client name"; also the card's fallback accessible name
       title: z.string(), // post title; the CMS also makes the folder name (= URL) from it
       description: z.string().optional(), // Google + link previews
       publishedDate: z.preprocess(blank, z.coerce.date().optional()),
       updatedDate: z.preprocess(blank, z.coerce.date().optional()),
       ogImage: z.preprocess(blank, image().optional()), // card graphic = post cover = link preview; empty white card until supplied
       ogImageAlt: z.string().optional(),
-      // Post header (Kedar, 2026-11-01): client logo on the left, project details on the right.
-      // The card graphic is NOT repeated at the top of the post any more.
-      logo: z.preprocess(blank, image().optional()), // colour logo for a white background (SVG or PNG)
-      facts: z
-        .array(z.object({ label: z.string(), value: z.union([z.string(), z.array(z.string())]), href: z.url().optional() }))
-        .optional(), // Notion header columns; short values first, long ones last. A list (Impact) shows as bullets
+      // Project details panel (Kedar, 2026-11-05), one Notion column each. Blank = not shown.
+      logo: z.preprocess(blank, image().optional()), // Notion "Client logo": colour logo that works on pale blue
+      industry: z.string().optional(),
+      live: z.preprocess(blank, z.url().optional()), // Notion "Live link": shows as "Status (Live)" + the address
+      scope: z.array(z.string()).default([]),
+      testimonial: z.preprocess(blank, z.string().optional()),
+      impact: z.array(z.string()).default([]),
       draft: z.boolean().default(false),
     }),
 });

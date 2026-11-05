@@ -1,12 +1,13 @@
 ---
-// Contact (Kedar's design, MacBook Air - 26, 2026-11-04). Centred between header and footer.
+// Contact (Kedar's design, MacBook Air - 26, 2026-11-04). Phones: the address is one big button for the thumb.
+// From 48rem: centred between header and footer, the address an underlined line of its own.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { routes, site } from '../data/site';
 ---
 <BaseLayout title="Contact" description={`Hello! Best way to get in touch is, email us at ${site.email}. We hope you value good design.`}>
   <section class="contact">
     <h1 class="t-h1">Hello!</h1>
-    <p class="t-large lead">Best way to get in touch is, email us at<br /><a class="email" href={routes.email}>{site.email}</a></p>
+    <p class="t-large lead">Best way to get in touch is, email us at <a class="email" href={routes.email}>{site.email}</a></p>
     <p class="t-p note">We hope you value good design</p>
   </section>
 </BaseLayout>
@@ -16,17 +17,37 @@ import { routes, site } from '../data/site';
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    align-items: var(--align-page);
+    text-align: var(--align-page);
     padding: var(--rhythm-page-top) var(--rhythm-gutter);
   }
   .lead { margin-top: var(--rhythm-title-to-lead); }
   .email {
-    text-decoration: underline;
-    text-decoration-thickness: var(--underline-width);
-    text-underline-offset: var(--underline-offset);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--size-button-h);
+    margin-top: var(--rhythm-lead-to-actions);
+    border-radius: var(--radius-pill);
+    background: var(--color-button);
+    color: var(--color-on-button);
   }
-  .email:hover { color: var(--color-on-page-muted); }
-  .note { margin-top: var(--rhythm-stack); color: var(--color-on-page-muted); }
+  .lead { width: 100%; text-wrap: balance; }
+  .note { margin-top: var(--rhythm-title-to-lead); color: var(--color-on-page-muted); }
+  @media (min-width: 48rem) {
+    .contact { justify-content: center; }
+    .email {
+      display: block;
+      min-height: 0;
+      margin-top: 0;
+      border-radius: 0;
+      background: none;
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-thickness: var(--underline-width);
+      text-underline-offset: var(--underline-offset);
+    }
+    .email:hover { color: var(--color-on-page-muted); }
+    .note { margin-top: var(--rhythm-stack); }
+  }
 </style>

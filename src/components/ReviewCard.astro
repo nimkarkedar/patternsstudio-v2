@@ -47,5 +47,5 @@ const photo = Object.entries(files).find(([path]) => path.split('/').pop()?.repl
     padding: var(--rhythm-review-name) var(--rhythm-card-pad);
   }
   .role { color: var(--color-on-surface-muted); }
-  .photo { width: 100%; height: auto; aspect-ratio: var(--ratio-review-photo); margin-top: auto; }
+  .photo { width: 100%; height: auto; aspect-ratio: var(--ratio-review-photo); object-fit: cover; object-position: bottom; margin-top: auto; }
 </style>

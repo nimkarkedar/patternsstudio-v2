@@ -1,6 +1,6 @@
 ---
 // One white card split into cells with hairlines (Kedar's design, MacBook Air - 24 + 30, 2026-11-04): an icon above a
-// line of text in each. Three across (one on phones). Tilts like every card except /work.
+// line of text in each. Three across; on phones a list, icon beside the text, so nine cells stay one quick read. Tilts like every card except /work.
 // Icons: src/icons/<set>/<icon>.svg — Phosphor Icons v2, regular weight (MIT); the design's grey circles mark where they go.
 import Card from './Card.astro';
 
@@ -27,9 +27,10 @@ const svg = (name: string) => icons[`../icons/${set}/${name}.svg`] ?? '';
   .grid { display: grid; gap: var(--line-width); background: var(--color-line-on-surface); }
   .cell {
     display: grid;
-    align-content: start;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
     gap: var(--rhythm-service-icon);
-    padding: var(--rhythm-icon-cell);
+    padding: var(--rhythm-list-row) var(--rhythm-card-pad);
     background: var(--color-surface);
   }
   .icon { color: var(--color-service-icon); }
@@ -42,5 +43,11 @@ const svg = (name: string) => icons[`../icons/${set}/${name}.svg`] ?? '';
 
   @media (min-width: 48rem) {
     .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .cell {
+      grid-template-columns: minmax(0, 1fr);
+      align-items: normal;
+      align-content: start;
+      padding: var(--rhythm-icon-cell);
+    }
   }
 </style>

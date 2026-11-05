@@ -16,8 +16,8 @@ const leadLines = lead === undefined ? [] : Array.isArray(lead) ? lead : [lead];
   .hero {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: var(--align-page);
+    text-align: var(--align-page);
     padding-inline: var(--rhythm-gutter);
     padding-top: var(--rhythm-page-top);
     padding-bottom: var(--rhythm-hero-to-content);

@@ -1,31 +1,25 @@
 ---
 # Pulled from Notion "Patterns Work Blog Posts" (page 40b226b9a26e80c79ce8f4b27a26d9fc), 2026-11-01.
 order: 2
-brand: Jupiter
+client: Jupiter
 title: "6,467 Pots in a month: Savings, redesigned for Gen Z"
 description: "How Jupiter Pots turned a rigid fixed deposit into goal-based saving: 6,467 Pots in month one and 23% more savings per account."
 publishedDate: 2026-11-01
 ogImage: ./jupiter-pots-gift-holiday-education.png
 ogImageAlt: Three Jupiter Pots, Gift, Holiday and Education, each an arched badge with a space illustration, on coral.
 logo: ./jupiter-logo.svg
-# From the Notion columns (Client is empty). Short values first, long ones last.
-facts:
-  - { label: Industry, value: Fintech }
-  - { label: Time frame, value: 3 month (Nov 2021) }
-  - { label: Role & Responsibilities, value: VP of Design }
-  - { label: View work, value: "https://jupiter.money/pots/", href: "https://jupiter.money/pots/" }
-  - label: Scope
-    value:
-      - Identity Design
-      - Product Marketing
-      - Communication strategy
-  - label: Impact
-    value:
-      - "Pots created in 1st Month: 6,467"
-      - "Custom Pots Created: 3,000+"
-      - "Average balance in Pots: ₹1,200"
-      - "Savings per account increased by: 23%"
-      - "Percentage of users who set goals: 30%+"
+industry: Fintech
+live: "https://jupiter.money/pots/"
+scope:
+  - Identity Design
+  - Product Marketing
+  - Communication strategy
+impact:
+  - "Pots created in 1st Month: 6,467"
+  - "Custom Pots Created: 3,000+"
+  - "Average balance in Pots: ₹1,200"
+  - "Savings per account increased by: 23%"
+  - "Percentage of users who set goals: 30%+"
 ---
 
 Jupiter is a digital bank for India’s millennials and Gen Z. Before founding Patterns Studio, Kedar Nimkar led design there as VP of Design.

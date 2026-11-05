@@ -5,31 +5,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Actions from '../components/Actions.astro';
 import TeamCard from '../components/TeamCard.astro';
-import { routes, labels } from '../data/site';
+import { routes, labels, linkedin } from '../data/site';
 import kedar from '../assets/about/kedar-nimkar.webp';
 import john from '../assets/about/john-pathrose.webp';
 import andrew from '../assets/about/andrew-mcglinchey.webp';
 import raena from '../assets/about/raena-lim.webp';
 import manav from '../assets/about/manav-kamboj.webp';
 
-// TODO(Kedar): LinkedIn URLs (the mark becomes a link once `linkedin` is set); John's bio.
+// TODO(Kedar): John's bio.
 // Andrew's bio is Kedar's (MacBook Air - 29). Raena's is shortened from her own, to match the others' length. Manav's is a draft from public sources (2026-10-30); he should approve it before launch.
 const team = [
   {
     name: 'Kedar Nimkar',
     role: 'Designer',
     photo: kedar,
+    linkedin: linkedin.kedar,
     alt: 'Kedar Nimkar, smiling, in a black sweater',
     bio: 'Kedar brings 20 years of experience in Design. He has previously led design teams at Cleartrip, PropertyGuru, BookMyShow, Jupiter and Webchutney (later acquired by Dentsu). He is an author of “The Design In Everything” book and host, producer of India’s longest running podcast on Design and Art with over 10M views. He is based in Singapore',
   },
-  { name: 'John Pathrose', role: 'Storyteller', photo: john, alt: 'John Pathrose, smiling, in a dark blazer', bio: 'TODO(Kedar): John’s short bio.' },
+  { name: 'John Pathrose', role: 'Storyteller', photo: john, linkedin: linkedin.john, alt: 'John Pathrose, smiling, in a dark blazer', bio: 'TODO(Kedar): John’s short bio.' },
 ];
 
 const advisors = [
-  { name: 'Andrew McGlinchey', role: 'Product', photo: andrew, alt: 'Andrew McGlinchey, smiling, in a patterned shirt',
+  { name: 'Andrew McGlinchey', role: 'Product', photo: andrew, linkedin: linkedin.andrew, alt: 'Andrew McGlinchey, smiling, in a patterned shirt',
     bio: 'Andrew McGlinchey is a seasoned product leader with extensive experience building and scaling consumer internet products. Former VP of Products at PropertyGuru Group, he has held product leadership roles at Indeed and Google, with earlier experience at Microsoft and muvee Technologies.' },
-  { name: 'Raena Lim', role: 'Finance', photo: raena, alt: 'Raena Lim, smiling', bio: 'Raena is a Managing Partner at AUD’NCO, where she advises founders as a fractional COO. She co-founded Style Theory, Southeast Asia’s largest fashion rental platform, and as COO raised ~$30M and scaled it across three markets. She began in community banking in Kenya before joining Goldman Sachs in Asia.' },
-  { name: 'Manav Kamboj', role: 'Technology', photo: manav, alt: 'Manav Kamboj, smiling, in glasses and a blazer',
+  { name: 'Raena Lim', role: 'Finance', photo: raena, linkedin: linkedin.raena, alt: 'Raena Lim, smiling', bio: 'Raena is a Managing Partner at AUD’NCO, where she advises founders as a fractional COO. She co-founded Style Theory, Southeast Asia’s largest fashion rental platform, and as COO raised ~$30M and scaled it across three markets. She began in community banking in Kenya before joining Goldman Sachs in Asia.' },
+  { name: 'Manav Kamboj', role: 'Technology', photo: manav, linkedin: linkedin.manav, alt: 'Manav Kamboj, smiling, in glasses and a blazer',
     bio: 'Manav is a technology leader and founder. He joined PropertyGuru Group as Chief Technology Officer in 2017, doubled its technology team and went on to also lead its fintech business as Managing Director. Earlier he was VP of Technology at Snapdeal and founded the mobile studio Letsgomo Labs. He studied at IIT Roorkee.' },
 ];
 ---
@@ -61,8 +62,8 @@ const advisors = [
   /* Three-card columns; the two team cards sit centred in the same column width. */
   .cards { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--rhythm-card-gap); }
   .cell { display: grid; width: 100%; }
-  .actions { display: flex; justify-content: center; margin-top: var(--rhythm-team-heading); }
-  .heading { text-align: center; margin-block: var(--rhythm-team-heading); }
+  .actions { display: flex; justify-content: center; margin-top: var(--rhythm-page-actions); }
+  .heading { text-align: var(--align-page); margin-block: var(--rhythm-heading-above) var(--rhythm-heading-below); }
 
   @media (min-width: 48rem) {
     .cell { width: calc((100% - var(--rhythm-card-gap)) / 2); }

@@ -20,7 +20,7 @@ const { Content } = await render(post);
 const written = Boolean(post.body?.trim());
 ---
 <PostLayout
-  title={data.title ?? data.brand}
+  title={data.title}
   description={data.description}
   publishedDate={data.publishedDate}
   updatedDate={data.updatedDate}
@@ -29,8 +29,7 @@ const written = Boolean(post.body?.trim());
   ogImageAlt={data.ogImageAlt}
   cover={written ? data.ogImage : undefined}
   coverAlt={data.ogImageAlt}
-  brand={data.brand}
-  facts={data.facts}
+  details={{ client: data.client, logo: data.logo, industry: data.industry, live: data.live, scope: data.scope, testimonial: data.testimonial, impact: data.impact }}
   next={next}
   noindex={!written}
   hasBody={written}

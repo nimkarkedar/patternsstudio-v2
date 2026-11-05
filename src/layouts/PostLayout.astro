@@ -1,7 +1,7 @@
 ---
 // Case-study / blog-post page — Kedar's design "MacBook Air - 32" (2026-11-04). White, full viewport width:
-//   centred title, × (back to /work) top right → PostIntro (project details, content width)
-//   → cover = the /work card graphic, edge to edge → the Markdown body (images edge to edge too)
+//   title, × (back to /work) top right → cover = the /work card graphic, edge to edge → PostIntro (project details)
+//   → the Markdown body (images edge to edge too). From 48rem the details come before the cover, as in the frame.
 //   → one button, "Impressed? Let’s talk" (→ /contact; Kedar, 2026-11-01) → "Next post": the next post's /work card.
 //   Floating ↑ (to top) appears once the top × scrolls away; it jumps (no smooth scroll — Motion rules).
 //   Images in the body open larger in a lightbox (<dialog>, no animation).
@@ -10,7 +10,7 @@ import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 import BaseLayout from './BaseLayout.astro';
 import Actions from '../components/Actions.astro';
-import PostIntro from '../components/PostIntro.astro';
+import PostIntro, { type Details } from '../components/PostIntro.astro';
 import PostCard from '../components/PostCard.astro';
 import type { CollectionEntry } from 'astro:content';
 import { routes, labels, path } from '../data/site';
@@ -28,9 +28,8 @@ interface Props {
   /** Hero image. ImageMetadata from a post, or a /public path from a Markdown page. */
   cover?: ImageMetadata | string;
   coverAlt?: string;
-  /** Post header: client name and project details. */
-  brand?: string;
-  facts?: { label: string; value: string | string[]; href?: string }[];
+  /** Project details panel; absent on Markdown pages such as /styleguide. */
+  details?: Details;
   noindex?: boolean;
   /** The post after this one in Notion's Order (wraps to the first); shown under the CTA as its /work card. */
   next?: CollectionEntry<'work'>;
@@ -40,7 +39,7 @@ interface Props {
   frontmatter?: Omit<Props, 'frontmatter'>;
 }
 const props = Astro.props.frontmatter ? { ...Astro.props.frontmatter, ...Astro.props } : Astro.props;
-const { title, description, readMinutes, ogImage, ogImageAlt, cover, coverAlt = '', facts, next, noindex = false, hasBody = true } = props;
+const { title, description, readMinutes, ogImage, ogImageAlt, cover, coverAlt = '', details, next, noindex = false, hasBody = true } = props;
 const publishedDate = props.publishedDate ? new Date(props.publishedDate) : undefined;
 const updatedDate = props.updatedDate ? new Date(props.updatedDate) : undefined;
 
@@ -94,7 +93,6 @@ const jsonLd = [
 
     <header class="hero container">
       <h1 class="t-h1 title">{title}</h1>
-      {hasBody && <PostIntro facts={facts} />}
     </header>
 
     {hasBody && cover && (
@@ -104,6 +102,8 @@ const jsonLd = [
           : <Image src={cover} alt={coverAlt} widths={[640, 1280, 1920, 2400]} sizes="100vw" loading="eager" fetchpriority="high" />}
       </div>
     )}
+
+    {hasBody && details && <div class="details container"><PostIntro details={details} /></div>}
 
     {hasBody && (
       <div class="sheet">
@@ -202,20 +202,23 @@ const jsonLd = [
   .back svg { width: var(--size-cue-icon); height: var(--size-cue-icon); }
 
   .hero {
-    display: grid;
-    gap: var(--rhythm-post-top);
     padding-top: calc(var(--rhythm-post-close) + var(--size-cue) + var(--rhythm-post-close));
   }
-  .title { text-align: center; }
+  .title { text-align: var(--align-page); }
+  .details { margin-top: var(--rhythm-post-top); }
   @media (min-width: 48rem) {
-    .hero { padding-top: var(--rhythm-post-top); }
-    .title { padding-inline: calc(var(--size-cue) + var(--rhythm-gutter)); }
+    .post { display: flex; flex-direction: column; }
+    .hero, .details { order: -1; }
+    .hero { padding-top: var(--rhythm-post-hero); }
+    .details { margin-top: var(--rhythm-post-title); }
+    /* On the frame's 940 grid; on narrower screens it stays clear of the ×. */
+    .title { max-width: min(var(--width-post-details), 100% - 2 * (var(--size-cue) + var(--rhythm-gutter))); margin-inline: auto; }
   }
 
   .cover { margin-top: var(--rhythm-post-top); aspect-ratio: var(--ratio-cover); }
   .cover :global(img) { width: 100%; height: 100%; object-fit: cover; }
 
-  .sheet { margin-top: var(--rhythm-figure); }
+  .sheet { margin-top: var(--rhythm-post-body); }
 
   /* Next post (Kedar, 2026-11-01): its /work card, under the CTA. */
   .next {
@@ -223,7 +226,7 @@ const jsonLd = [
     gap: var(--rhythm-stack);
     margin-top: var(--rhythm-section);
   }
-  .next-label { text-align: center; }
+  .next-label { text-align: var(--align-page); }
 
   .end {
     display: grid;

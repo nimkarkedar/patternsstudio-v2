@@ -11,7 +11,7 @@ export async function GET(context: APIContext) {
     description: site.description,
     site: context.site!,
     items: posts.map((p) => ({
-      title: p.data.title ?? p.data.brand,
+      title: p.data.title,
       description: p.data.description,
       pubDate: p.data.publishedDate,
       link: `${routes.work(p.id)}/`,

@@ -17,7 +17,7 @@ const { data } = post;
     ? <Image
         class="image"
         src={data.ogImage}
-        alt={data.ogImageAlt ?? data.title ?? data.brand}
+        alt={data.ogImageAlt ?? data.title}
         widths={[480, 720, 1120, 1600, 2240]}
         sizes="(min-width: 64rem) 1120px, 100vw"
         loading={eager ? 'eager' : 'lazy'}

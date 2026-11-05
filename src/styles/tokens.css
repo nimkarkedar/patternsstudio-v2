@@ -55,19 +55,27 @@
   --weight-extrabold: 800; /* Montserrat H1 */
 
   /* ── Type sizes (Kedar's Figma text styles, 2026-11-04). Max = the spec @1280; smaller on phones. ── */
-  --size-h1: clamp(2.5rem, 1.88rem + 2.65vw, 4rem);          /* 40 → 64 */
-  --size-h2: clamp(2rem, 1.59rem + 1.77vw, 3rem);            /* 32 → 48 */
-  --size-large: clamp(1.375rem, 1.17rem + 0.88vw, 1.875rem); /* 22 → 30 */
+  --size-h1: clamp(2.25rem, 11.8vw, 3.25rem);   /* phone: 46 at 390 (desktop value at the end of this file) */
+  --size-h2: clamp(1.875rem, 9.4vw, 2.75rem);   /* phone: 37 at 390 */
+  --size-large: clamp(1.25rem, 5.9vw, 1.625rem); /* phone: 23 at 390 */
   --size-p: 1.125rem;                                        /* 18 */
-  --size-small: 0.875rem;                                    /* 14 */
+  --size-small: 0.9375rem;                       /* phone: 15 */
   --size-nav: 1rem;                                          /* 16 */
 
-  --leading-h1: 1.094;      /* 64/70 */
-  --leading-h2: 1.25;       /* 48/60 */
-  --leading-large: 1.333;   /* 30/40 */
+  --leading-h1: 1.06;
+  --leading-h2: 1.12;
+  --leading-large: 1.3;
   --leading-nav: 1.5;       /* 16/24 */
   --leading-auto: 1.2;      /* Figma "Auto" for Lato: P, P-Bold, Small-P */
+  --leading-p: 1.4;         /* P + P-Bold on phones: text wraps more, so it needs air (desktop = Figma Auto) */
+  --leading-small: 1.35;
+  --tracking-h1: -0.02em;   /* phones only: big type on a small screen reads tighter */
+  --tracking-h2: -0.01em;
   --leading-prose: 1.6;     /* running text in posts only: 18/29, long reads need air */
+  --leading-bio: 1.4;       /* About bios: a short read, 18/25 (Kedar, 2026-11-05) */
+
+  --size-h3: 1.5rem;        /* phones: 24, Montserrat Bold card titles (.t-card-title; P-Bold on desktop) */
+  --leading-h3: 1.2;
 
   /* ── Spacing scale ──────────────────────────────────── */
   --space-1: 0.25rem;  /*  4 */
@@ -84,10 +92,10 @@
 
   /* ── Rhythm roles (USE THESE in components) ─────────── */
   --rhythm-gutter: clamp(var(--space-4), 3vw, var(--space-6));          /* page side padding */
-  --rhythm-header-y: var(--space-4);                                    /* header top/bottom (16; was 24) */
+  --rhythm-header-y: var(--space-2);             /* phone: slim bar, 8 top/bottom */
   --rhythm-nav: var(--space-8);                                         /* between nav links (48) */
-  --rhythm-page-top: clamp(var(--space-7), 6vw, var(--space-10));        /* header → hero title */
-  --rhythm-title-to-lead: var(--space-6);                               /* hero title → lead (32) */
+  --rhythm-page-top: clamp(var(--space-6), 6vw, var(--space-10));        /* header → hero title */
+  --rhythm-title-to-lead: var(--space-5);        /* hero title → lead (24 on phones) */
   --rhythm-lead-to-actions: var(--space-6);                             /* lead → button (32) */
   --rhythm-action-pair: var(--space-2);                                 /* primary button → ghost button */
   --rhythm-button-x: var(--space-7);                                    /* pill side padding (40) */
@@ -111,19 +119,38 @@
   --rhythm-prose-section: clamp(var(--space-8), 6vw, var(--space-9));    /* → h2 (48 → 64) */
   --rhythm-prose-subsection: var(--space-7);                            /* → h3 (40) */
   --rhythm-prose-block: var(--space-7);                                 /* around images, video, tables, quotes, dividers (40) */
-  --rhythm-work-card: var(--space-8);                                   /* /work card → card (48) */
-  --rhythm-post-top: var(--space-7);                                    /* post: header → title → details → cover (40) */
+  --rhythm-work-card: var(--space-5);            /* /work card → card (24 on phones) */
+  --rhythm-post-top: var(--space-6);             /* post: gaps between title, cover, details (32 on phones) */
   --rhythm-post-close: var(--space-5);                                  /* × button from the top of a post (24) */
-  --rhythm-facts-pad: clamp(var(--space-5), 4vw, var(--space-8));       /* post details panel padding (24 → 48) */
+  --rhythm-fact-top: 1.75rem;                                           /* post details from 48rem: cell top (28) */
+  --rhythm-fact-bottom: 2.25rem;                                        /* post details from 48rem: cell bottom (36) */
+  --rhythm-fact-first: var(--space-5);                                  /* post details from 48rem: logo from the panel edge (24) */
+  --rhythm-fact-row: var(--space-4);                                    /* post details from 48rem: label + value → next pair (16) */
+  --rhythm-fact-label: var(--space-1);                                  /* post details: label → value (4 on phones) */
+  --rhythm-fact-bullet: 1.1875rem;                                      /* post details: list indent (19) */
+  --rhythm-fact-icon-lift: 0px;                                         /* post details: testimonial icon sits a touch above the labels (0 on phones) */
+  --size-fact-icon: 1.5rem;                                             /* post details: testimonial + Impact icons (24) */
+  --leading-fact: var(--leading-p);                                     /* post details: values (24 pitch from 48rem) */
+  --width-post-details: 58.75rem;                                       /* 940 — post title + details, from the frame's 12-column grid */
+  --rhythm-post-hero: var(--space-6);                                   /* post from 48rem: header → title (32) */
+  --rhythm-post-title: var(--space-5);                                  /* post from 48rem: title → details (24) */
   --rhythm-prose-inset: var(--space-6);                                 /* pull quote: hairline → text (32) */
+  --rhythm-fact-x: 1.25rem;                                             /* post details on phones: panel sides (20) */
+  --rhythm-fact-y: var(--space-4);                                      /* post details on phones: row top/bottom (16) */
+  --rhythm-fact-gap: var(--space-4);                                    /* post details on phones: label → value (16) */
+  --size-post-logo: 1.75rem;                                            /* post details: client logo height (28) */
+  --width-fact-label: 6.75rem;                                          /* post details on phones: label column (108) */
   --rhythm-intro-row: var(--space-6);                                   /* post header: row → row of details (32) */
   --rhythm-intro-rule: var(--space-3);                                  /* post header: hairline → label (12) */
   --rhythm-intro-bottom: var(--rhythm-prose-section);                   /* post header → hairline → first paragraph (48 → 64) */
   --rhythm-caption: var(--space-3);                                     /* image → caption (12) */
-  --rhythm-figure: var(--space-10);                                     /* 80 above an image and below its caption (Kedar, 2026-11-01; was 50) */
+  --rhythm-figure: var(--space-9);               /* above an image, below its caption (64 on phones) */
   --rhythm-cell-y: var(--space-3);                                      /* table cell (12 × 16) */
   --rhythm-cell-x: var(--space-4);
   --rhythm-expand-inset: var(--space-4);                                /* enlarge button from image corner */
+  --rhythm-list-row: 1.25rem;                                           /* phones: top/bottom of a list row (20) */
+  --rhythm-post-body: var(--space-7);                                   /* post details → body (40 on phones) */
+  --rhythm-hit: calc(var(--space-3) * -1);                              /* grows a small icon's tap area by 12 each side */
   --rhythm-footer: var(--space-5);                                      /* footer padding */
 
   /* ── Layout grid: 12 cols × 64, gutter 32, centred = 1120 (Kedar, 2026-11-01) ──
@@ -135,9 +162,9 @@
   --width-content: calc(var(--grid-columns) * var(--grid-column) + (var(--grid-columns) - 1) * var(--grid-gutter)); /* 1120 — 80px of blue each side at 1280 */
 
   /* ── Shape & layout ─────────────────────────────────── */
-  --radius-card: 1.5rem;  /* 24 (Kedar's frames, 2026-11-04) */
+  --radius-card: 1.25rem;                        /* phone: 20 (32 was too much, Kedar 2026-11-05); desktop stays 24 */
   /* Soft light-violet glow behind every card (Kedar, 2026-10-16). Combine with other shadows. */
-  --shadow-glow: 0 0 var(--space-9) var(--space-1) color-mix(in srgb, var(--violet-300) 35%, transparent);
+  --shadow-glow: 0 0 var(--space-6) 0 color-mix(in srgb, var(--violet-300) 30%, transparent); /* phone: tighter, so stacked cards stay crisp */
   --shadow-rest: 0 var(--line-width) var(--space-1) color-mix(in srgb, var(--ink-900) 10%, transparent);
   --shadow-lifted: 0 var(--space-6) var(--space-9) calc(var(--space-3) * -1) color-mix(in srgb, var(--ink-900) 45%, transparent);
   --shadow-raised: 0 var(--space-3) var(--space-7) calc(var(--space-1) * -1) var(--color-shadow); /* card hover */
@@ -145,10 +172,12 @@
   --radius-media: 0.75rem;
   --width-hero: var(--width-content);  /* 1120 — big display headings stay inside the card edges (Kedar, 2026-10-16) */
   --width-prose: 42.5rem;      /* 680 — Services intro column */
-  --width-post: 42.5rem;       /* 680 — post reading column (~70–75 characters of Lato 20; Medium 680). Was 720 (Kedar, 2026-11-01) */
+  --width-post: 28.75rem;      /* 460 — post reading column: the middle 6 of the frame's 12 columns (MacBook Air - 32, 2026-11-05). Was 680 */
   --ratio-cover: 1200 / 630;   /* case-study cover = the link-preview (Open Graph) image */
   --ratio-video: 16 / 9;
   --width-lead: 60rem;         /* hero lead paragraph (960): Large-P wraps to 2 lines */
+  --align-page: start;         /* phones: headings and heroes on the left edge; centred from 48rem */
+  --size-toggle: 2.75rem;      /* 44 — About + / ×: a real thumb target on phones */
   --size-tap: 2.75rem;         /* 44 — minimum touch target */
   --size-button-h: 3.5rem;     /* 56 — pill button height */
   --size-logo-h: 1.5625rem;    /* 25 — header logo height (native SVG size) */
@@ -165,16 +194,19 @@
   --color-on-table-head: var(--color-on-surface);     /* ink on pale blue ✓ */
   /* Service cards, Apple-style (Kedar's reference, 2026-10-30): bare blue Phosphor Regular icon, no tile */
   --color-service-icon: var(--color-accent);
-  --size-service-icon: 2.75rem;                       /* 44 */
+  --size-service-icon: 2.25rem;                  /* phone: 36, beside the text */
   --rhythm-service-icon: var(--space-4);              /* icon → text (16) */
   --rhythm-icon-cell: var(--rhythm-card-pad);         /* padding of an icon-grid cell: lines up with the table above */
 
   /* About page team + advisor cards (Kedar's design, MacBook Air - 17/18, 2026-10-30) */
-  --ratio-team-photo: 300 / 264;                      /* portrait at the foot of the card (MacBook Air - 23, 2026-11-04) */
+  --ratio-team-photo: 300 / 254;                      /* portrait at the foot of the card; 12 of headroom trimmed at 352 wide (Kedar, 2026-11-05; frame = 300 / 264) */
   --size-team-icon: 1.5rem;                           /* 24 — LinkedIn mark, top right */
   --color-linkedin: #0A66C2;                          /* LinkedIn mark while its card is hovered */
   --rhythm-team-actions: var(--rhythm-card-gap);      /* cards → "Explore our work" */
-  --rhythm-team-heading: var(--rhythm-hero-to-content); /* button → "Advisors" → cards */
+  /* Affinity (Kedar, 2026-11-05): a section heading sits closer to what it introduces than to what came before. */
+  --rhythm-heading-above: var(--rhythm-section);        /* previous section → section heading (64 → 96) */
+  --rhythm-heading-below: var(--space-5);        /* section heading → its content (24 on phones) */
+  --rhythm-page-actions: var(--rhythm-hero-to-content); /* last cards → closing button (40 → 64) */
   --motion-flip: 700ms;                               /* card click → 3D flip to the bio (Kedar, 2026-10-30) */
   --ease-flip: cubic-bezier(0.45, 0, 0.2, 1);
   --motion-flip-depth: 1500px;                        /* perspective for the flip — larger = flatter */
@@ -187,6 +219,7 @@
   --size-portrait-h: clamp(18rem, 12.9rem + 10.6vw, 21.5rem); /* Approach portrait cards: 288 → 344 tall (≥768; MacBook Air - 24) */
   --rhythm-portrait-label-left: 6%;   /* Hitchcock: name label from the photo's left edge, over the dark suit */
   --rhythm-portrait-label-right: 66%; /* Wong Kar-wai: name label, over the dark jacket */
+  --rhythm-portrait-label-inset: var(--space-3); /* Wong Kar-wai on phones: label from the right edge, clear of the shirt */
   --width-portrait-text: 24rem;       /* text beside the portrait (384) */
   --line-width: 1px;
   --underline-width: 0.08em;
@@ -197,9 +230,9 @@
   --rhythm-logo-fade: var(--space-11);                       /* 96 fade at each edge */
   --rhythm-logo-gap-static: var(--space-5);                  /* half-gap each side when logos sit still (reduced motion) */
   --rhythm-logo-strip: clamp(var(--space-8), 6vw, var(--space-10)); /* 48 → 80 below the strip (above = hero's own bottom space) */
-  --width-client-logo-grid: 12.5rem;                         /* 200 — logo tile width in the /reviews grid */
+  --width-client-logo-grid: 10rem;                           /* 160 — logo tile width in the /reviews grid */
   --opacity-client-logo: 0.7;                                /* /reviews logos: quieter than white (MacBook Air - 33) */
-  --rhythm-logo-grid-cell: var(--space-2);                   /* padding inside each /reviews logo cell (tiles carry their own padding) */
+  --rhythm-logo-grid-row: clamp(var(--space-6), 4vw, var(--space-8)); /* 32 → 48 between rows of /reviews logos (tiles carry their own padding) */
 
   /* ── Motion: ONLY what Kedar has approved. Add nothing here unasked. ── */
   /* /work card hover ("elegant, like Apple"): slow, soft rise + deeper shadow. */
@@ -217,17 +250,52 @@
   --rhythm-panel: clamp(var(--space-4), 2vw, var(--space-5));            /* text panel padding (16 → 24) */
 
   /* Review cards (Kedar's design, MacBook Air - 22, 2026-11-04): text on white, portrait under it. */
-  --width-review-card: min(21.3125rem, 80vw);                           /* 341; phones show most of one card */
-  --ratio-review-photo: 341 / 274;
+  --width-review-card: min(21.3125rem, 86vw);                           /* 341; phones show one big card and a peek of the next */
+  --ratio-review-photo: 341 / 262;                                      /* 12 of headroom trimmed at 341 wide (Kedar, 2026-11-05; frame = 341 / 274) */
   --rhythm-review-name: var(--space-4);                                 /* quote → name (16) */
   --motion-review-speed: 24;                                            /* auto-drift, px per second — gentle (read by ClientReviews JS) */
   --motion-review-ease: 1.5;                                            /* drift eases in/out over ~1/this seconds when pausing/resuming */
   --motion-review-resume: 3000;                                         /* ms after a swipe / arrow before the drift resumes */
-  --rhythm-hero-to-reviews: var(--rhythm-section);                      /* button → review cards (64 → 96) */
+  --rhythm-hero-to-reviews: var(--rhythm-hero-to-content); /* button → review cards */
   --rhythm-review-bottom: var(--space-9);                               /* cards → footer (64) */
 
   --z-header: 10;
   --z-float: 15;                                                        /* floating back / to-top buttons on posts */
   --z-menu: 20;
   --z-lightbox: 30;
+}
+
+/* ── Desktop (≥48rem). Everything above is the phone design: 98% of visitors (Kedar, 2026-11-05). ── */
+@media (min-width: 48rem) {
+  :root {
+    --size-h1: clamp(2.5rem, 1.88rem + 2.65vw, 4rem);
+    --size-h2: clamp(2rem, 1.59rem + 1.77vw, 3rem);
+    --size-large: clamp(1.375rem, 1.17rem + 0.88vw, 1.875rem);
+    --size-small: 0.875rem;
+    --leading-h1: 1.094;
+    --leading-h2: 1.25;
+    --leading-large: 1.333;
+    --leading-p: var(--leading-auto);
+    --leading-small: var(--leading-auto);
+    --tracking-h1: 0;
+    --tracking-h2: 0;
+    --align-page: center;
+    --rhythm-header-y: var(--space-4);
+    --rhythm-title-to-lead: var(--space-6);
+    --rhythm-heading-below: var(--space-6);
+    --radius-card: 1.5rem;
+    --shadow-glow: 0 0 var(--space-9) var(--space-1) color-mix(in srgb, var(--violet-300) 35%, transparent);
+    --rhythm-work-card: var(--space-8);
+    --rhythm-figure: var(--space-10);
+    --rhythm-post-top: var(--space-7);
+    --rhythm-post-body: var(--rhythm-figure);
+    --rhythm-fact-label: var(--space-2);
+    --rhythm-fact-icon-lift: calc(-1 * var(--space-1));
+    --leading-fact: 1.3333;
+    --leading-prose: 1.3333;
+    --size-post-logo: 2.125rem;
+    --rhythm-hero-to-reviews: var(--rhythm-section);
+    --size-service-icon: 2.75rem;
+    --size-toggle: var(--size-expand);
+  }
 }

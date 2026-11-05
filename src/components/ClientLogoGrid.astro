@@ -2,8 +2,7 @@
 // /reviews: grid of every client logo (Kedar, 2026-10-30; MacBook Air - 33, 2026-11-04). Static — no motion.
 // Logo files are white on page-blue tiles (400 × 150, padding built in), so they sit straight on the page, no card;
 // slightly see-through, so they stay quieter than the headings around them.
-// 4 per row ≥48rem, 2 on phones. Hairlines between logos only, never on the outer edges (Kedar, 2026-10-30):
-// each cell draws its left + top line, and the wrapper clips the first column's left and first row's top.
+// An invisible grid with room to breathe (Kedar, 2026-11-05; no lines): 4 per row ≥48rem, 2 on phones.
 // Names render as text until a file exists.
 // Same files + list as the scrolling strip on /work (ClientLogos): src/assets/clients/<file>, `clients` in site.ts.
 import { Image } from 'astro:assets';
@@ -15,35 +14,29 @@ const logoFor = (file: string) =>
   Object.entries(files).find(([path]) => path.split('/').pop()?.replace(/\.\w+$/, '') === file)?.[1].default;
 ---
 <section class="logos" aria-label="Clients">
-  <div class="clip">
-    <ul role="list" class="grid">
-      {clients.map((c) => {
-        const logo = logoFor(c.file);
-        return (
-          <li class="item">
-            {logo
-              ? <Image src={logo} alt={c.name} class="logo" widths={[240, 480]} sizes="(min-width: 48rem) 200px, 45vw" />
-              : <span class="t-p-bold">{c.name}</span>}
-          </li>
-        );
-      })}
-    </ul>
-  </div>
+  <ul role="list" class="grid">
+    {clients.map((c) => {
+      const logo = logoFor(c.file);
+      return (
+        <li class="item">
+          {logo
+            ? <Image src={logo} alt={c.name} class="logo" widths={[160, 320]} sizes="160px" />
+            : <span class="t-p-bold">{c.name}</span>}
+        </li>
+      );
+    })}
+  </ul>
 </section>
 
 <style>
-  .clip { overflow: hidden; }
   .grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin: calc(-1 * var(--line-width)) 0 0 calc(-1 * var(--line-width)); /* hides the outer left + top lines */
+    gap: var(--rhythm-logo-grid-row) var(--grid-gutter);
   }
   .item {
     display: grid;
     place-items: center;
-    padding: var(--rhythm-logo-grid-cell);
-    border-left: var(--line-width) solid var(--color-line-on-page);
-    border-top: var(--line-width) solid var(--color-line-on-page);
     color: var(--color-on-page);
     text-align: center;
   }

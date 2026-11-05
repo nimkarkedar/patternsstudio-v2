@@ -22,6 +22,15 @@ export const site = {
   sameAs: [] as string[],
 };
 
+// LinkedIn profiles of the team and advisors (About cards).
+export const linkedin = {
+  kedar: 'https://www.linkedin.com/in/nimkarkedar/',
+  john: 'https://www.linkedin.com/in/johnpathrose/',
+  andrew: 'https://www.linkedin.com/in/andrewmcglinchey/',
+  raena: 'https://www.linkedin.com/in/raenalim/',
+  manav: 'https://www.linkedin.com/in/manavkamboj/',
+};
+
 // UI labels.
 export const labels = {
   exploreWork: 'Explore our work',
@@ -34,6 +43,13 @@ export const labels = {
   close: 'Close',
   reviewsTitle: 'Client reviews',        // /reviews tab title and section label
   moreAbout: 'More about',               // About cards, + button (screen readers): "More about Kedar Nimkar"
+  client: 'Client',                      // post details panel
+  clientLogo: 'Client logo',
+  industry: 'Industry',
+  status: 'Status (Live)',
+  scope: 'Scope',
+  testimonial: 'Client testimonial',
+  impact: 'Impact',
   onLinkedIn: 'on LinkedIn',             // About cards, LinkedIn mark (screen readers)
 } as const;
 

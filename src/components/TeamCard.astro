@@ -30,7 +30,7 @@ const linkedinPath = 'M22.2234 0H1.77187C0.792187 0 0 0.773438 0 1.72969V22.2656
     <div class="face front">
       <div class="person">
         <div class="who">
-          <h3 class="t-p-bold">{name}</h3>
+          <h3 class="t-card-title">{name}</h3>
           <p class="t-small role">{role}</p>
         </div>
         {/* LinkedIn mark: a link once the URL is set. */}
@@ -47,7 +47,7 @@ const linkedinPath = 'M22.2234 0H1.77187C0.792187 0 0 0.773438 0 1.72969V22.2656
     </div>
 
     <div class="face back" id={bioId} inert>
-      <p class="t-p"><strong class="t-p-bold">{opening}</strong>{rest}</p>
+      <p class="t-p bio"><strong class="t-p-bold">{opening}</strong>{rest}</p>
     </div>
   </div>
 
@@ -59,7 +59,7 @@ const linkedinPath = 'M22.2234 0H1.77187C0.792187 0 0 0.773438 0 1.72969V22.2656
 
   <dialog class="modal" aria-label={name}>
     <div class="modal-body">
-      <p class="t-p"><strong class="t-p-bold">{opening}</strong>{rest}</p>
+      <p class="t-p bio"><strong class="t-p-bold">{opening}</strong>{rest}</p>
     </div>
     <button class="toggle modal-close" type="button">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17" /></svg>
@@ -151,6 +151,8 @@ const linkedinPath = 'M22.2234 0H1.77187C0.792187 0 0 0.773438 0 1.72969V22.2656
 </script>
 
 <style>
+  p.bio { line-height: var(--leading-bio); }
+
   /* Width comes from the grid column only (size container), never from the bio text. */
   .card {
     position: relative;
@@ -186,11 +188,13 @@ const linkedinPath = 'M22.2234 0H1.77187C0.792187 0 0 0.773438 0 1.72969V22.2656
   }
   .who { display: grid; gap: var(--rhythm-label); }
   .role { color: var(--color-on-surface-muted); }
+  .linkedin { position: relative; flex: none; }
+  a.linkedin::after { content: ''; position: absolute; inset: var(--rhythm-hit); } /* thumb-sized tap area */
   .linkedin svg { display: block; width: var(--size-team-icon); height: var(--size-team-icon); }
   @media (hover: hover) {
     .card:hover .linkedin { color: var(--color-linkedin); }
   }
-  .photo { width: 100%; height: auto; aspect-ratio: var(--ratio-team-photo); margin-top: auto; }
+  .photo { width: 100%; height: auto; aspect-ratio: var(--ratio-team-photo); object-fit: cover; object-position: bottom; margin-top: auto; }
 
   /* Bio side (≥48rem only — phones use the modal, so the card keeps its size). */
   .back { display: none; }
@@ -240,8 +244,8 @@ const linkedinPath = 'M22.2234 0H1.77187C0.792187 0 0 0.773438 0 1.72969V22.2656
     z-index: 1;
     display: grid;
     place-items: center;
-    width: var(--size-expand);
-    height: var(--size-expand);
+    width: var(--size-toggle);
+    height: var(--size-toggle);
     border-radius: var(--radius-pill);
     background: var(--color-button);
     color: var(--color-on-button);

@@ -1,7 +1,7 @@
 ---
 // Services: "Problem / Probable solution" table card (Kedar's design, MacBook Air - 30, 2026-11-04).
 // Pale-blue header band (as in the case-study tables); each row = the problem + its solution as plain text (no pills — Kedar, 2026-10-30).
-// Desktop: two columns. Phones: each problem with its solution under it. Tilts like every card except /work.
+// Desktop: two columns. Phones: each problem with its solution under it, in bold, so the eye can run down the answers. Tilts like every card except /work.
 import Card from './Card.astro';
 
 interface Item { problem: string; solution: string }
@@ -17,7 +17,7 @@ const { items, problemLabel, solutionLabel } = Astro.props;
     {items.map((item) => (
       <div class="row" role="row">
         <p class="t-p problem" role="cell">{item.problem}</p>
-        <p class="t-p solution" role="cell">{item.solution}</p>
+        <p class="t-answer solution" role="cell">{item.solution}</p>
       </div>
     ))}
   </div>
@@ -26,8 +26,8 @@ const { items, problemLabel, solutionLabel } = Astro.props;
 <style>
   .head, .row {
     display: grid;
-    gap: var(--rhythm-stack);
-    padding: var(--rhythm-panel) var(--rhythm-card-pad);
+    gap: var(--rhythm-list);
+    padding: var(--rhythm-list-row) var(--rhythm-card-pad);
   }
   .head {
     background: var(--color-table-head);
@@ -39,6 +39,7 @@ const { items, problemLabel, solutionLabel } = Astro.props;
     .head, .row {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       column-gap: var(--rhythm-card-gap);
+      padding-block: var(--rhythm-panel);
       align-items: start;
     }
   }
