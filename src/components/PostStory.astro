@@ -1,0 +1,192 @@
+---
+// Story carousel at the top of a post (Kedar, 2026-11-06, MacBook Air - 38), on the blue page under the title.
+// Up to 8 cards, each one Notion column (blank = no card):
+//   Client details (narrower, soft lavender: logo, Client, Industry, Duration, Status (Live))
+//   Scope · Client’s testimonial (or Impact when there's no testimonial) · About <client>
+//   The gap · The brief · The approach · The outcome  (STAR: Situation, Task, Action, Result; max 40 words each)
+// Every card but the first carries a blue Phosphor icon above its heading (src/icons/story/).
+// Static (Kedar, 2026-11-06): starts with Client details on the content edge, no drift, no loop; after the last card
+// the blue shows. Swipe / trackpad, or the ← → buttons under the row (one card per press; greyed at either end).
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { labels } from '../data/site';
+import scopeIcon from '../icons/story/scope.svg?raw';
+import testimonialIcon from '../icons/story/testimonial.svg?raw';
+import impactIcon from '../icons/story/impact.svg?raw';
+import aboutIcon from '../icons/story/about.svg?raw';
+import situationIcon from '../icons/story/situation.svg?raw';
+import taskIcon from '../icons/story/task.svg?raw';
+import actionIcon from '../icons/story/action.svg?raw';
+import resultIcon from '../icons/story/result.svg?raw';
+
+export interface Story {
+  client?: string;
+  logo?: ImageMetadata;
+  industry?: string;
+  duration?: string;
+  live?: string;
+  scope?: string[];
+  testimonial?: string;
+  impact?: string[];
+  about?: string;
+  situation?: string;
+  task?: string;
+  action?: string;
+  result?: string;
+}
+interface Props { story: Story }
+const s = Astro.props.story;
+const scope = s.scope ?? [];
+const impact = s.impact ?? [];
+const liveText = s.live?.replace(/^https?:\/\//, '').replace(/\/$/, '');
+const hasClient = Boolean(s.logo || s.client || s.industry || s.duration || s.live);
+
+type Card = { icon: string; heading: string; text?: string; points?: string[] };
+const cards: Card[] = [];
+if (scope.length) cards.push({ icon: scopeIcon, heading: labels.scope, points: scope });
+if (s.testimonial) cards.push({ icon: testimonialIcon, heading: labels.testimonialCard, text: s.testimonial });
+else if (impact.length) cards.push({ icon: impactIcon, heading: labels.impact, ...(impact.length > 1 ? { points: impact } : { text: impact[0] }) });
+if (s.about) cards.push({ icon: aboutIcon, heading: s.client ? labels.about(s.client) : labels.story, text: s.about });
+if (s.situation) cards.push({ icon: situationIcon, heading: labels.situation, text: s.situation });
+if (s.task) cards.push({ icon: taskIcon, heading: labels.task, text: s.task });
+if (s.action) cards.push({ icon: actionIcon, heading: labels.action, text: s.action });
+if (s.result) cards.push({ icon: resultIcon, heading: labels.result, text: s.result });
+
+const count = cards.length + (hasClient ? 1 : 0);
+---
+{count > 0 && (
+  <section class="story" aria-label={labels.story} data-story>
+    <ul role="list" class="track" data-story-track>
+          {hasClient && (
+            <li class="item">
+              <dl class="card client">
+                {s.logo && (
+                  <div class="logo-row">
+                    <dt class="visually-hidden">{labels.clientLogo}</dt>
+                    <dd><Image src={s.logo} alt={s.client ? `${s.client} logo` : labels.clientLogo} class="logo" /></dd>
+                  </div>
+                )}
+                {s.client && <div><dt class="t-small label">{labels.client}</dt><dd class="t-p">{s.client}</dd></div>}
+                {s.industry && <div><dt class="t-small label">{labels.industry}</dt><dd class="t-p">{s.industry}</dd></div>}
+              {s.duration && <div><dt class="t-small label">{labels.duration}</dt><dd class="t-p">{s.duration}</dd></div>}
+                {s.live && <div><dt class="t-small label">{labels.status}</dt><dd class="t-p"><a href={s.live} rel="noopener" target="_blank">{liveText}</a></dd></div>}
+              </dl>
+            </li>
+          )}
+          {cards.map((c) => (
+            <li class="item">
+              <div class="card">
+                <span class="icon glyph" aria-hidden="true" set:html={c.icon} />
+                <h2 class="t-p-bold">{c.heading}</h2>
+                {c.points ? <ul class="t-p points">{c.points.map((p) => <li>{p}</li>)}</ul> : <p class="t-p">{c.text}</p>}
+              </div>
+            </li>
+          ))}
+    </ul>
+    {count > 1 && (
+      <div class="arrows container">
+        <button class="arrow" type="button" aria-label={labels.previous} data-story-prev disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
+        </button>
+        <button class="arrow" type="button" aria-label={labels.next} data-story-next>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+        </button>
+      </div>
+    )}
+  </section>
+)}
+
+<style>
+  /* First card starts on the content edge, so the left is blank; at the end the same blank shows on the right. */
+  .story { --story-edge: max(var(--rhythm-gutter), (100% - var(--width-content)) / 2); }
+  .track {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    /* First card starts on the content edge; the strip bleeds off both sides (as the homepage reviews). */
+    gap: var(--rhythm-card-gap);
+    padding-inline: var(--story-edge);
+    scroll-padding-inline: var(--story-edge);
+    scroll-snap-type: x mandatory;
+    /* A scroller clips both axes: make room for the cards' glow, then pull the space back. */
+    padding-block: var(--space-9);
+    margin-block: calc(var(--space-9) * -1);
+  }
+  .track::-webkit-scrollbar { display: none; }
+  .item { flex: none; display: flex; scroll-snap-align: start; }
+
+  /* ← → under the row, on the right (as Apple): thin circles on blue, greyed at either end. */
+  .arrows { display: flex; justify-content: flex-end; gap: var(--rhythm-action-pair); margin-top: var(--rhythm-story-arrows); }
+  .arrow {
+    display: grid;
+    place-items: center;
+    width: var(--size-cue);
+    height: var(--size-cue);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--color-on-page);
+    box-shadow: inset 0 0 0 var(--line-width) var(--color-line-on-page);
+  }
+  .arrow:hover:not(:disabled) { background: var(--color-ghost-hover); }
+  .arrow:disabled { color: var(--color-line-on-page); cursor: default; }
+  .arrow svg { width: var(--size-cue-icon); height: var(--size-cue-icon); }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rhythm-stack);
+    width: var(--width-story-card);
+    min-height: var(--size-story-card-h);
+    padding: var(--rhythm-card-pad);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    color: var(--color-on-surface);
+    box-shadow: var(--shadow-story);
+  }
+  .card p, .points { color: var(--color-on-prose); }
+  .icon { color: var(--color-service-icon); margin-bottom: var(--rhythm-story-icon); }
+  .icon :global(svg) { display: block; width: var(--size-story-icon); height: var(--size-story-icon); }
+  .points { padding-inline-start: var(--rhythm-fact-bullet); list-style: disc; }
+
+  /* Client details: narrower, on a soft lavender wash. */
+  .client {
+    width: var(--width-story-client);
+    gap: var(--rhythm-story-fact);
+    background: var(--gradient-story-client);
+  }
+  .logo-row { margin-bottom: var(--rhythm-story-icon); }
+  .logo { display: block; width: auto; max-width: 100%; height: var(--size-story-logo); }
+  .label { color: var(--color-on-lilac-muted); }
+  .client a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: var(--underline-width);
+    text-underline-offset: var(--underline-offset);
+  }
+  .client a:hover { color: var(--color-accent); }
+</style>
+
+<script>
+  // ← → move one card. The jump is a smooth scroll (the only way a row can show where it went).
+  for (const root of document.querySelectorAll<HTMLElement>('[data-story]')) {
+    const track = root.querySelector<HTMLElement>('[data-story-track]');
+    const prev = root.querySelector<HTMLButtonElement>('[data-story-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-story-next]');
+    if (!track || !prev || !next) continue;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    const step = () => {
+      const [a, b] = track.querySelectorAll<HTMLElement>('.item');
+      return b ? b.offsetLeft - a.offsetLeft : track.clientWidth;
+    };
+    const move = (dir: number) => track.scrollBy({ left: dir * step(), behavior: reduced.matches ? 'auto' : 'smooth' });
+    const update = () => {
+      prev.disabled = track.scrollLeft <= 1;
+      next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 1;
+    };
+    prev.addEventListener('click', () => move(-1));
+    next.addEventListener('click', () => move(1));
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+</script>

@@ -1,14 +1,17 @@
 ---
-// Case-study / blog-post page — Kedar's design "MacBook Air - 32" (2026-11-04). White, full viewport width:
-//   title, × (back to /work) top right → PostIntro (project details) → the Markdown body, exactly in Notion's order
-//   (images edge to edge) → one button, "Impressed? Let’s talk" (→ /contact; Kedar, 2026-11-01)
+// Case-study / blog-post page — Kedar's design "MacBook Air - 38" (2026-11-06; replaces 32):
+//   on the blue page: ← Back (to /work, a small ghost pill above the title; Kedar 2026-11-06) → title → PostStory (story cards)
+//   → a white sheet with a rounded top, full viewport width: the Markdown body (visuals), exactly in Notion's order
+//   (images edge to edge up to 1280) → one button, "Impressed? Let’s talk" (→ /contact; Kedar, 2026-11-01)
 //   → "Next post": the next post's /work card. The /work card graphic isn't shown on the post itself.
+//   Arriving from /work, a white cover slides down into the sheet's place (src/scripts/sheet-transition.ts).
 //   Floating ↑ (to top) appears once the top × scrolls away; it jumps (no smooth scroll — Motion rules).
 // Used by src/pages/work/[slug].astro and by Markdown pages (`layout:` frontmatter, e.g. /styleguide).
 import type { ImageMetadata } from 'astro';
 import BaseLayout from './BaseLayout.astro';
 import Actions from '../components/Actions.astro';
-import PostIntro, { type Details } from '../components/PostIntro.astro';
+import Button from '../components/Button.astro';
+import PostStory, { type Story } from '../components/PostStory.astro';
 import PostCard from '../components/PostCard.astro';
 import type { CollectionEntry } from 'astro:content';
 import { routes, labels, path } from '../data/site';
@@ -23,8 +26,8 @@ interface Props {
   readMinutes?: number;
   ogImage?: ImageMetadata;
   ogImageAlt?: string;
-  /** Project details panel; absent on Markdown pages such as /styleguide. */
-  details?: Details;
+  /** Story carousel; absent on Markdown pages such as /styleguide. */
+  story?: Story;
   noindex?: boolean;
   /** The post after this one in Notion's Order (wraps to the first); shown under the CTA as its /work card. */
   next?: CollectionEntry<'work'>;
@@ -34,7 +37,7 @@ interface Props {
   frontmatter?: Omit<Props, 'frontmatter'>;
 }
 const props = Astro.props.frontmatter ? { ...Astro.props.frontmatter, ...Astro.props } : Astro.props;
-const { title, description, readMinutes, ogImage, ogImageAlt, details, next, noindex = false, hasBody = true } = props;
+const { title, description, readMinutes, ogImage, ogImageAlt, story, next, noindex = false, hasBody = true } = props;
 const publishedDate = props.publishedDate ? new Date(props.publishedDate) : undefined;
 const updatedDate = props.updatedDate ? new Date(props.updatedDate) : undefined;
 
@@ -79,37 +82,43 @@ const jsonLd = [
   jsonLd={jsonLd}
   postTitle={hasBody ? title : undefined}
 >
-  <article class="post on-surface">
-    <a class="back" href={routes.workList} aria-label={labels.back}>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-        <path d="M6 6l12 12M18 6L6 18" />
-      </svg>
-    </a>
+  <div class="sheet-cover" data-sheet-cover aria-hidden="true" hidden></div>
+  <script is:inline>
+    // Arriving from /work: show the white cover before the first paint (no flash of blue). It then slides away.
+    try { if (sessionStorage.getItem('sheet-cover')) document.querySelector('[data-sheet-cover]').hidden = false; } catch {}
+  </script>
 
+  <article class="post">
     <header class="hero container">
+      <Button href={routes.workList} variant="ghost" small class="back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M19 12H5M11 6l-6 6 6 6" />
+        </svg>
+        {labels.back}
+      </Button>
       <h1 class="t-h1 title">{title}</h1>
     </header>
 
-    {hasBody && details && <div class="details container"><PostIntro details={details} /></div>}
+    {hasBody && story && <div class="story"><PostStory story={story} /></div>}
 
-    {hasBody && (
-      <div class="sheet">
+    <div class="sheet on-surface">
+      {hasBody && (
         <div class="prose">
           <slot />
         </div>
+      )}
+
+      <div class="end container">
+        <Actions primary={{ label: labels.impressedTalk, href: routes.contact }} />
       </div>
-    )}
 
-    <div class="end container">
-      <Actions primary={{ label: labels.impressedTalk, href: routes.contact }} />
+      {next && (
+        <nav class="next container" aria-labelledby="next-post">
+          <h2 id="next-post" class="t-p next-label">{labels.nextPost}</h2>
+          <PostCard post={next} href={routes.work(next.id)} />
+        </nav>
+      )}
     </div>
-
-    {next && (
-      <nav class="next container" aria-labelledby="next-post">
-        <h2 id="next-post" class="t-p next-label">{labels.nextPost}</h2>
-        <PostCard post={next} href={routes.work(next.id)} />
-      </nav>
-    )}
   </article>
 
   <div class="float" data-float hidden>
@@ -122,7 +131,9 @@ const jsonLd = [
 </BaseLayout>
 
 <script>
-  // Floating to-top: shown only while the top × is out of view.
+  import '../scripts/sheet-transition';
+
+  // Floating to-top: shown only while the Back button is out of view.
   const float = document.querySelector<HTMLElement>('[data-float]');
   const topBack = document.querySelector<HTMLElement>('.post .back');
   if (float && topBack) {
@@ -139,41 +150,36 @@ const jsonLd = [
   .post {
     position: relative;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* The white sheet: full viewport width, rounded top, runs down to the footer. */
+  .sheet {
+    flex: 1;
+    margin-top: var(--rhythm-hero-to-content);
+    padding-top: var(--rhythm-hero-to-content);
     padding-bottom: var(--rhythm-section);
+    border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
     background: var(--color-surface);
   }
 
-  /* × top right, scrolls with the page. Phones: the title starts under it. */
-  .back {
-    position: absolute;
-    top: var(--rhythm-post-close);
-    right: var(--rhythm-gutter);
-    display: grid;
-    place-items: center;
-    width: var(--size-cue);
-    height: var(--size-cue);
-    border-radius: var(--radius-pill);
-    background: var(--color-button);
-    color: var(--color-on-button);
-  }
-  .back:hover { background: var(--color-button-hover); }
-  .back svg { width: var(--size-cue-icon); height: var(--size-cue-icon); }
 
+  /* ← Back above the title: left on phones, centred with the title from 48rem (--align-page). */
   .hero {
-    padding-top: calc(var(--rhythm-post-close) + var(--size-cue) + var(--rhythm-post-close));
+    display: grid;
+    justify-items: var(--align-page);
+    gap: var(--rhythm-back-gap);
+    padding-top: var(--rhythm-post-hero);
   }
+  .hero :global(.back) { gap: var(--rhythm-back-icon); }
+  .hero :global(.back svg) { width: var(--size-back-icon); height: var(--size-back-icon); }
   .title { text-align: var(--align-page); }
-  .details { margin-top: var(--rhythm-post-top); }
+  .story { margin-top: var(--rhythm-hero-to-content); }
   @media (min-width: 48rem) {
-    .hero { padding-top: var(--rhythm-post-hero); }
-    .details { margin-top: var(--rhythm-post-title); }
-    /* On the frame's 940 grid; on narrower screens it stays clear of the ×. */
-    .title { max-width: min(var(--width-post-details), 100% - 2 * (var(--size-cue) + var(--rhythm-gutter))); margin-inline: auto; }
+    .title { max-width: var(--width-post-details); }
   }
 
-  .sheet { margin-top: var(--rhythm-post-body); }
-  /* A body that starts with an image sits closer to the details (MacBook Air - 32). */
-  .sheet:has(> .prose > :global(figure:first-child)) { margin-top: var(--rhythm-post-top); }
 
   /* Next post (Kedar, 2026-11-01): its /work card, under the CTA. */
   .next {
@@ -186,8 +192,8 @@ const jsonLd = [
   .end {
     display: grid;
     justify-items: center;
-    margin-top: var(--rhythm-hero-to-content);
   }
+  .prose + .end { margin-top: var(--rhythm-section); }
 
   /* Floating to-top: bottom-right, same black circle as the top ×. */
   .float {

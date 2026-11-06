@@ -11,6 +11,9 @@
   --blue-600: #2b18d7;  /* exact background of Kedar's exported logo tiles */
   --blue-200: #c9c7f2;
   --violet-300: #b9a4ff;  /* soft light violet — card glow */
+  --lilac-50: #f5f3ff;   /* post client card wash, top */
+  --lilac-100: #e9e5fd;  /* post client card wash, bottom */
+  --lilac-ink: #55526b;  /* grey labels on lilac: 6.3:1 on --lilac-100 ✓ AA */
   --white: #ffffff;
   --ink-900: #171414;
   --ink-800: #2b2828;
@@ -37,6 +40,8 @@
   --color-surface-hover: var(--grey-100);   /* Services + Approach: table row or grid cell under the mouse */
   --color-line-on-surface: var(--grey-200); /* hairlines on white (pull quote, divider) */
   --color-on-surface-muted: var(--grey-600); /* small labels on white (post details) */
+  --gradient-story-client: linear-gradient(160deg, var(--lilac-50), var(--lilac-100)); /* soft lavender wash (Kedar, 2026-11-06) */
+  --color-on-lilac-muted: var(--lilac-ink);
   --color-on-prose: var(--ink-800);          /* post running text: a touch softer than ink for long reads (~14:1 ✓) */
 
   --color-button: var(--ink-900);
@@ -90,6 +95,7 @@
   --rhythm-lead-to-actions: var(--space-6);                             /* lead → button (32) */
   --rhythm-action-pair: var(--space-2);                                 /* primary button → ghost button */
   --rhythm-button-x: var(--space-7);                                    /* pill side padding (40) */
+  --rhythm-button-small-x: var(--space-5);                              /* small pill side padding (24) */
   --rhythm-hero-to-content: clamp(var(--space-7), 5vw, var(--space-9));  /* hero → first card (40 → 64) */
   --rhythm-section: clamp(var(--space-9), 7vw, var(--space-11));         /* between big sections */
   --rhythm-card-gap: var(--grid-gutter);                                /* gap between cards = grid gutter */
@@ -119,7 +125,9 @@
   /* Case-study page (Kedar's design, MacBook Air - 11) */
   --rhythm-sheet-pad: clamp(var(--space-7), 5vw, var(--space-9));        /* white sheet top/bottom (40 → 64) */
   --rhythm-sheet-x: clamp(var(--space-4), 4vw, var(--space-7));          /* white sheet sides (16 → 40); column is centred inside */
-  --rhythm-back-gap: var(--grid-gutter);                                /* back button → title (title starts on column 2) */
+  --rhythm-back-gap: var(--grid-gutter);                                /* post: ← Back → title (20 → 32) */
+  --rhythm-back-icon: var(--space-2);                                   /* ← arrow → "Back" label (8) */
+  --size-back-icon: 1rem;                                               /* ← in the Back pill (16) */
   /* Reading rhythm — proximity: a heading sits close to its text, far from the previous section. */
   --rhythm-prose: var(--space-5);                                       /* paragraph → paragraph, list, etc. (24) */
   --rhythm-prose-list: var(--space-1);                                  /* list item → item (4; spec 5) */
@@ -128,6 +136,8 @@
   --rhythm-prose-subsection: var(--space-7);                            /* → h3 (40) */
   --rhythm-prose-block: var(--space-7);                                 /* around images, video, tables, quotes, dividers (40) */
   --rhythm-work-card: var(--space-5);            /* /work card → card (24 on phones) */
+  --rhythm-work-title: var(--space-5);           /* /work title → View details button (24) */
+  --rhythm-work-text: var(--space-4);            /* phones: /work graphic → its title (16) */
   --rhythm-post-top: var(--space-6);             /* post: gaps between title, cover, details (32 on phones) */
   --rhythm-post-close: var(--space-5);                                  /* × button from the top of a post (24) */
   --rhythm-fact-row: var(--space-5);                                    /* post details from 48rem: label + value → next pair (24) */
@@ -135,13 +145,31 @@
   --rhythm-fact-bullet: 1.1875rem;                                      /* post details: list indent (19) */
   --rhythm-fact-icon-lift: 0px;                                         /* post details: testimonial icon sits a touch above the labels (0 on phones) */
   --size-fact-icon: 1.5rem;                                             /* post details: testimonial + Impact icons (24) */
+  --width-post-image: 80rem;                                            /* 1280 — post images stop growing here (Kedar, 2026-11-06) */
   --width-post-details: 58.75rem;                                       /* 940 — post title, from the frame's 12-column grid */
-  --rhythm-post-hero: var(--space-6);                                   /* post from 48rem: header → title (32) */
+  --rhythm-post-hero: var(--space-6);                                   /* post: header → Back button (32) */
   --rhythm-post-title: var(--space-5);                                  /* post from 48rem: title → details (24) */
   --rhythm-prose-inset: var(--space-6);                                 /* pull quote: hairline → text (32) */
   --rhythm-fact-x: 1.25rem;                                             /* post details: panel sides on phones (20), cell padding from 48rem (40) */
   --rhythm-fact-y: var(--space-4);                                      /* post details on phones: row top/bottom (16) */
   --rhythm-fact-gap: var(--space-4);                                    /* post details on phones: label → value (16) */
+  --width-story-card: min(80vw, 20rem);                                 /* post story card: 320 on phones (desktop 380) */
+  --width-story-client: min(72vw, 16.5rem);                             /* client details card, narrower: 264 (desktop 300) */
+  --size-story-card-h: 22rem;                                           /* story cards: one height, so the row is even (352) */
+  --icon-weight-add: 0.5px;                                             /* Phosphor icons: lines 0.5px heavier than Regular (Kedar, 2026-11-06) */
+  --size-story-icon: 2rem;                                              /* story card icon (32; desktop 36) */
+  --rhythm-story-icon: var(--space-3);                                  /* icon / logo → heading: a little extra (12) */
+  --rhythm-story-arrows: var(--space-5);                                /* story cards → ← → buttons (24) */
+  --rhythm-story-fact: var(--space-5);                                  /* client card: between Client, Industry, Status (24) */
+  --size-story-logo: 2.25rem;                                           /* client logo on its card (36; desktop 48) */
+  --radius-post-card: var(--space-3);                                   /* /work + Next post graphics: 12 (Kedar, 2026-11-06: 20/24 was too round) */
+  /* Post story cards on blue (Kedar, 2026-11-06): a layered drop shadow instead of the violet glow — a crisp contact
+     edge, a soft mid shadow and a wide faint one, all falling downward, so the cards sit lifted off the page. */
+  --shadow-story:
+    0 var(--line-width) var(--space-1) color-mix(in srgb, var(--ink-900) 12%, transparent),
+    0 var(--space-2) var(--space-5) calc(var(--space-2) * -1) color-mix(in srgb, var(--ink-900) 22%, transparent),
+    0 var(--space-5) var(--space-8) calc(var(--space-4) * -1) color-mix(in srgb, var(--ink-900) 32%, transparent);
+  --radius-sheet: var(--radius-card);                                   /* post: rounded top of the white section */
   --size-post-logo: 1.75rem;                                            /* post details: client logo height (28) */
   --width-fact-label: 6.75rem;                                          /* post details on phones: label column (108) */
   --rhythm-intro-row: var(--space-6);                                   /* post header: row → row of details (32) */
@@ -183,6 +211,7 @@
   --size-toggle: 2.75rem;      /* 44 — About + / ×: a real thumb target on phones */
   --size-tap: 2.75rem;         /* 44 — minimum touch target */
   --size-button-h: 3.5rem;     /* 56 — pill button height */
+  --size-button-small-h: var(--size-tap); /* 44 — small pill (/work View details) */
   --size-logo-h: 1.5625rem;    /* 25 — header logo height (native SVG size) */
   --size-client-logo: 4.5rem;  /* 72 — client logo tile height (tiles are 400×150 with padding built in) */
   --size-cue: 2.75rem;         /* 44 — arrow circle on post cards */
@@ -230,6 +259,9 @@
   /* ── Motion: ONLY what Kedar has approved. Add nothing here unasked. ── */
   /* /work card hover ("elegant, like Apple"): slow, soft rise + deeper shadow. */
   --motion-lift: 500ms;        /* /work card hover */
+  --motion-sheet-cover: 450ms;  /* /work → post: white sheet rises over the page (Kedar, 2026-11-06) */
+  --motion-sheet-reveal: 700ms; /* …then on the post it slides down into place as the white section */
+  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1); /* Apple's sheet curve: quick start, long soft landing */
   --ease-lift: cubic-bezier(0.25, 0.1, 0.25, 1);
   --motion-lift-y: -0.375rem;  /* rises 6px */
   --motion-lift-scale: 1.01;
@@ -257,6 +289,7 @@
   --z-header: 10;
   --z-float: 15;                                                        /* floating back / to-top buttons on posts */
   --z-menu: 20;
+  --z-cover: 30;                                                        /* /work → post transition sheet, above everything */
 }
 
 /* ── Desktop (≥48rem). Everything above is the phone design: 98% of visitors (Kedar, 2026-11-05). ── */
@@ -276,6 +309,7 @@
     --rhythm-title-to-lead: var(--space-6);
     --rhythm-heading-below: var(--space-6);
     --radius-card: 1.5rem;
+    --radius-post-card: var(--space-4); /* 16 */
     --shadow-glow: 0 0 var(--space-9) var(--space-1) color-mix(in srgb, var(--violet-300) 35%, transparent);
     --rhythm-work-card: var(--space-8);
     --rhythm-figure: var(--space-10);
@@ -284,6 +318,11 @@
     --rhythm-fact-x: var(--space-7);
     --rhythm-fact-icon-lift: calc(-1 * var(--space-1));
     --size-post-logo: 2.125rem;
+    --width-story-card: 23.75rem;   /* 380, MacBook Air - 38 */
+    --width-story-client: 18.75rem; /* 300 */
+    --size-story-card-h: 24.5rem;   /* 392 */
+    --size-story-icon: 2.25rem;
+    --size-story-logo: 3rem;
     --rhythm-hero-to-reviews: var(--rhythm-section);
     --size-service-icon: 2.75rem;
     --size-toggle: var(--size-expand);

@@ -37,10 +37,17 @@ const work = defineCollection({
       // Project details panel (Kedar, 2026-11-05), one Notion column each. Blank = not shown.
       logo: z.preprocess(blank, image().optional()), // Notion "Client logo": colour logo that works on pale blue
       industry: z.string().optional(),
+      duration: z.preprocess(blank, z.string().optional()), // Notion "Duration", e.g. "1 month" (Kedar, 2026-11-06)
       live: z.preprocess(blank, z.url().optional()), // Notion "Live link": shows as "Status (Live)" + the address
       scope: z.array(z.string()).default([]),
       testimonial: z.preprocess(blank, z.string().optional()),
       impact: z.array(z.string()).default([]),
+      // Story cards (Kedar, 2026-11-06, MacBook Air - 38): one Notion column each, max 40 words. Blank = no card.
+      about: z.preprocess(blank, z.string().optional()),     // Notion "About the client" → card "About <client>"
+      situation: z.preprocess(blank, z.string().optional()), // STAR: "The gap"
+      task: z.preprocess(blank, z.string().optional()),      // STAR: "The brief"
+      action: z.preprocess(blank, z.string().optional()),    // STAR: "The approach"
+      result: z.preprocess(blank, z.string().optional()),    // STAR: "The outcome"
       draft: z.boolean().default(false),
     }),
 });

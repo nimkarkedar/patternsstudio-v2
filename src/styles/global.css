@@ -112,7 +112,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highl
 
 /* ── Prose: case-study Markdown ─────────────────────────────
  * The post page is white and full viewport width (Kedar, MacBook Air - 32, 2026-11-04): text sits in one
- * centred reading column (--width-post, 552) and images run edge to edge. Videos stop at the content width.
+ * centred reading column (--width-post, 552) and images run edge to edge up to 1280 (--width-post-image). Videos stop at the content width.
  * Rhythm by proximity: every block is --rhythm-prose apart; images/tables/quotes get more air;
  * a heading has lots of space above and little below, so it belongs to the text it introduces. */
 .prose {
@@ -124,7 +124,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highl
   hanging-punctuation: first;
 }
 .prose > * { grid-column: text; }
-.prose > figure:not(.pull-quote) { grid-column: wide; }
+.prose > figure:not(.pull-quote) { grid-column: wide; justify-self: center; width: 100%; max-width: var(--width-post-image); } /* edge to edge up to 1280, then centred on white (Kedar, 2026-11-06: 27" screens) */
 .prose > .embed { grid-column: wide; justify-self: center; width: min(100% - 2 * var(--rhythm-gutter), var(--width-content)); }
 .prose :is(p, li, td) { color: var(--color-on-prose); }
 .prose > * + * { margin-top: var(--rhythm-prose); }
@@ -217,4 +217,24 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highl
   padding: 0 var(--space-1);
   border-radius: var(--radius-media);
   background: var(--color-surface-muted);
+}
+
+/* /work → post transition sheet (src/scripts/sheet-transition.ts): the post's white section, fixed over everything. */
+.sheet-cover {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-cover);
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  background: var(--color-surface);
+  pointer-events: none;
+}
+.sheet-cover[hidden] { display: none; }
+
+/* Phosphor Regular icons (Services, Approach, post story cards), a touch heavier (Kedar, 2026-11-06):
+   they're filled shapes, so a same-colour outline thickens every line by --icon-weight-add on screen, at any size. */
+.glyph :is(path, circle, rect, line, polyline, polygon, ellipse) {
+  stroke: currentColor;
+  stroke-width: var(--icon-weight-add);
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
 }

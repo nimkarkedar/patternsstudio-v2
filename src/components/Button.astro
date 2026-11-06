@@ -2,9 +2,11 @@
 // Pill button. `primary` = dark filled; `ghost` = transparent, tinted on hover. Renders an <a>, or a <button> when
 // there's no `href` (e.g. it opens the rate card on /approach; extra attributes are passed through).
 // `fill` makes it take its container's width (used by <Actions> so paired buttons match).
-interface Props { href?: string; variant?: 'primary' | 'ghost'; fill?: boolean; class?: string; external?: boolean; [key: string]: unknown }
-const { href, variant = 'primary', fill = false, class: className, external = false, ...rest } = Astro.props;
-const classes = ['t-p', 'button', variant, { fill }, className];
+// `small` = .t-small label in a 44-high pill (still a full thumb target): /work "View details" (Kedar, 2026-11-06).
+// Ghost has a thin outline (Kedar, 2026-11-06), so it reads as a button and not as loose text.
+interface Props { href?: string; variant?: 'primary' | 'ghost'; fill?: boolean; small?: boolean; class?: string; external?: boolean; [key: string]: unknown }
+const { href, variant = 'primary', fill = false, small = false, class: className, external = false, ...rest } = Astro.props;
+const classes = [small ? 't-small' : 't-p', 'button', variant, { fill, small }, className];
 ---
 {href ? (
   <a class:list={classes} href={href} {...(external ? { target: '_blank', rel: 'noopener' } : {})} {...rest}><slot /></a>
@@ -24,8 +26,9 @@ const classes = ['t-p', 'button', variant, { fill }, className];
     text-box: trim-both cap alphabetic; /* optically centre the label in the pill */
   }
   .fill { width: 100%; }
+  .small { min-height: var(--size-button-small-h); padding-inline: var(--rhythm-button-small-x); }
   .primary { background: var(--color-button); color: var(--color-on-button); }
   .primary:hover { background: var(--color-button-hover); }
-  .ghost { background: transparent; color: var(--color-on-page); }
+  .ghost { background: transparent; color: var(--color-on-page); box-shadow: inset 0 0 0 var(--line-width) var(--color-line-on-page); }
   .ghost:hover { background: var(--color-ghost-hover); }
 </style>

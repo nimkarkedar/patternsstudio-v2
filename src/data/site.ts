@@ -36,16 +36,27 @@ export const labels = {
   exploreServices: 'Explore our services',
   back: 'Back',
   toTop: 'Back to top',                  // floating button on posts (screen readers)
-  nextPost: 'Next post',                 // label above the next post's card at the end of a post
+  viewDetails: 'View details',           // /work: link beside each post's graphic (MacBook Air - 37)
+  nextPost: 'Next post',                // label above the next post's card at the end of a post
   impressedTalk: 'Impressed? Let’s talk',  // end of every case study (Kedar, 2026-11-01: one CTA, → /contact)
   reviewsTitle: 'Client reviews',        // /reviews tab title and section label
   client: 'Client',                      // post details panel
   clientLogo: 'Client logo',
   industry: 'Industry',
+  duration: 'Duration',
   status: 'Status (Live)',
   scope: 'Scope',
   testimonial: 'Client testimonial',
   impact: 'Impact',
+  testimonialCard: 'Client’s testimonial', // story card headings (MacBook Air - 38)
+  about: (client: string) => `About ${client.split(' ')[0]}`, // "About Neufin": the first word of the client name, as the frame
+  situation: 'The gap',
+  task: 'The brief',
+  action: 'The approach',
+  result: 'The outcome',
+  story: 'About the project',            // the carousel (screen readers)
+  previous: 'Previous',                  // carousel arrows (screen readers)
+  next: 'Next',
   onLinkedIn: 'on LinkedIn',             // About cards, LinkedIn mark (screen readers)
 } as const;
 

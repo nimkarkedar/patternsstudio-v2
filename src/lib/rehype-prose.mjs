@@ -41,7 +41,7 @@ function transform(node) {
         delete img.properties.title;
         // Edge to edge, so one file becomes several sizes and each screen downloads only what it can show.
         img.properties.widths = IMAGE_WIDTHS;
-        img.properties.sizes = '100vw';
+        img.properties.sizes = '(min-width: 80rem) 1280px, 100vw'; // --width-post-image
         return el('figure', {}, caption ? [img, el('figcaption', {}, [text(String(caption))])] : [img]);
       }
 

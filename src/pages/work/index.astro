@@ -16,12 +16,16 @@ const posts = (await getCollection('work', ({ data }) => !data.draft)).sort((a, 
     <section class="container" aria-label="Work">
       <ul role="list" class="stack">
         {posts.map((post, i) => (
-          <li><PostCard post={post} href={routes.work(post.id)} eager={i === 0} /></li>
+          <li><PostCard post={post} href={routes.work(post.id)} eager={i === 0} row /></li>
         ))}
       </ul>
     </section>
   )}
 </BaseLayout>
+
+<script>
+  import '../../scripts/sheet-transition';
+</script>
 
 <style>
   .stack { display: grid; gap: var(--rhythm-work-card); }

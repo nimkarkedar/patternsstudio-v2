@@ -15,7 +15,7 @@ const svg = (name: string) => icons[`../icons/${set}/${name}.svg`] ?? '';
   <ul class="grid" role="list">
     {items.map((item) => (
       <li class="cell">
-        <span class="icon" aria-hidden="true" set:html={svg(item.icon)} />
+        <span class="icon glyph" aria-hidden="true" set:html={svg(item.icon)} />
         <p class="t-p">{item.label}</p>
       </li>
     ))}
