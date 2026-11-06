@@ -15,9 +15,11 @@
   --ink-900: #171414;
   --ink-800: #2b2828;
   --grey-50: #f7f7f7;
+  --grey-100: #f5f5f7;  /* Apple's light grey: post details panel */
   --blue-50: #ebf6ff;   /* case-study table panel (Kedar's design, MacBook Air - 11) */
   --grey-200: #d9d9d9;
   --grey-600: #6e6e73; /* Apple's secondary grey — 5.1:1 on white ✓ AA */
+  --cream-50: #fdf6e3;  /* /rate-card letter paper (MacBook Air - 36); ink on it ≈17:1 ✓ */
 
   /* ── Roles: colour ──────────────────────────────────── */
   --color-page: var(--blue-600);
@@ -31,10 +33,11 @@
   --color-accent: var(--blue-600);
   --color-placeholder: var(--grey-200);
   --color-surface-tint: var(--blue-50);     /* case-study table panel */
+  --color-surface-panel: var(--grey-100);   /* post details panel: neutral, so any client logo sits well on it */
+  --color-surface-hover: var(--grey-100);   /* Services + Approach: table row or grid cell under the mouse */
   --color-line-on-surface: var(--grey-200); /* hairlines on white (pull quote, divider) */
   --color-on-surface-muted: var(--grey-600); /* small labels on white (post details) */
   --color-on-prose: var(--ink-800);          /* post running text: a touch softer than ink for long reads (~14:1 ✓) */
-  --color-lightbox: color-mix(in srgb, var(--ink-900) 92%, transparent); /* behind an enlarged image */
 
   --color-button: var(--ink-900);
   --color-button-hover: var(--ink-800);
@@ -49,33 +52,21 @@
   --font-montserrat: "Montserrat", system-ui, sans-serif;
   --font-lato: "Lato", system-ui, sans-serif;
 
-  --weight-regular: 400;   /* Lato P, Large-P, Small-P */
-  --weight-semibold: 600;  /* Montserrat Navigation */
-  --weight-bold: 700;      /* Montserrat H2, Lato P-Bold */
-  --weight-extrabold: 800; /* Montserrat H1 */
+  --weight-regular: 400;   /* Lato .t-p, .t-small */
+  --weight-bold: 700;      /* Lato .t-p-bold */
+  --weight-extrabold: 800; /* Montserrat .t-h1, .t-h2: headlines are loud */
 
-  /* ── Type sizes (Kedar's Figma text styles, 2026-11-04). Max = the spec @1280; smaller on phones. ── */
+  /* ── Type sizes: only these four (Kedar, 2026-11-05). Headings are fluid; body + small are one size everywhere. ── */
   --size-h1: clamp(2.25rem, 11.8vw, 3.25rem);   /* phone: 46 at 390 (desktop value at the end of this file) */
   --size-h2: clamp(1.875rem, 9.4vw, 2.75rem);   /* phone: 37 at 390 */
-  --size-large: clamp(1.25rem, 5.9vw, 1.625rem); /* phone: 23 at 390 */
-  --size-p: 1.125rem;                                        /* 18 */
-  --size-small: 0.9375rem;                       /* phone: 15 */
-  --size-nav: 1rem;                                          /* 16 */
+  --size-p: 1.25rem;                            /* 20, on every screen */
+  --size-small: 0.9375rem;                      /* 15, on every screen */
 
   --leading-h1: 1.06;
   --leading-h2: 1.12;
-  --leading-large: 1.3;
-  --leading-nav: 1.5;       /* 16/24 */
-  --leading-auto: 1.2;      /* Figma "Auto" for Lato: P, P-Bold, Small-P */
-  --leading-p: 1.4;         /* P + P-Bold on phones: text wraps more, so it needs air (desktop = Figma Auto) */
-  --leading-small: 1.35;
+  --leading-p: 1.4;         /* all Lato text: 20/28, 15/21 */
   --tracking-h1: -0.02em;   /* phones only: big type on a small screen reads tighter */
   --tracking-h2: -0.01em;
-  --leading-prose: 1.6;     /* running text in posts only: 18/29, long reads need air */
-  --leading-bio: 1.4;       /* About bios: a short read, 18/25 (Kedar, 2026-11-05) */
-
-  --size-h3: 1.5rem;        /* phones: 24, Montserrat Bold card titles (.t-card-title; P-Bold on desktop) */
-  --leading-h3: 1.2;
 
   /* ── Spacing scale ──────────────────────────────────── */
   --space-1: 0.25rem;  /*  4 */
@@ -107,6 +98,23 @@
   --rhythm-stack: var(--space-3);                                       /* heading → body in a card */
   --rhythm-paragraph: var(--space-5);                                   /* paragraph → paragraph */
   --rhythm-list: var(--space-2);                                        /* list item → list item */
+  --rhythm-arrow: var(--space-2);                                       /* phones: → before a Services solution */
+  --rhythm-problem-row: var(--space-6);                                 /* phones: top/bottom of a Services row (32) */
+  --rhythm-problem-answer: var(--space-4);                              /* phones: problem → its solution (16) */
+  --width-question-number: var(--space-7);                              /* Approach questions: number column (40) */
+  --size-leader: calc(var(--line-width) * 2);                           /* rate card: dotted leader thickness */
+  --color-letter: var(--cream-50);                                      /* /rate-card: the letter's paper (MacBook Air - 36) */
+  --width-letter: 37.5rem;                                              /* /rate-card: letter (600) */
+  --width-receipt: 20rem;                                               /* /rate-card: receipt (320) */
+  --size-receipt-tooth: var(--space-3);                                 /* /rate-card: zigzag tooth width at the torn edges (12) */
+  --rhythm-receipt-x: var(--space-5);                                   /* /rate-card: receipt side padding (24) */
+  --rhythm-receipt-part: var(--space-4);                                /* /rate-card: space each side of a dashed rule (16) */
+  --rhythm-letter-pad: clamp(var(--space-5), 4vw, var(--space-8));      /* /rate-card: letter + receipt inner padding (24 → 48) */
+  --rhythm-receipt-offset: var(--space-8);                              /* /rate-card: receipt sits a little lower than the letter (48) */
+  --rhythm-desk-gap: var(--space-9);                                    /* /rate-card: letter → receipt (64) */
+  --rotate-sheet: 1deg;                                                 /* /rate-card: sheets peeking out behind the letter */
+  --shadow-sheet: 0 var(--line-width) var(--space-2) color-mix(in srgb, var(--ink-900) 18%, transparent);
+  --size-barcode-h: var(--space-8);                                     /* /rate-card: barcode height (48) */
   --rhythm-row: clamp(var(--space-7), 5vw, var(--space-9));              /* problem row → row */
   /* Case-study page (Kedar's design, MacBook Air - 11) */
   --rhythm-sheet-pad: clamp(var(--space-7), 5vw, var(--space-9));        /* white sheet top/bottom (40 → 64) */
@@ -122,20 +130,16 @@
   --rhythm-work-card: var(--space-5);            /* /work card → card (24 on phones) */
   --rhythm-post-top: var(--space-6);             /* post: gaps between title, cover, details (32 on phones) */
   --rhythm-post-close: var(--space-5);                                  /* × button from the top of a post (24) */
-  --rhythm-fact-top: 1.75rem;                                           /* post details from 48rem: cell top (28) */
-  --rhythm-fact-bottom: 2.25rem;                                        /* post details from 48rem: cell bottom (36) */
-  --rhythm-fact-first: var(--space-5);                                  /* post details from 48rem: logo from the panel edge (24) */
-  --rhythm-fact-row: var(--space-4);                                    /* post details from 48rem: label + value → next pair (16) */
-  --rhythm-fact-label: var(--space-1);                                  /* post details: label → value (4 on phones) */
+  --rhythm-fact-row: var(--space-5);                                    /* post details from 48rem: label + value → next pair (24) */
+  --rhythm-fact-label: var(--space-1);                                  /* post details: label → value (4) */
   --rhythm-fact-bullet: 1.1875rem;                                      /* post details: list indent (19) */
   --rhythm-fact-icon-lift: 0px;                                         /* post details: testimonial icon sits a touch above the labels (0 on phones) */
   --size-fact-icon: 1.5rem;                                             /* post details: testimonial + Impact icons (24) */
-  --leading-fact: var(--leading-p);                                     /* post details: values (24 pitch from 48rem) */
-  --width-post-details: 58.75rem;                                       /* 940 — post title + details, from the frame's 12-column grid */
+  --width-post-details: 58.75rem;                                       /* 940 — post title, from the frame's 12-column grid */
   --rhythm-post-hero: var(--space-6);                                   /* post from 48rem: header → title (32) */
   --rhythm-post-title: var(--space-5);                                  /* post from 48rem: title → details (24) */
   --rhythm-prose-inset: var(--space-6);                                 /* pull quote: hairline → text (32) */
-  --rhythm-fact-x: 1.25rem;                                             /* post details on phones: panel sides (20) */
+  --rhythm-fact-x: 1.25rem;                                             /* post details: panel sides on phones (20), cell padding from 48rem (40) */
   --rhythm-fact-y: var(--space-4);                                      /* post details on phones: row top/bottom (16) */
   --rhythm-fact-gap: var(--space-4);                                    /* post details on phones: label → value (16) */
   --size-post-logo: 1.75rem;                                            /* post details: client logo height (28) */
@@ -147,7 +151,6 @@
   --rhythm-figure: var(--space-9);               /* above an image, below its caption (64 on phones) */
   --rhythm-cell-y: var(--space-3);                                      /* table cell (12 × 16) */
   --rhythm-cell-x: var(--space-4);
-  --rhythm-expand-inset: var(--space-4);                                /* enlarge button from image corner */
   --rhythm-list-row: 1.25rem;                                           /* phones: top/bottom of a list row (20) */
   --rhythm-post-body: var(--space-7);                                   /* post details → body (40 on phones) */
   --rhythm-hit: calc(var(--space-3) * -1);                              /* grows a small icon's tap area by 12 each side */
@@ -172,10 +175,10 @@
   --radius-media: 0.75rem;
   --width-hero: var(--width-content);  /* 1120 — big display headings stay inside the card edges (Kedar, 2026-10-16) */
   --width-prose: 42.5rem;      /* 680 — Services intro column */
-  --width-post: 28.75rem;      /* 460 — post reading column: the middle 6 of the frame's 12 columns (MacBook Air - 32, 2026-11-05). Was 680 */
+  --width-post: 34.5rem;       /* 552 — post reading column (Kedar, 2026-11-05: 20% wider than the frame's 460). Was 680 before that */
   --ratio-cover: 1200 / 630;   /* case-study cover = the link-preview (Open Graph) image */
   --ratio-video: 16 / 9;
-  --width-lead: 60rem;         /* hero lead paragraph (960): Large-P wraps to 2 lines */
+  --width-lead: 42.5rem;       /* hero lead paragraph (680): a comfortable line at 20 */
   --align-page: start;         /* phones: headings and heroes on the left edge; centred from 48rem */
   --size-toggle: 2.75rem;      /* 44 — About + / ×: a real thumb target on phones */
   --size-tap: 2.75rem;         /* 44 — minimum touch target */
@@ -187,7 +190,7 @@
   --size-progress: calc(var(--line-width) * 2); /* reading-progress line under the post header */
   --width-header-title: 32rem;  /* 512 — post title in the header, at most (longer ones end in …) */
   --rhythm-float: max(var(--rhythm-gutter), env(safe-area-inset-bottom)); /* floating post buttons → screen edge */
-  --size-expand: 2.25rem;      /* 36 — enlarge button on case-study images */
+  --size-expand: 2.25rem;      /* 36 — round + and × on About cards */
   --size-expand-icon: 1.125rem;
   /* What we do (Kedar's design, MacBook Air - 20, 2026-10-30): problem table + service grid */
   --color-table-head: var(--color-surface-tint);      /* table header band: pale blue, as in the case-study tables (not page blue — it melted into the page) */
@@ -200,6 +203,8 @@
 
   /* About page team + advisor cards (Kedar's design, MacBook Air - 17/18, 2026-10-30) */
   --ratio-team-photo: 300 / 254;                      /* portrait at the foot of the card; 12 of headroom trimmed at 352 wide (Kedar, 2026-11-05; frame = 300 / 264) */
+  --width-team-card: 18.75rem;                        /* 300 — team + advisor cards from 48rem (Kedar, 2026-11-05) */
+  --rhythm-team-pad: var(--rhythm-card-pad);          /* name and LinkedIn mark from the card edge (24 from 48rem: the cards are narrower) */
   --size-team-icon: 1.5rem;                           /* 24 — LinkedIn mark, top right */
   --color-linkedin: #0A66C2;                          /* LinkedIn mark while its card is hovered */
   --rhythm-team-actions: var(--rhythm-card-gap);      /* cards → "Explore our work" */
@@ -207,19 +212,7 @@
   --rhythm-heading-above: var(--rhythm-section);        /* previous section → section heading (64 → 96) */
   --rhythm-heading-below: var(--space-5);        /* section heading → its content (24 on phones) */
   --rhythm-page-actions: var(--rhythm-hero-to-content); /* last cards → closing button (40 → 64) */
-  --motion-flip: 700ms;                               /* card click → 3D flip to the bio (Kedar, 2026-10-30) */
-  --ease-flip: cubic-bezier(0.45, 0, 0.2, 1);
-  --motion-flip-depth: 1500px;                        /* perspective for the flip — larger = flatter */
-  --motion-modal-flip: 350ms;                         /* phones: each half of the modal flip (card → edge, edge → modal) */
-  --ease-flip-in: cubic-bezier(0.5, 0, 0.9, 0.5);     /* first half: speeds up into the edge */
-  --ease-flip-out: cubic-bezier(0.1, 0.5, 0.5, 1);    /* second half: settles out of it */
-  --height-modal: 33rem;                              /* phones: every bio modal is this tall (fits ~430 characters) */
-  --height-modal-max: 85dvh;                          /* …unless the screen is shorter; then the bio scrolls */
-  --color-modal-backdrop: color-mix(in srgb, var(--ink-900) 60%, transparent);
   --size-portrait-h: clamp(18rem, 12.9rem + 10.6vw, 21.5rem); /* Approach portrait cards: 288 → 344 tall (≥768; MacBook Air - 24) */
-  --rhythm-portrait-label-left: 6%;   /* Hitchcock: name label from the photo's left edge, over the dark suit */
-  --rhythm-portrait-label-right: 66%; /* Wong Kar-wai: name label, over the dark jacket */
-  --rhythm-portrait-label-inset: var(--space-3); /* Wong Kar-wai on phones: label from the right edge, clear of the shirt */
   --width-portrait-text: 24rem;       /* text beside the portrait (384) */
   --line-width: 1px;
   --underline-width: 0.08em;
@@ -251,7 +244,9 @@
 
   /* Review cards (Kedar's design, MacBook Air - 22, 2026-11-04): text on white, portrait under it. */
   --width-review-card: min(21.3125rem, 86vw);                           /* 341; phones show one big card and a peek of the next */
-  --ratio-review-photo: 341 / 262;                                      /* 12 of headroom trimmed at 341 wide (Kedar, 2026-11-05; frame = 341 / 274) */
+  --lines-review-quote: 3;                                              /* quote box height, so names line up (4 from 48rem: narrower text) */
+  --ratio-review-photo: 341 / 216;                                      /* shorter cards: 27 trimmed above the head, 31 below the shoulders at 341 wide (Kedar, 2026-11-05; frame = 341 / 274) */
+  --position-review-photo: 50% 47%;                                     /* which part of the photo stays: 47% of the crop comes off the top, the rest off the bottom */
   --rhythm-review-name: var(--space-4);                                 /* quote → name (16) */
   --motion-review-speed: 24;                                            /* auto-drift, px per second — gentle (read by ClientReviews JS) */
   --motion-review-ease: 1.5;                                            /* drift eases in/out over ~1/this seconds when pausing/resuming */
@@ -262,21 +257,18 @@
   --z-header: 10;
   --z-float: 15;                                                        /* floating back / to-top buttons on posts */
   --z-menu: 20;
-  --z-lightbox: 30;
 }
 
 /* ── Desktop (≥48rem). Everything above is the phone design: 98% of visitors (Kedar, 2026-11-05). ── */
 @media (min-width: 48rem) {
   :root {
     --size-h1: clamp(2.5rem, 1.88rem + 2.65vw, 4rem);
+    --size-p: 1.5rem;  /* 24 on desktop: trial, Kedar 2026-11-05 */
     --size-h2: clamp(2rem, 1.59rem + 1.77vw, 3rem);
-    --size-large: clamp(1.375rem, 1.17rem + 0.88vw, 1.875rem);
-    --size-small: 0.875rem;
     --leading-h1: 1.094;
     --leading-h2: 1.25;
-    --leading-large: 1.333;
-    --leading-p: var(--leading-auto);
-    --leading-small: var(--leading-auto);
+    --lines-review-quote: 4;
+    --rhythm-team-pad: var(--space-5);
     --tracking-h1: 0;
     --tracking-h2: 0;
     --align-page: center;
@@ -289,10 +281,8 @@
     --rhythm-figure: var(--space-10);
     --rhythm-post-top: var(--space-7);
     --rhythm-post-body: var(--rhythm-figure);
-    --rhythm-fact-label: var(--space-2);
+    --rhythm-fact-x: var(--space-7);
     --rhythm-fact-icon-lift: calc(-1 * var(--space-1));
-    --leading-fact: 1.3333;
-    --leading-prose: 1.3333;
     --size-post-logo: 2.125rem;
     --rhythm-hero-to-reviews: var(--rhythm-section);
     --size-service-icon: 2.75rem;

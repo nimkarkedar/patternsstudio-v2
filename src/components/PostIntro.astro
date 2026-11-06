@@ -1,6 +1,7 @@
 ---
-// Project details at the top of a post (Kedar, MacBook Air - 32, 2026-11-05). Four cells, white hairlines between:
-// Client logo | Client name, Industry, Status | Scope | Client testimonial and Impact, which share the last cell.
+// Project details at the top of a post (Kedar, 2026-11-05). A soft grey panel at the full content width:
+// the client logo on its own row, then three cells with hairlines between:
+// Client name, Industry, Status | Scope | Client testimonial and Impact, which share the last cell.
 // Each is one Notion column. Blank = not shown, and the cells left share the width.
 // Small grey label over a P value. The logo has no visible label; testimonial and Impact carry an icon instead.
 // Phones: a spec list, short values beside their label.
@@ -27,7 +28,7 @@ const hasLast = Boolean(testimonial) || impact.length > 0;
 ---
 <dl class="facts">
   {logo && (
-    <div class="column">
+    <div class="column brand">
       <div class="fact">
         <dt class="visually-hidden">{labels.clientLogo}</dt>
         <dd><Image src={logo} alt={client ? `${client} logo` : labels.clientLogo} class="logo" /></dd>
@@ -68,15 +69,15 @@ const hasLast = Boolean(testimonial) || impact.length > 0;
 </dl>
 
 <style>
-  /* Phones: a compact spec list in the pale panel, white lines between rows. Short values sit beside their label;
+  /* Phones: a compact spec list in the panel, hairlines between rows. Short values sit beside their label;
      Scope, Impact and other long values sit under it. */
   .facts {
     padding-inline: var(--rhythm-fact-x);
     border-radius: var(--radius-card);
-    background: var(--color-surface-tint);
+    background: var(--color-surface-panel);
     color: var(--color-on-surface);
   }
-  .column + .column, .fact + .fact { border-top: var(--line-width) solid var(--color-surface); }
+  .column + .column, .fact + .fact { border-top: var(--line-width) solid var(--color-line-on-surface); }
   .fact { display: grid; gap: var(--rhythm-fact-label); padding-block: var(--rhythm-fact-y); }
   .short .fact {
     grid-template-columns: var(--width-fact-label) minmax(0, 1fr);
@@ -87,7 +88,7 @@ const hasLast = Boolean(testimonial) || impact.length > 0;
   .logo { display: block; width: auto; max-width: 100%; height: var(--size-post-logo); }
   .icon { display: block; width: var(--size-fact-icon); height: var(--size-fact-icon); }
   .icon :global(svg) { display: block; width: 100%; height: 100%; }
-  dd { overflow-wrap: anywhere; line-height: var(--leading-fact); }
+  dd { overflow-wrap: anywhere; }
   .points { padding-inline-start: var(--rhythm-fact-bullet); list-style: disc; }
   a {
     color: inherit;
@@ -97,24 +98,21 @@ const hasLast = Boolean(testimonial) || impact.length > 0;
   }
   a:hover { color: var(--color-accent); }
 
-  /* From 48rem: cells side by side, on the frame's 940 grid. */
+  /* From 48rem: logo row across the top, the other cells side by side and sharing the width equally. */
   @media (min-width: 48rem) {
-    .facts {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: minmax(0, 1fr);
-      max-width: var(--width-post-details);
-      margin-inline: auto;
-      padding: 0;
-    }
+    .facts { display: flex; flex-wrap: wrap; padding: 0; }
     .column {
+      flex: 1 1 0;
+      min-width: 0;
       display: grid;
       align-content: start;
       gap: var(--rhythm-fact-row);
-      padding: var(--rhythm-fact-top) var(--rhythm-fact-x) var(--rhythm-fact-bottom);
+      padding: var(--rhythm-fact-x);
     }
-    .column:first-child { padding-inline-start: var(--rhythm-fact-first); }
-    .column + .column { border-top: 0; border-inline-start: var(--line-width) solid var(--color-surface); }
+    .brand { flex-basis: 100%; }
+    .column + .column { border-top: 0; border-inline-start: var(--line-width) solid var(--color-line-on-surface); }
+    .brand { border-bottom: var(--line-width) solid var(--color-line-on-surface); }
+    .brand + .column { border-inline-start: 0; }
     .fact + .fact { border-top: 0; }
     .fact { align-content: start; padding-block: 0; }
     .short .fact { grid-template-columns: minmax(0, 1fr); }

@@ -1,0 +1,156 @@
+---
+// Rate card (Kedar's design, MacBook Air - 36, 2026-11-06), linked from /approach ("We also have a rate card for clients who
+// know it all"). Blue page (Kedar, 2026-11-06), × top right back to /approach. A letter on cream paper (two sheets peeking
+// out behind it) beside a white till receipt: torn zigzag top and bottom, "Receipt", dashed rules, dotted leaders to the
+// prices, a barcode, "Thank you!" (after Kedar's receipt reference). Kedar's words, verbatim (typos stay until he fixes them).
+// Phones: letter, then receipt under it.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { routes, labels } from '../data/site';
+
+const rates = [
+  { who: 'We design everything', price: '$100' },
+  { who: 'We design, you advise', price: '$200' },
+  { who: 'We design, you help', price: '$300' },
+  { who: 'You design, we help', price: '$1,000' },
+  { who: 'You design, we advise', price: '$10,000' },
+  { who: 'You design everything', price: '$20,000' },
+];
+
+// A made-up barcode: thin bars of 1–3 units from a fixed seed, so it never changes between builds.
+let seed = 7;
+const next = () => (seed = (seed * 16807) % 2147483647);
+let x = 0;
+const bars: { x: number; w: number }[] = [];
+while (x < 110) {
+  const w = 1 + (next() % 3);
+  bars.push({ x, w: w === 3 ? 2 : w * 0.6 });
+  x += w + 1 + (next() % 2);
+}
+const barcodeWidth = x;
+---
+<BaseLayout title="Rate card" description="Design is beyond how it looks. Proportion, hierarchy, contrast, these are not opinions. We trust that you trust us. For others, here’s our rate card.">
+  <article class="page">
+    <a class="back" href={routes.approach} aria-label={labels.back}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" />
+      </svg>
+    </a>
+
+    <div class="desk container">
+      <div class="letter on-surface">
+        <h1 class="t-p-bold hello">Hello!</h1>
+        <p class="t-p">Design is beyond how it looks. Proportion, hierarchy, contrast, these are not opinions. It shapes how people understand, use and experience your business.</p>
+        <p class="t-p">A PowerPoint is not a strategy. Strategy is about making choices. Knowing where to compete, what to prioritise,</p>
+        <p class="t-p">GTM is not a launch campaign. Go-to-market is how to reach your users and clients. What will make them choose you over everyone else.</p>
+        <p class="t-p">We’ve developed these skills after decades of work and experience. We trust that you trust us. For others, here’s our rate card.</p>
+        <p class="t-p sign">With love,<br />Team Patterns Studio!</p>
+      </div>
+
+      <section class="receipt on-surface" aria-labelledby="receipt-title">
+        <h2 id="receipt-title" class="t-h2 receipt-title">Receipt</h2>
+        <ul class="rates" role="list">
+          {rates.map(({ who, price }) => (
+            <li class="t-small rate">
+              <span>{who}</span>
+              <span class="leader" aria-hidden="true"></span>
+              <span>{price}</span>
+            </li>
+          ))}
+        </ul>
+        <svg class="barcode" viewBox={`0 0 ${barcodeWidth} 10`} preserveAspectRatio="none" aria-hidden="true">
+          {bars.map((b) => <rect x={b.x} y="0" width={b.w} height="10" fill="currentColor" />)}
+        </svg>
+        <p class="t-p-bold thanks">Thank you!</p>
+      </section>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    position: relative;
+    flex: 1;
+    padding-block: calc(var(--rhythm-post-close) + var(--size-cue) + var(--rhythm-post-close)) var(--rhythm-section);
+  }
+
+  /* × top right, as on posts. */
+  .back {
+    position: absolute;
+    top: var(--rhythm-post-close);
+    right: var(--rhythm-gutter);
+    display: grid;
+    place-items: center;
+    width: var(--size-cue);
+    height: var(--size-cue);
+    border-radius: var(--radius-pill);
+    background: var(--color-button);
+    color: var(--color-on-button);
+  }
+  .back:hover { background: var(--color-button-hover); }
+  .back svg { width: var(--size-cue-icon); height: var(--size-cue-icon); }
+
+  .desk { display: grid; gap: var(--rhythm-section); justify-items: center; isolation: isolate; } /* keeps the back sheets above the page */
+
+  /* The letter: cream paper, two more sheets peeking out behind it. */
+  .letter {
+    position: relative;
+    width: min(100%, var(--width-letter));
+    padding: var(--rhythm-letter-pad);
+    background: var(--color-letter);
+    color: var(--color-on-surface);
+    box-shadow: var(--shadow-sheet);
+  }
+  .letter::before,
+  .letter::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--color-letter);
+    box-shadow: var(--shadow-sheet);
+  }
+  .letter::before { transform: rotate(calc(var(--rotate-sheet) * -1)); }
+  .letter::after { transform: rotate(var(--rotate-sheet)) translate(var(--space-1), var(--space-1)); }
+  .letter > * + * { margin-top: var(--rhythm-paragraph); }
+  .letter .hello + * { margin-top: var(--rhythm-stack); }
+  .sign { margin-top: var(--rhythm-heading-below); }
+
+  /* The receipt: white slip torn in a zigzag top and bottom (a mask cuts the teeth), dashed rules between parts. */
+  .receipt {
+    width: min(100%, var(--width-receipt));
+    display: grid;
+    padding: calc(var(--size-receipt-tooth) + var(--rhythm-letter-pad)) var(--rhythm-receipt-x);
+    background: var(--color-surface);
+    color: var(--color-on-surface);
+    --tooth: conic-gradient(from -45deg at bottom, transparent, var(--color-on-surface) 1deg 89deg, transparent 90deg);
+    mask:
+      conic-gradient(from 135deg at top, transparent, var(--color-on-surface) 1deg 89deg, transparent 90deg) top / var(--size-receipt-tooth) 51% repeat-x,
+      var(--tooth) bottom / var(--size-receipt-tooth) 51% repeat-x;
+  }
+  .receipt > * + * {
+    margin-top: var(--rhythm-receipt-part);
+    padding-top: var(--rhythm-receipt-part);
+    border-top: var(--line-width) dashed var(--color-on-surface-muted);
+  }
+  .receipt-title, .thanks { text-align: center; }
+  .rates { display: grid; gap: var(--rhythm-stack); }
+  .rate {
+    display: grid;
+    grid-template-columns: auto minmax(var(--space-3), 1fr) auto;
+    align-items: baseline;
+    column-gap: var(--space-1);
+  }
+  /* Dotted leader from the line to its price. */
+  .leader { border-bottom: var(--size-leader) dotted var(--color-on-surface-muted); }
+  .barcode { display: block; width: 100%; height: var(--size-barcode-h); }
+
+  @media (min-width: 48rem) {
+    .desk {
+      grid-template-columns: var(--width-letter) var(--width-receipt);
+      justify-content: center;
+      align-items: start;
+      gap: var(--rhythm-desk-gap);
+    }
+    .receipt { margin-top: var(--rhythm-receipt-offset); }
+  }
+</style>

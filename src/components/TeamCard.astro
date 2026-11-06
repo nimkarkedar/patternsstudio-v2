@@ -1,10 +1,9 @@
 ---
-// About page: one team member or advisor (Kedar's design, MacBook Air - 23 + 29, 2026-11-04).
-// Front: on white, name (P-Bold) + role (Small-P, grey) top left, LinkedIn mark top right, portrait at the foot, round + button.
-// Hovering the card turns the LinkedIn mark LinkedIn blue. Clicking the card (or the button) shows a short bio, the
-// person's name in bold: ≥48rem the card flips in 3D to a white back (and grows to fit); × or another click flips back.
-// Phones: a centred modal (<dialog>) flips in instead, so the bio has room; ×, Esc or a tap outside flips it away.
-// Reduced motion: instant. Photos: src/assets/about/*.webp, cropped from the frame.
+// About page: one team member or advisor. Everything on the card, nothing to click open (Kedar, 2026-11-06: replaces the
+// flip + bio modal, so people just read). White card: name (P-Bold) + role (Small, grey) and the LinkedIn mark, then the
+// bio (opens with the name in bold), portrait standing on the bottom edge.
+// Phones: text, then the portrait under it. From 48rem: portrait on the left (300 wide), text beside it.
+// Photos: src/assets/about/*.webp, cropped from the frame. Tilts like every card except /work.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { labels } from '../data/site';
@@ -21,248 +20,57 @@ const { name, role, photo, alt = '', linkedin, bio } = Astro.props;
 // The bio opens with the person's name in bold (full name, or first name if that's how it starts).
 const opening = [name, name.split(' ')[0]].find((n) => bio.startsWith(n)) ?? '';
 const rest = bio.slice(opening.length);
-const bioId = `bio-${name.toLowerCase().replace(/[^a-z]+/g, '-')}`;
 // Kedar's Linked-in.svg (2026-10-30).
 const linkedinPath = 'M22.2234 0H1.77187C0.792187 0 0 0.773438 0 1.72969V22.2656C0 23.2219 0.792187 24 1.77187 24H22.2234C23.2031 24 24 23.2219 24 22.2703V1.72969C24 0.773438 23.2031 0 22.2234 0ZM7.12031 20.4516H3.55781V8.99531H7.12031V20.4516ZM5.33906 7.43438C4.19531 7.43438 3.27188 6.51094 3.27188 5.37187C3.27188 4.23281 4.19531 3.30937 5.33906 3.30937C6.47813 3.30937 7.40156 4.23281 7.40156 5.37187C7.40156 6.50625 6.47813 7.43438 5.33906 7.43438ZM20.4516 20.4516H16.8937V14.8828C16.8937 13.5562 16.8703 11.8453 15.0422 11.8453C13.1906 11.8453 12.9094 13.2937 12.9094 14.7891V20.4516H9.35625V8.99531H12.7687V10.5609H12.8156C13.2891 9.66094 14.4516 8.70938 16.1813 8.70938C19.7859 8.70938 20.4516 11.0813 20.4516 14.1656V20.4516Z';
 ---
-<article class="card" data-team-card data-tilt>
-  <div class="flipper">
-    <div class="face front">
-      <div class="person">
-        <div class="who">
-          <h3 class="t-card-title">{name}</h3>
-          <p class="t-small role">{role}</p>
-        </div>
-        {/* LinkedIn mark: a link once the URL is set. */}
-        {linkedin ? (
-          <a class="linkedin" href={linkedin} target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d={linkedinPath} /></svg>
-            <span class="visually-hidden">{name} {labels.onLinkedIn}</span>
-          </a>
-        ) : (
-          <span class="linkedin"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d={linkedinPath} /></svg></span>
-        )}
+<article class="card on-surface" data-tilt>
+  <div class="text">
+    <header class="person">
+      <div class="who">
+        <h3 class="t-p-bold">{name}</h3>
+        <p class="t-small role">{role}</p>
       </div>
-      {photo && <Image src={photo} alt={alt} class="photo" widths={[400, 800, 1200]} sizes="(min-width: 48rem) 352px, 100vw" />}
-    </div>
-
-    <div class="face back" id={bioId} inert>
-      <p class="t-p bio"><strong class="t-p-bold">{opening}</strong>{rest}</p>
-    </div>
+      {linkedin && (
+        <a class="linkedin" href={linkedin} target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d={linkedinPath} /></svg>
+          <span class="visually-hidden">{name} {labels.onLinkedIn}</span>
+        </a>
+      )}
+    </header>
+    <p class="t-p bio">{opening && <strong class="t-p-bold">{opening}</strong>}{rest}</p>
   </div>
-
-  <button class="toggle" type="button" aria-expanded="false" aria-controls={bioId}>
-    <svg class="plus" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
-    <svg class="cross" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17" /></svg>
-    <span class="visually-hidden">{labels.moreAbout} {name}</span>
-  </button>
-
-  <dialog class="modal" aria-label={name}>
-    <div class="modal-body">
-      <p class="t-p bio"><strong class="t-p-bold">{opening}</strong>{rest}</p>
-    </div>
-    <button class="toggle modal-close" type="button">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17" /></svg>
-      <span class="visually-hidden">{labels.close}</span>
-    </button>
-  </dialog>
+  {photo && <Image src={photo} alt={alt} class="photo" widths={[400, 800, 1200]} sizes="(min-width: 48rem) 300px, 100vw" />}
 </article>
 
 <script>
   import '../scripts/tilt';
-
-  // Click anywhere on the card (except the LinkedIn link) or its round button → bio.
-  const desktop = window.matchMedia('(min-width: 48rem)');
-  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const token = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-
-  for (const card of document.querySelectorAll<HTMLElement>('[data-team-card]')) {
-    const button = card.querySelector<HTMLButtonElement>('.toggle')!;
-    const flipper = card.querySelector<HTMLElement>('.flipper')!;
-    const front = card.querySelector<HTMLElement>('.front')!;
-    const back = card.querySelector<HTMLElement>('.back')!;
-    const modal = card.querySelector<HTMLDialogElement>('.modal')!;
-    let busy = false;
-
-    // Phones: the card turns edge-on, then the modal carries on the turn while growing from the card's spot to the
-    // centre. Closing runs it backwards: the modal turns edge-on while shrinking onto the card, then the card turns back.
-    const half = () => parseFloat(token('--motion-modal-flip'));
-    const depth = () => token('--motion-flip-depth');
-    // Transform that puts the (open) modal over the card, turned edge-on.
-    const onCard = (angle: number) => {
-      const from = card.getBoundingClientRect();
-      const to = modal.getBoundingClientRect();
-      const dx = from.left + from.width / 2 - (to.left + to.width / 2);
-      const dy = from.top + from.height / 2 - (to.top + to.height / 2);
-      return `translate(${dx}px, ${dy}px) scale(${from.width / to.width}, ${from.height / to.height}) perspective(${depth()}) rotateY(${angle}deg)`;
-    };
-    const face = `perspective(${depth()}) rotateY(0deg)`;
-    const backdrop = (from: number, to: number, easing: string) => {
-      try { modal.animate({ opacity: [from, to] }, { duration: half(), easing, pseudoElement: '::backdrop' }); } catch { /* older browsers: no fade */ }
-    };
-    const cardTurn = (from: number, to: number, easing: string) =>
-      Promise.all([
-        flipper.animate({ transform: [`rotateY(${from}deg)`, `rotateY(${to}deg)`] }, { duration: half(), easing, fill: 'forwards' }).finished,
-        button.animate({ opacity: [from ? 0 : 1, to ? 0 : 1] }, { duration: half(), easing, fill: 'forwards' }).finished,
-      ]);
-
-    const openModal = async () => {
-      if (busy || modal.open) return;
-      if (still.matches) { modal.showModal(); return; }
-      busy = true;
-      await cardTurn(0, 90, token('--ease-flip-in'));
-      modal.showModal();
-      backdrop(0, 1, token('--ease-flip-out'));
-      await modal.animate({ transform: [onCard(-90), face] }, { duration: half(), easing: token('--ease-flip-out') }).finished;
-      busy = false;
-    };
-
-    const closeModal = async () => {
-      if (busy || !modal.open) return;
-      if (still.matches) { modal.close(); return; }
-      busy = true;
-      backdrop(1, 0, token('--ease-flip-in'));
-      await modal.animate({ transform: [face, onCard(-90)] }, { duration: half(), easing: token('--ease-flip-in'), fill: 'forwards' }).finished;
-      modal.close();
-      modal.getAnimations().forEach((a) => a.cancel());
-      await cardTurn(90, 0, token('--ease-flip-out'));
-      flipper.getAnimations().forEach((a) => a.cancel());
-      button.getAnimations().forEach((a) => a.cancel());
-      busy = false;
-    };
-
-    card.addEventListener('click', (event) => {
-      const target = event.target as Element;
-      if (target.closest('a, dialog')) return;
-      if (window.getSelection()?.toString()) return; // selecting bio text isn't a click
-      if (!desktop.matches) { openModal(); return; }
-      const open = button.getAttribute('aria-expanded') !== 'true';
-      button.setAttribute('aria-expanded', String(open));
-      card.toggleAttribute('data-open', open);
-      front.inert = open; // only the visible side can be focused / read
-      back.inert = !open;
-    });
-
-    // ×, Esc, or a tap on the backdrop (the dialog element itself, outside its box) → animated close.
-    modal.querySelector('.modal-close')!.addEventListener('click', closeModal);
-    modal.addEventListener('click', (event) => { if (event.target === modal) closeModal(); });
-    modal.addEventListener('cancel', (event) => { event.preventDefault(); closeModal(); });
-  }
 </script>
 
 <style>
-  p.bio { line-height: var(--leading-bio); }
-
-  /* Width comes from the grid column only (size container), never from the bio text. */
   .card {
-    position: relative;
-    display: grid;
-    container-type: inline-size;
-    perspective: var(--motion-flip-depth);
-    cursor: pointer;
-  }
-  /* Both sides share one cell, so a long bio makes the card (and its row) taller. */
-  .flipper {
-    display: grid;
-    transform-style: preserve-3d;
-    transition: transform var(--motion-flip) var(--ease-flip);
-  }
-  .card[data-open] .flipper { transform: rotateY(180deg); }
-  .face {
-    grid-area: 1 / 1;
-    position: relative;
+    display: flex;
+    flex-direction: column;
     border-radius: var(--radius-card);
+    overflow: hidden;
     background: var(--color-surface);
     color: var(--color-on-surface);
     box-shadow: var(--shadow-glow);
-    backface-visibility: hidden;
+    transform: perspective(var(--motion-tilt-depth)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
   }
-
-  .front { display: flex; flex-direction: column; overflow: hidden; }
-  .person {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    gap: var(--rhythm-stack);
-    padding: var(--rhythm-card-pad) var(--rhythm-card-pad) var(--rhythm-stack);
-  }
+  .text { display: grid; align-content: start; gap: var(--rhythm-stack); padding: var(--rhythm-team-pad); }
+  .person { display: flex; justify-content: space-between; align-items: start; gap: var(--rhythm-list); }
   .who { display: grid; gap: var(--rhythm-label); }
   .role { color: var(--color-on-surface-muted); }
   .linkedin { position: relative; flex: none; }
-  a.linkedin::after { content: ''; position: absolute; inset: var(--rhythm-hit); } /* thumb-sized tap area */
+  .linkedin::after { content: ''; position: absolute; inset: var(--rhythm-hit); } /* thumb-sized tap area */
   .linkedin svg { display: block; width: var(--size-team-icon); height: var(--size-team-icon); }
-  @media (hover: hover) {
-    .card:hover .linkedin { color: var(--color-linkedin); }
-  }
+  .linkedin:hover { color: var(--color-linkedin); }
   .photo { width: 100%; height: auto; aspect-ratio: var(--ratio-team-photo); object-fit: cover; object-position: bottom; margin-top: auto; }
 
-  /* Bio side (≥48rem only — phones use the modal, so the card keeps its size). */
-  .back { display: none; }
   @media (min-width: 48rem) {
-    .back { display: grid; }
-  }
-  .back {
-    transform: rotateY(180deg);
-    align-content: start;
-    gap: var(--rhythm-label);
-    padding: var(--rhythm-card-pad) var(--rhythm-card-pad) calc(var(--size-expand) + 2 * var(--rhythm-panel));
-  }
-
-  /* Phone modal: centred, all the same height (bios are about the same length; a longer one scrolls).
-     The flip in / out is driven by the script above. */
-  .modal {
-    width: calc(100% - 2 * var(--rhythm-gutter));
-    max-width: var(--width-review-card);
-    height: min(var(--height-modal), var(--height-modal-max));
-    max-height: none;
-    margin: auto;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
-    border-radius: var(--radius-card);
-    background: var(--color-surface);
-    color: var(--color-on-surface);
-    box-shadow: var(--shadow-glow);
-    cursor: auto;
-    backface-visibility: hidden;
-  }
-  .modal[open] { display: grid; }
-  .modal::backdrop { background: var(--color-modal-backdrop); }
-  .modal-body {
-    display: grid;
-    align-content: start;
-    gap: var(--rhythm-label);
-    overflow-y: auto;
-    padding: var(--rhythm-card-pad) var(--rhythm-card-pad) calc(var(--size-expand) + 2 * var(--rhythm-panel));
-  }
-  :global(html:has(.modal[open])) { overflow: hidden; } /* page doesn't scroll behind the modal */
-
-  /* The round + / × button, bottom-right; stays put while the card turns. */
-  .toggle {
-    position: absolute;
-    inset: auto var(--rhythm-panel) var(--rhythm-panel) auto;
-    z-index: 1;
-    display: grid;
-    place-items: center;
-    width: var(--size-toggle);
-    height: var(--size-toggle);
-    border-radius: var(--radius-pill);
-    background: var(--color-button);
-    color: var(--color-on-button);
-  }
-  .toggle:hover { background: var(--color-button-hover); }
-  .toggle svg {
-    width: var(--size-expand-icon);
-    height: var(--size-expand-icon);
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2.5;
-    stroke-linecap: round;
-  }
-  .cross, .card[data-open] .plus { display: none; }
-  .card[data-open] .cross { display: block; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .flipper { transition: none; }
+    .card { flex-direction: row; }
+    .photo { order: -1; flex: none; width: var(--width-team-card); align-self: flex-end; }
+    .text { flex: 1; padding: var(--rhythm-card-pad); }
+    .bio { max-width: var(--width-lead); }
   }
 </style>

@@ -1,6 +1,6 @@
 ---
-// One client review card (Kedar's design, MacBook Air - 22 + 27, 2026-11-04): on white, the quote (P, three lines
-// tall so every name lines up), name (P-Bold), role (Small-P, grey), then the portrait standing on the bottom edge.
+// One client review card (Kedar's design, MacBook Air - 22 + 27, 2026-11-04): on white, the quote (P, a fixed
+// number of lines tall so every name lines up), name (P-Bold), role (Small-P, grey), then the portrait, cropped by the card's bottom edge.
 // Used by the homepage strip and /reviews. Portraits: src/assets/reviews/<file>.webp, cropped from the frame.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -38,7 +38,7 @@ const photo = Object.entries(files).find(([path]) => path.split('/').pop()?.repl
     box-shadow: var(--shadow-glow);
   }
   .quote {
-    min-height: calc(3lh + var(--rhythm-card-pad));
+    min-height: calc(var(--lines-review-quote) * 1lh + var(--rhythm-card-pad));
     padding: var(--rhythm-card-pad) var(--rhythm-card-pad) 0;
   }
   .person {
@@ -47,5 +47,5 @@ const photo = Object.entries(files).find(([path]) => path.split('/').pop()?.repl
     padding: var(--rhythm-review-name) var(--rhythm-card-pad);
   }
   .role { color: var(--color-on-surface-muted); }
-  .photo { width: 100%; height: auto; aspect-ratio: var(--ratio-review-photo); object-fit: cover; object-position: bottom; margin-top: auto; }
+  .photo { width: 100%; height: auto; aspect-ratio: var(--ratio-review-photo); object-fit: cover; object-position: var(--position-review-photo); margin-top: auto; }
 </style>

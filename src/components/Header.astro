@@ -15,16 +15,16 @@ const { postTitle } = Astro.props as { postTitle?: string };
     <nav class="nav" aria-label="Main">
       <ul role="list">
         {nav.map((l) => (
-          <li><a class="t-nav link" href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a></li>
+          <li><a class="t-small link" href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a></li>
         ))}
       </ul>
     </nav>
 
-    {postTitle && <a class="t-nav post-h1" href="#top" tabindex="-1" aria-hidden="true">{postTitle}</a>}
+    {postTitle && <a class="t-small post-h1" href="#top" tabindex="-1" aria-hidden="true">{postTitle}</a>}
 
-    <a class="t-nav link contact" href={contactLink.href} aria-current={isActive(contactLink.href) ? 'page' : undefined}>{contactLink.label}</a>
+    <a class="t-small link contact" href={contactLink.href} aria-current={isActive(contactLink.href) ? 'page' : undefined}>{contactLink.label}</a>
 
-    <button class="t-nav menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+    <button class="t-small menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
       <span data-label-closed>Menu</span><span data-label-open hidden>Close</span>
     </button>
   </div>

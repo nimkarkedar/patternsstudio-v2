@@ -1,14 +1,16 @@
 ---
 // Services: "Problem / Probable solution" table card (Kedar's design, MacBook Air - 30, 2026-11-04).
 // Pale-blue header band (as in the case-study tables); each row = the problem + its solution as plain text (no pills — Kedar, 2026-10-30).
-// Desktop: two columns. Phones: each problem with its solution under it, in bold, so the eye can run down the answers. Tilts like every card except /work.
+// Desktop: two columns. Phones: the two-column header is swapped for a one-line band, `phoneLabel` ("Problem → Our solution");
+// each problem with its solution under it, in bold, behind an ink → (Kedar, 2026-11-06). Tilts like every card except /work.
 import Card from './Card.astro';
 
 interface Item { problem: string; solution: string }
-interface Props { items: Item[]; problemLabel: string; solutionLabel: string }
-const { items, problemLabel, solutionLabel } = Astro.props;
+interface Props { items: Item[]; problemLabel: string; solutionLabel: string; phoneLabel: string }
+const { items, problemLabel, solutionLabel, phoneLabel } = Astro.props;
 ---
 <Card tilt>
+  <p class="t-p-bold band" aria-hidden="true">{phoneLabel}</p>
   <div class="table" role="table" aria-label={`${problemLabel} / ${solutionLabel}`}>
     <div class="head" role="row">
       <span class="t-p-bold" role="columnheader">{problemLabel}</span>
@@ -26,16 +28,38 @@ const { items, problemLabel, solutionLabel } = Astro.props;
 <style>
   .head, .row {
     display: grid;
-    gap: var(--rhythm-list);
-    padding: var(--rhythm-list-row) var(--rhythm-card-pad);
+    gap: var(--rhythm-problem-answer);
+    padding: var(--rhythm-problem-row) var(--rhythm-card-pad);
   }
-  .head {
+  .head, .band {
     background: var(--color-table-head);
     color: var(--color-on-table-head);
   }
+  .band { padding: var(--rhythm-list-row) var(--rhythm-card-pad); }
+  /* Phones: header hidden visually (same rules as .visually-hidden), arrow points from problem to answer. */
+  .head {
+    position: absolute; width: var(--line-width); height: var(--line-width); overflow: hidden;
+    clip-path: inset(50%); white-space: nowrap;
+  }
+  .solution {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--rhythm-arrow);
+  }
+  .solution::before { content: "→" / ""; }
   .row + .row { border-top: var(--line-width) solid var(--color-line-on-surface); }
+  @media (hover: hover) {
+    .row:hover { background: var(--color-surface-hover); }
+  }
 
   @media (min-width: 48rem) {
+    .head {
+      position: static; width: auto; height: auto; overflow: visible;
+      clip-path: none; white-space: normal;
+    }
+    .band { display: none; }
+    .solution { display: block; }
+    .solution::before { content: none; }
     .head, .row {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       column-gap: var(--rhythm-card-gap);

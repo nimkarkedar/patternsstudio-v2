@@ -19,6 +19,8 @@ scope:
 testimonial: "Kedar thought outside the box, bringing the “X⁠-⁠factor” we needed for a distinctive brand architecture."
 ---
 
+![The new Neufin Energy home page on a laptop and a phone: power lines on violet-blue, the headline "Cut Energy Cost. On Your Terms." and a quote form.](./neufin-energy-new-website-laptop-and-phone.png)
+
 ## About Neufin
 
 Neufin Energy helps Indian businesses buy cheaper, cleaner power from solar, wind, battery storage and the power exchange, and tracks every unit with its own software, Lumen.
@@ -26,8 +28,6 @@ Neufin Energy helps Indian businesses buy cheaper, cleaner power from solar, win
 The services and offerings are strong. The brand wasn’t carrying it.
 
 As like any startup, the founders were focused on business, finding product market fit, and generating leads. This had left the logo, website and sales deck telling different stories. Buyers took Neufin for one more consultant, or compared it with its own partners. The story only landed when a founder was in the room.
-
-![The new Neufin Energy home page on a laptop and a phone: power lines on violet-blue, the headline "Cut Energy Cost. On Your Terms." and a quote form.](./neufin-energy-new-website-laptop-and-phone.png)
 
 ![The Neufin N on its grid: three violet bands stepping down, labelled lower electricity bills, lower energy costs and smaller carbon foot print.](./neufin-energy-logo-concept-three-bands.png)
 

@@ -1,7 +1,6 @@
 // Turns plain Markdown into the case-study "atoms" — so posts stay plain Markdown (CMS-friendly).
 //
-//   ![Alt text](./image.png "Caption")        → <figure><button.zoom><img alt>(enlarge icon)</button><figcaption>Caption</figcaption></figure>
-//                                                (the button opens the image larger — lightbox script in PostLayout)
+//   ![Alt text](./image.png "Caption")        → <figure><img alt><figcaption>Caption</figcaption></figure>
 //   https://www.youtube.com/watch?v=ID         → privacy-friendly YouTube embed (link alone on its line)
 //   https://vimeo.com/ID                       → Vimeo embed
 //   | Markdown | table |                       → wrapped so it scrolls sideways on phones
@@ -12,13 +11,6 @@
 const isWhitespace = (n) => n.type === 'text' && !n.value.trim();
 const el = (tagName, properties = {}, children = []) => ({ type: 'element', tagName, properties, children });
 const text = (value) => ({ type: 'text', value });
-
-// "Enlarge" icon (four corner arrows) shown on every case-study image.
-const svgAttrs = { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round', ariaHidden: 'true' };
-const zoomIcon = () =>
-  el('span', { className: ['zoom-icon'] }, [
-    el('svg', svgAttrs, ['M15 15l6 6', 'M15 9l6-6', 'M21 16v5h-5', 'M21 8V3h-5', 'M3 16v5h5', 'M3 21l6-6', 'M3 8V3h5', 'M3 3l6 6'].map((d) => el('path', { d }))),
-  ]);
 
 function videoEmbedUrl(href) {
   try {
@@ -50,8 +42,7 @@ function transform(node) {
         // Edge to edge, so one file becomes several sizes and each screen downloads only what it can show.
         img.properties.widths = IMAGE_WIDTHS;
         img.properties.sizes = '100vw';
-        const zoom = el('button', { type: 'button', className: ['zoom'], ariaHaspopup: 'dialog' }, [img, zoomIcon()]);
-        return el('figure', {}, caption ? [zoom, el('figcaption', {}, [text(String(caption))])] : [zoom]);
+        return el('figure', {}, caption ? [img, el('figcaption', {}, [text(String(caption))])] : [img]);
       }
 
       // Bare YouTube / Vimeo link alone in a paragraph → embedded player.

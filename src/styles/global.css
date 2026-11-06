@@ -3,8 +3,6 @@
  * Every piece of text on the site uses exactly one .t-* class below (or a .prose element mapped onto one).
  * Never set font-family / font-size / font-weight anywhere else.
  */
-@import "@fontsource/montserrat/latin-600.css";
-@import "@fontsource/montserrat/latin-700.css";
 @import "@fontsource/montserrat/latin-800.css";
 @import "@fontsource/lato/latin-400.css";
 @import "@fontsource/lato/latin-400-italic.css"; /* <em> in case studies */
@@ -43,15 +41,14 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
 
 /* ── Text styles ─────────────────────────────────────────
- * Kedar's Figma text styles, 2026-11-04, one class each. The whole site uses ONLY these; case-study
- * Markdown (.prose …) is mapped onto the same styles here, never styled separately.
- *   .t-h1       Montserrat ExtraBold 64/70   page + post titles, phone menu   (Figma: H1)
- *   .t-h2       Montserrat Bold 48/60        section headings                 (Figma: H2)
- *   .t-large    Lato Regular 30/40           hero leads, contact, pull quotes (Figma: Large-P)
- *   .t-p        Lato Regular 18/auto         all running text, buttons        (Figma: P)
- *   .t-p-bold   Lato Bold 18/auto            names, card and table headings   (Figma: P-Bold)
- *   .t-small    Lato Regular 14/auto         roles, labels, footer            (Figma: Small-P)
- *   .t-nav      Montserrat SemiBold 16/24    navigation                       (Figma: Navigation)
+ * Four sizes, two fonts, two weights per font at most (Kedar, 2026-11-05: "less variations the better").
+ * The whole site uses ONLY these; case-study Markdown (.prose …) is mapped onto the same styles here.
+ *   .t-h1       Montserrat ExtraBold 64 (phone 46)   page + post titles, phone menu
+ *   .t-h2       Montserrat ExtraBold 48 (phone 37)   section headings, post ##
+ *   .t-p        Lato Regular 20/1.4                  everything you read, buttons
+ *   .t-p-bold   Lato Bold 20/1.4                     names, card + table headings, post ###
+ *   .t-small    Lato Regular 15/1.4                  navigation, footer, roles, labels
+ *   .t-answer   Services solutions: .t-p-bold on phones, .t-p from 48rem (weight only, same size)
  */
 .t-h1 {
   font-family: var(--font-montserrat);
@@ -61,34 +58,20 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highl
   letter-spacing: var(--tracking-h1);
   text-wrap: balance;
 }
-.t-h2 {
+.t-h2, .prose h2 {
   font-family: var(--font-montserrat);
-  font-weight: var(--weight-bold);
+  font-weight: var(--weight-extrabold);
   font-size: var(--size-h2);
   line-height: var(--leading-h2);
   letter-spacing: var(--tracking-h2);
   text-wrap: balance;
 }
-.t-large, .prose blockquote {
-  font-family: var(--font-lato);
-  font-weight: var(--weight-regular);
-  font-size: var(--size-large);
-  line-height: var(--leading-large);
-  text-wrap: pretty;
-}
-.t-p, .prose :is(p, li, td, th), .prose figure:not(.pull-quote) > figcaption {
+.t-p, .prose :is(p, li, td, th, blockquote), .prose figure:not(.pull-quote) > figcaption {
   font-family: var(--font-lato);
   font-weight: var(--weight-regular);
   font-size: var(--size-p);
   line-height: var(--leading-p);
   text-wrap: pretty;
-}
-/* Post section headings (MacBook Air - 32, 2026-11-05): Large-P in bold. */
-.prose h2 {
-  font-family: var(--font-lato);
-  font-weight: var(--weight-bold);
-  font-size: var(--size-large);
-  line-height: var(--leading-large);
 }
 .t-p-bold, .prose h3, .prose .pull-quote figcaption {
   font-family: var(--font-lato);
@@ -100,16 +83,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highl
   font-family: var(--font-lato);
   font-weight: var(--weight-regular);
   font-size: var(--size-small);
-  line-height: var(--leading-small);
-}
-/* Phones get two extra steps of hierarchy; from 48rem they are P-Bold and P, as in the frames. */
-.t-card-title {
-  font-family: var(--font-montserrat);
-  font-weight: var(--weight-bold);
-  font-size: var(--size-h3);
-  line-height: var(--leading-h3);
-  letter-spacing: var(--tracking-h2);
-  text-wrap: balance;
+  line-height: var(--leading-p);
 }
 .t-answer {
   font-family: var(--font-lato);
@@ -119,18 +93,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highl
   text-wrap: pretty;
 }
 @media (min-width: 48rem) {
-  .t-card-title {
-    font-family: var(--font-lato);
-    font-size: var(--size-p);
-    line-height: var(--leading-p);
-  }
   .t-answer { font-weight: var(--weight-regular); }
-}
-.t-nav {
-  font-family: var(--font-montserrat);
-  font-weight: var(--weight-semibold);
-  font-size: var(--size-nav);
-  line-height: var(--leading-nav);
 }
 
 /* ── Shared layout primitives ──────────────────────────── */
@@ -149,7 +112,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highl
 
 /* ── Prose: case-study Markdown ─────────────────────────────
  * The post page is white and full viewport width (Kedar, MacBook Air - 32, 2026-11-04): text sits in one
- * centred reading column (--width-post, 460) and images run edge to edge. Videos stop at the content width.
+ * centred reading column (--width-post, 552) and images run edge to edge. Videos stop at the content width.
  * Rhythm by proximity: every block is --rhythm-prose apart; images/tables/quotes get more air;
  * a heading has lots of space above and little below, so it belongs to the text it introduces. */
 .prose {
@@ -167,20 +130,19 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highl
 .prose > * + * { margin-top: var(--rhythm-prose); }
 .prose > :where(figure, .embed, .table-scroll, .pull-quote, hr),
 .prose > :where(figure, .embed, .table-scroll, .pull-quote, hr) + * { margin-top: var(--rhythm-prose-block); }
-.prose > * + :where(h2) { margin-top: var(--rhythm-prose-section); }
+.prose > * + :where(h2) { margin-top: var(--rhythm-heading-above); }
 .prose > * + :where(h3) { margin-top: var(--rhythm-prose-subsection); }
-.prose > :where(h2, h3) + * { margin-top: var(--rhythm-prose-heading); }
+.prose > :where(h3) + * { margin-top: var(--rhythm-prose-heading); }
+.prose > :where(h2) + * { margin-top: var(--rhythm-heading-below); }
 .prose > :first-child { margin-top: 0; }
 /* Images get more air (Kedar, 2026-11-01): 80 above the image and 80 below its caption, in every post.
    A heading right above an image keeps its own tight gap, so the heading still belongs to it. */
 .prose > :not(h2, h3) + figure:not(.pull-quote),
 .prose > figure:not(.pull-quote) + * { margin-top: var(--rhythm-figure); }
 
-/* Headings: Large-P in bold / .t-p-bold (above). */
+/* Headings: ## = .t-h2, ### = .t-p-bold (above). */
 .prose :is(h2, h3) { scroll-margin-top: var(--rhythm-prose-section); }
 
-/* Running text: P at 18, with a reading line height (Figma's "Auto" is meant for short card text). */
-.prose :is(p, li) { line-height: var(--leading-prose); }
 .prose :is(strong, b, th) { font-weight: var(--weight-bold); }
 .prose em { font-style: italic; }
 .prose a {
@@ -195,7 +157,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highl
 .prose li + li, .prose li > :is(ul, ol) { margin-top: var(--rhythm-prose-list); }
 .prose li::marker { color: var(--color-on-surface); }
 
-/* Pull quote: hairline above + below, Large-P centred, optional "— Person name" (.t-p-bold).
+/* Pull quote: hairline above + below, .t-p centred, optional "— Person name" (.t-p-bold).
  * Written as a Markdown quote; a last line starting with "— " becomes the name. */
 .prose .pull-quote {
   text-align: var(--align-page);
@@ -213,32 +175,9 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highl
   border-top: var(--line-width) solid var(--color-line-on-surface);
 }
 
-/* Image + caption. The image is a button that opens it larger (lightbox in PostLayout). */
+/* Image + caption. */
 .prose figure { display: grid; gap: var(--rhythm-caption); }
-.prose .zoom {
-  position: relative;
-  display: block;
-  width: 100%;
-  cursor: zoom-in;
-}
-.prose .zoom img { width: 100%; height: auto; } /* edge to edge, so square corners */
-.prose .zoom-icon {
-  position: absolute;
-  right: var(--rhythm-expand-inset);
-  bottom: var(--rhythm-expand-inset);
-  display: grid;
-  place-items: center;
-  width: var(--size-expand);
-  height: var(--size-expand);
-  border-radius: var(--radius-pill);
-  background: var(--color-button);
-  color: var(--color-on-button);
-}
-.prose .zoom:hover .zoom-icon { background: var(--color-button-hover); }
-/* Enlarge button only while the image is hovered or keyboard-focused (Kedar, 2026-11-01: always-on was
-   annoying). Instant, no fade. On touch screens it stays hidden; tapping the image still enlarges it. */
-.prose .zoom:not(:hover, :focus-visible) .zoom-icon { visibility: hidden; }
-.prose .zoom-icon svg { width: var(--size-expand-icon); height: var(--size-expand-icon); }
+.prose figure:not(.pull-quote) > img { width: 100%; height: auto; } /* edge to edge, so square corners */
 /* Captions (MacBook Air - 32, 2026-11-05): P, centred under the image, grey, at most the reading column wide. */
 .prose figure:not(.pull-quote) > figcaption {
   justify-self: center;
@@ -268,7 +207,6 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highl
 .prose :is(th, td) {
   padding: var(--rhythm-cell-y) var(--rhythm-cell-x);
   border-bottom: var(--line-width) solid var(--color-surface);
-  line-height: var(--leading-auto);
   text-align: start;
   vertical-align: top;
 }

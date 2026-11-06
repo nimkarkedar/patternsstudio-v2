@@ -1,6 +1,6 @@
 ---
 // About (Kedar's design, MacBook Air - 23 + 29 open card, 2026-11-04): hero, team cards, Advisors.
-// Clicking a card flips it in 3D to a short bio (TeamCard).
+// Every bio is on its card, nothing to click open (Kedar, 2026-11-06). One card per row. Manav removed 2026-11-06.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Actions from '../components/Actions.astro';
@@ -10,10 +10,9 @@ import kedar from '../assets/about/kedar-nimkar.webp';
 import john from '../assets/about/john-pathrose.webp';
 import andrew from '../assets/about/andrew-mcglinchey.webp';
 import raena from '../assets/about/raena-lim.webp';
-import manav from '../assets/about/manav-kamboj.webp';
 
 // TODO(Kedar): John's bio.
-// Andrew's bio is Kedar's (MacBook Air - 29). Raena's is shortened from her own, to match the others' length. Manav's is a draft from public sources (2026-10-30); he should approve it before launch.
+// Andrew's bio is Kedar's (MacBook Air - 29). Raena's is shortened from her own, to match the others' length.
 const team = [
   {
     name: 'Kedar Nimkar',
@@ -30,8 +29,6 @@ const advisors = [
   { name: 'Andrew McGlinchey', role: 'Product', photo: andrew, linkedin: linkedin.andrew, alt: 'Andrew McGlinchey, smiling, in a patterned shirt',
     bio: 'Andrew McGlinchey is a seasoned product leader with extensive experience building and scaling consumer internet products. Former VP of Products at PropertyGuru Group, he has held product leadership roles at Indeed and Google, with earlier experience at Microsoft and muvee Technologies.' },
   { name: 'Raena Lim', role: 'Finance', photo: raena, linkedin: linkedin.raena, alt: 'Raena Lim, smiling', bio: 'Raena is a Managing Partner at AUD’NCO, where she advises founders as a fractional COO. She co-founded Style Theory, Southeast Asia’s largest fashion rental platform, and as COO raised ~$30M and scaled it across three markets. She began in community banking in Kenya before joining Goldman Sachs in Asia.' },
-  { name: 'Manav Kamboj', role: 'Technology', photo: manav, linkedin: linkedin.manav, alt: 'Manav Kamboj, smiling, in glasses and a blazer',
-    bio: 'Manav is a technology leader and founder. He joined PropertyGuru Group as Chief Technology Officer in 2017, doubled its technology team and went on to also lead its fintech business as Managing Director. Earlier he was VP of Technology at Snapdeal and founded the mobile studio Letsgomo Labs. He studied at IIT Roorkee.' },
 ];
 ---
 <BaseLayout title="About" description="An independent design studio based in Singapore. A team of seasoned industry professionals. We connect market patterns with the finer details.">
@@ -44,13 +41,13 @@ const advisors = [
 
   <div class="container page">
     <section class="cards" aria-label="Team">
-      {team.map((person) => <div class="cell"><TeamCard {...person} /></div>)}
+      {team.map((person) => <TeamCard {...person} />)}
     </section>
 
     <section aria-labelledby="advisors">
       <h2 id="advisors" class="t-h2 heading">Advisors</h2>
       <div class="cards">
-        {advisors.map((person) => <div class="cell"><TeamCard {...person} /></div>)}
+        {advisors.map((person) => <TeamCard {...person} />)}
       </div>
       <div class="actions"><Actions primary={{ label: labels.exploreWork, href: routes.workList }} /></div>
     </section>
@@ -59,16 +56,8 @@ const advisors = [
 
 <style>
   .page { padding-bottom: var(--rhythm-section); }
-  /* Three-card columns; the two team cards sit centred in the same column width. */
-  .cards { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--rhythm-card-gap); }
-  .cell { display: grid; width: 100%; }
+  /* One card per row, full content width: photo left, bio beside it (TeamCard). */
+  .cards { display: grid; gap: var(--rhythm-card-gap); }
   .actions { display: flex; justify-content: center; margin-top: var(--rhythm-page-actions); }
   .heading { text-align: var(--align-page); margin-block: var(--rhythm-heading-above) var(--rhythm-heading-below); }
-
-  @media (min-width: 48rem) {
-    .cell { width: calc((100% - var(--rhythm-card-gap)) / 2); }
-  }
-  @media (min-width: 64rem) {
-    .cell { width: calc((100% - 2 * var(--rhythm-card-gap)) / 3); }
-  }
 </style>

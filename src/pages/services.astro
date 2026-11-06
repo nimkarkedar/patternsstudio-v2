@@ -1,6 +1,6 @@
 ---
 // Services (Kedar's design, MacBook Air - 30, 2026-11-04): hero, problem → probable solution table,
-// "Traditionally it’s called" + service grid. The frame repeats one service as a placeholder; the six services stay as they were.
+// "In other words, we do" + service grid. The frame repeats one service as a placeholder; the six services stay as they were.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Actions from '../components/Actions.astro';
@@ -36,11 +36,11 @@ const services = [
 
   <div class="container page">
     <section aria-label="Problems we solve">
-      <ProblemList items={problems} problemLabel="Problem / Situation" solutionLabel="Probable solution (we provide)" />
+      <ProblemList items={problems} problemLabel="Problem / Situation" solutionLabel="Probable solution (we provide)" phoneLabel="Problem → Our solution" />
     </section>
 
     <section aria-labelledby="called">
-      <h2 id="called" class="t-h2 heading">Traditionally it’s called</h2>
+      <h2 id="called" class="t-h2 heading">In other words, we do</h2>
       <IconGrid set="services" items={services} />
     </section>
 

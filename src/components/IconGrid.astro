@@ -33,6 +33,9 @@ const svg = (name: string) => icons[`../icons/${set}/${name}.svg`] ?? '';
     padding: var(--rhythm-list-row) var(--rhythm-card-pad);
     background: var(--color-surface);
   }
+  @media (hover: hover) {
+    .cell:hover { background: var(--color-surface-hover); }
+  }
   .icon { color: var(--color-service-icon); }
   .icon :global(svg) {
     display: block;

@@ -3,8 +3,6 @@ layout: ../layouts/PostLayout.astro
 title: Title of the post
 description: Summary. One or two sentences — used in Google and link previews (not shown on the page).
 noindex: true
-cover: /styleguide-cover.png
-coverAlt: Cover image placeholder
 publishedDate: 2026-01-01
 ---
 

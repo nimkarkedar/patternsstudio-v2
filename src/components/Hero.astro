@@ -8,7 +8,7 @@ const leadLines = lead === undefined ? [] : Array.isArray(lead) ? lead : [lead];
 ---
 <section class="hero">
   <h1 class="t-h1 title">{titleLines.map((line, i) => <>{i > 0 && <> <br /></>}{line}</>)}</h1>
-  {leadLines.length > 0 && <p class="t-large lead">{leadLines.map((line, i) => <>{i > 0 && <> <br /></>}{line}</>)}</p>}
+  {leadLines.length > 0 && <p class="t-p lead">{leadLines.map((line, i) => <>{i > 0 && <> <br /></>}{line}</>)}</p>}
   {Astro.slots.has('default') && <div class="actions"><slot /></div>}
 </section>
 

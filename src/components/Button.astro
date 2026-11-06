@@ -1,14 +1,16 @@
 ---
-// Pill button. `primary` = dark filled; `ghost` = transparent, tinted on hover. Renders an <a>.
+// Pill button. `primary` = dark filled; `ghost` = transparent, tinted on hover. Renders an <a>, or a <button> when
+// there's no `href` (e.g. it opens the rate card on /approach; extra attributes are passed through).
 // `fill` makes it take its container's width (used by <Actions> so paired buttons match).
-interface Props { href: string; variant?: 'primary' | 'ghost'; fill?: boolean; class?: string; external?: boolean }
-const { href, variant = 'primary', fill = false, class: className, external = false } = Astro.props;
+interface Props { href?: string; variant?: 'primary' | 'ghost'; fill?: boolean; class?: string; external?: boolean; [key: string]: unknown }
+const { href, variant = 'primary', fill = false, class: className, external = false, ...rest } = Astro.props;
+const classes = ['t-p', 'button', variant, { fill }, className];
 ---
-<a
-  class:list={['t-p', 'button', variant, { fill }, className]}
-  href={href}
-  {...(external ? { target: '_blank', rel: 'noopener' } : {})}
-><slot /></a>
+{href ? (
+  <a class:list={classes} href={href} {...(external ? { target: '_blank', rel: 'noopener' } : {})} {...rest}><slot /></a>
+) : (
+  <button class:list={classes} type="button" {...rest}><slot /></button>
+)}
 
 <style>
   .button {
