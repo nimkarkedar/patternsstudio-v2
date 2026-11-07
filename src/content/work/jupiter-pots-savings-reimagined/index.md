@@ -30,16 +30,16 @@ result: "6,467 Pots created in the first month. Over 3,000 custom Pots. Savings 
 
 ![A person in a white space suit holding a flag with the Jupiter J, beside a phone adding ₹5,000 to a Pot called Juhi's Birthday gift.](./jupiter-space-theme-astronaut.png)
 
-![A traditional bank's long fixed deposit forms, beside Jupiter's version: coins moving from a Jupiter account at Federal Bank into a Gifting Pot with one slide to deposit.](./fixed-deposit-form-vs-jupiter-pot-deposit.png)
+![A traditional bank's long fixed deposit forms, beside Jupiter's version: coins moving from a Jupiter account at Federal Bank into a Gifting Pot with one slide to deposit.](./fixed-deposit-form-vs-jupiter-pot-deposit.png "Fixed Deposit in traditional banks versus Jupiter")
 
-![Four phone screens creating a Pot in Jupiter: pick a category, name it Goa Trip, the Pot is created, one step closer to your goal.](./creating-a-jupiter-pot.png)
+![Four phone screens creating a Pot in Jupiter: pick a category, name it Goa Trip, the Pot is created, one step closer to your goal.](./creating-a-jupiter-pot.png "Opening fixed deposit in Jupiter")
 
-![The Holiday Pot annotated: a coin slot like a piggy bank, a space illustration, an India and Bharat mark, a 15-character label, and how it scales above 75px, at 11px text and below 24px.](./jupiter-pot-design-details.png)
+![The Holiday Pot annotated: a coin slot like a piggy bank, a space illustration, an India and Bharat mark, a 15-character label, and how it scales above 75px, at 11px text and below 24px.](./jupiter-pot-design-details.png "Design nuances")
 
-![Four stages of the Pot design: a travel pot with a backpack, a card with icons, futuristic Pods, and the final piggy-bank-shaped Pot.](./jupiter-pots-evolution.png)
+![Four stages of the Pot design: a travel pot with a backpack, a card with icons, futuristic Pods, and the final piggy-bank-shaped Pot.](./jupiter-pots-evolution.png "Visual evolution of the Pots feature")
 
-![Four phone screens for a Goa Trip Pot: ₹10,000 saved, set a goal of ₹25,000, track progress, and goal complete.](./jupiter-pot-goal-based-savings.png)
+![Four phone screens for a Goa Trip Pot: ₹10,000 saved, set a goal of ₹25,000, track progress, and goal complete.](./jupiter-pot-goal-based-savings.png "Goals based savings")
 
-![Six Jupiter feature cards in the same space style, from Limits reset and Bill Payments to Save for goals and Salary day SIP.](./jupiter-space-theme-design-language.png)
+![Six Jupiter feature cards in the same space style, from Limits reset and Bill Payments to Save for goals and Salary day SIP.](./jupiter-space-theme-design-language.png "Consistent design language")
 
 ![The Pots badge: the word POTS on a dark teal arched badge with an India and Bharat 2021 mark.](./jupiter-pots-badge.png)
