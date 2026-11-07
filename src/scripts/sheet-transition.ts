@@ -9,7 +9,11 @@
 const FLAG = 'sheet-cover';
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const css = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-const ms = (name: string) => parseFloat(css(name));
+// Durations in milliseconds. The production CSS minifier rewrites "700ms" as ".7s", so read both units.
+const ms = (name: string) => {
+  const v = css(name);
+  return v.endsWith('ms') ? parseFloat(v) : parseFloat(v) * 1000;
+};
 
 // ── /work: rise ─────────────────────────────────────────
 for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-sheet-link]')) {
