@@ -41,6 +41,7 @@ const work = defineCollection({
       live: z.preprocess(blank, z.url().optional()), // Notion "Live link": shows as "Status (Live)" + the address
       scope: z.array(z.string()).default([]),
       testimonial: z.preprocess(blank, z.string().optional()),
+      review: z.preprocess(blank, z.string().optional()), // Notion "Review": a reviewer's name from `reviews` in site.ts → their review card replaces the testimonial card
       impact: z.array(z.string()).default([]),
       // Story cards (Kedar, 2026-11-06, MacBook Air - 38): one Notion column each, max 40 words. Blank = no card.
       about: z.preprocess(blank, z.string().optional()),     // Notion "About the client" → card "About <client>"

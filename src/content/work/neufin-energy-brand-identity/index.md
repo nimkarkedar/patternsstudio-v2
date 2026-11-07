@@ -17,6 +17,7 @@ scope:
   - Communication strategy
   - Marketing website
   - Ongoing work
+review: Rahool Gadkari
 testimonial: "Kedar thought outside the box, bringing the “X⁠-⁠factor” we needed for a distinctive brand architecture."
 about: "Neufin helps businesses navigate renewable energy procurement and management, combining advisory expertise with technology to make complex energy decisions easier."
 situation: "Neufin’s communication hadn’t kept pace with its offering. Presentations, outreach, and product experiences lacked a cohesive identity, making it harder to build recognition and trust across different customer groups."

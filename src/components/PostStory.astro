@@ -2,14 +2,15 @@
 // Story carousel at the top of a post (Kedar, 2026-11-06, MacBook Air - 38), on the blue page under the title.
 // Up to 8 cards, each one Notion column (blank = no card):
 //   Client details (narrower, soft lavender: logo, Client, Industry, Duration, Status (Live))
-//   Scope · Client’s testimonial (or Impact when there's no testimonial) · About <client>
+//   Scope · Client’s testimonial (or Notion "Review" → that person's ReviewCard; or Impact when neither) · About <client>
 //   The gap · The brief · The approach · The outcome  (STAR: Situation, Task, Action, Result; max 40 words each)
 // Every card but the first carries a blue Phosphor icon above its heading (src/icons/story/).
 // Static (Kedar, 2026-11-06): starts with Client details on the content edge, no drift, no loop; after the last card
 // the blue shows. Swipe / trackpad, or the ← → buttons under the row (one card per press; greyed at either end).
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import { labels } from '../data/site';
+import { labels, reviews } from '../data/site';
+import ReviewCard from './ReviewCard.astro';
 import scopeIcon from '../icons/story/scope.svg?raw';
 import testimonialIcon from '../icons/story/testimonial.svg?raw';
 import impactIcon from '../icons/story/impact.svg?raw';
@@ -27,6 +28,7 @@ export interface Story {
   live?: string;
   scope?: string[];
   testimonial?: string;
+  review?: string;
   impact?: string[];
   about?: string;
   situation?: string;
@@ -44,7 +46,9 @@ const hasClient = Boolean(s.logo || s.client || s.industry || s.duration || s.li
 type Card = { icon: string; heading: string; text?: string; points?: string[] };
 const cards: Card[] = [];
 if (scope.length) cards.push({ icon: scopeIcon, heading: labels.scope, points: scope });
-if (s.testimonial) cards.push({ icon: testimonialIcon, heading: labels.testimonialCard, text: s.testimonial });
+const review = s.review ? reviews.find((r) => r.name === s.review) : undefined;
+if (review) { /* the review card takes this place; rendered below */ }
+else if (s.testimonial) cards.push({ icon: testimonialIcon, heading: labels.testimonialCard, text: s.testimonial });
 else if (impact.length) cards.push({ icon: impactIcon, heading: labels.impact, ...(impact.length > 1 ? { points: impact } : { text: impact[0] }) });
 if (s.about) cards.push({ icon: aboutIcon, heading: s.client ? labels.about(s.client) : labels.story, text: s.about });
 if (s.situation) cards.push({ icon: situationIcon, heading: labels.situation, text: s.situation });
@@ -52,7 +56,9 @@ if (s.task) cards.push({ icon: taskIcon, heading: labels.task, text: s.task });
 if (s.action) cards.push({ icon: actionIcon, heading: labels.action, text: s.action });
 if (s.result) cards.push({ icon: resultIcon, heading: labels.result, text: s.result });
 
-const count = cards.length + (hasClient ? 1 : 0);
+const count = cards.length + (hasClient ? 1 : 0) + (review ? 1 : 0);
+// The review card sits where the testimonial would: after Scope when there is one, otherwise first after the client card.
+const reviewAt = review ? (scope.length ? 1 : 0) : -1;
 ---
 {count > 0 && (
   <section class="story" aria-label={labels.story} data-story>
@@ -73,7 +79,9 @@ const count = cards.length + (hasClient ? 1 : 0);
               </dl>
             </li>
           )}
-          {cards.map((c) => (
+          {cards.map((c, i) => (
+            <>
+            {i === reviewAt && review && <li class="item review"><ReviewCard review={review} tilt={false} /></li>}
             <li class="item">
               <div class="card">
                 <span class="icon glyph" aria-hidden="true" set:html={c.icon} />
@@ -81,7 +89,9 @@ const count = cards.length + (hasClient ? 1 : 0);
                 {c.points ? <ul class="t-p points">{c.points.map((p) => <li>{p}</li>)}</ul> : <p class="t-p">{c.text}</p>}
               </div>
             </li>
+            </>
           ))}
+          {reviewAt >= cards.length && review && <li class="item review"><ReviewCard review={review} tilt={false} /></li>}
     </ul>
     {count > 1 && (
       <div class="arrows container">
@@ -147,6 +157,9 @@ const count = cards.length + (hasClient ? 1 : 0);
   .icon { color: var(--color-service-icon); margin-bottom: var(--rhythm-story-icon); }
   .icon :global(svg) { display: block; width: var(--size-story-icon); height: var(--size-story-icon); }
   .points { padding-inline-start: var(--rhythm-fact-bullet); list-style: disc; }
+
+  /* A review card in the row: same width and shadow as the story cards. */
+  .review :global(.card) { width: var(--width-story-card); min-height: var(--size-story-card-h); box-shadow: var(--shadow-story); }
 
   /* Client details: narrower, on a soft lavender wash. */
   .client {
