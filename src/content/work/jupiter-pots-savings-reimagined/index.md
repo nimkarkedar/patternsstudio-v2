@@ -8,7 +8,8 @@ publishedDate: 2026-11-01
 ogImage: ./jupiter-pots-gift-holiday-education.png
 ogImageAlt: Three Jupiter Pots, Gift, Holiday and Education, each an arched badge with a space illustration, on coral.
 logo: ./jupiter-logo.svg
-industry: Fintech
+industry:
+  - Fintech
 duration: 6 weeks
 live: "https://jupiter.money/pots/"
 scope:

@@ -36,7 +36,7 @@ const work = defineCollection({
       ogImageAlt: z.string().optional(),
       // Project details panel (Kedar, 2026-11-05), one Notion column each. Blank = not shown.
       logo: z.preprocess(blank, image().optional()), // Notion "Client logo": colour logo that works on pale blue
-      industry: z.string().optional(),
+      industry: z.preprocess((v) => (typeof v === 'string' ? [v] : v ?? []), z.array(z.string())), // Notion "Industry" (multi-select since 2026-11-07): a YAML list
       duration: z.preprocess(blank, z.string().optional()), // Notion "Duration", e.g. "1 month" (Kedar, 2026-11-06)
       live: z.preprocess(blank, z.url().optional()), // Notion "Live link": shows as "Status (Live)" + the address
       scope: z.array(z.string()).default([]),

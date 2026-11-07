@@ -23,7 +23,7 @@ import resultIcon from '../icons/story/result.svg?raw';
 export interface Story {
   client?: string;
   logo?: ImageMetadata;
-  industry?: string;
+  industry?: string[];
   duration?: string;
   live?: string;
   scope?: string[];
@@ -41,7 +41,8 @@ const s = Astro.props.story;
 const scope = s.scope ?? [];
 const impact = s.impact ?? [];
 const liveText = s.live?.replace(/^https?:\/\//, '').replace(/\/$/, '');
-const hasClient = Boolean(s.logo || s.client || s.industry || s.duration || s.live);
+const industry = (s.industry ?? []).join(', ');
+const hasClient = Boolean(s.logo || s.client || industry || s.duration || s.live);
 
 type Card = { icon: string; heading: string; text?: string; points?: string[] };
 const cards: Card[] = [];
@@ -73,7 +74,7 @@ const reviewAt = review ? (scope.length ? 1 : 0) : -1;
                   </div>
                 )}
                 {s.client && <div><dt class="t-small label">{labels.client}</dt><dd class="t-p">{s.client}</dd></div>}
-                {s.industry && <div><dt class="t-small label">{labels.industry}</dt><dd class="t-p">{s.industry}</dd></div>}
+                {industry && <div><dt class="t-small label">{labels.industry}</dt><dd class="t-p">{industry}</dd></div>}
               {s.duration && <div><dt class="t-small label">{labels.duration}</dt><dd class="t-p">{s.duration}</dd></div>}
                 {s.live && <div><dt class="t-small label">{labels.status}</dt><dd class="t-p"><a href={s.live} rel="noopener" target="_blank">{liveText}</a></dd></div>}
               </dl>

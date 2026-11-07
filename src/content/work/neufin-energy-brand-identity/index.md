@@ -8,7 +8,8 @@ publishedDate: 2026-11-01
 ogImage: ./neufin-energy-website-on-laptop-and-phone.png
 ogImageAlt: The new Neufin Energy website on a laptop and a phone, with the headline "Cut Energy Cost. On Your Terms."
 logo: ./neufin-energy-logo.svg
-industry: Climate and Energy
+industry:
+  - Climate and Energy
 duration: 1 month
 live: "https://neufin.energy/"
 scope:
