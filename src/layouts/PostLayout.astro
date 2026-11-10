@@ -3,7 +3,8 @@
 //   on the blue page: ← Back (to /work, a small ghost pill above the title; Kedar 2026-11-06) → title → PostStory (story cards)
 //   → a white sheet with a rounded top, full viewport width: the Markdown body (visuals), exactly in Notion's order
 //   (images edge to edge up to 1280) → one button, "Impressed? Let’s talk" (→ /contact; Kedar, 2026-11-01)
-//   → "Next post": the next post's /work card. The /work card graphic isn't shown on the post itself.
+//   → back on blue (Kedar 2026-11-09): "Next post" (.t-h2) + the next post's /work row (title + View details | graphic).
+//   The /work card graphic isn't shown on the post itself.
 //   Arriving from /work, a white cover slides down into the sheet's place (src/scripts/sheet-transition.ts).
 //   Floating ↑ (to top) appears once the top × scrolls away; it jumps (no smooth scroll — Motion rules).
 // Used by src/pages/work/[slug].astro and by Markdown pages (`layout:` frontmatter, e.g. /styleguide).
@@ -99,7 +100,7 @@ const jsonLd = [
       <h1 class="t-h1 title">{title}</h1>
     </header>
 
-    {hasBody && story && <div class="story"><PostStory story={story} /></div>}
+    {story && <div class="story"><PostStory story={story} /></div>}
 
     <div class="sheet on-surface">
       {hasBody && (
@@ -112,13 +113,14 @@ const jsonLd = [
         <Actions primary={{ label: labels.impressedTalk, href: routes.contact }} />
       </div>
 
-      {next && (
-        <nav class="next container" aria-labelledby="next-post">
-          <h2 id="next-post" class="t-p next-label">{labels.nextPost}</h2>
-          <PostCard post={next} href={routes.work(next.id)} />
-        </nav>
-      )}
     </div>
+
+    {next && (
+      <nav class="next container" aria-labelledby="next-post">
+        <h2 id="next-post" class="t-h2 next-label">{labels.nextPost}</h2>
+        <PostCard post={next} href={routes.work(next.id)} row level={3} />
+      </nav>
+    )}
   </article>
 
   <div class="float" data-float hidden>
@@ -181,11 +183,13 @@ const jsonLd = [
   }
 
 
-  /* Next post (Kedar, 2026-11-01): its /work card, under the CTA. */
+  /* Next post (Kedar, 2026-11-09): back on the blue page after the white sheet, a section heading
+     and the same row as /work (title + View details on the left, graphic on the right). */
   .next {
     display: grid;
-    gap: var(--rhythm-stack);
-    margin-top: var(--rhythm-section);
+    gap: var(--rhythm-heading-below);
+    padding-top: var(--rhythm-heading-above);
+    padding-bottom: var(--rhythm-section);
   }
   .next-label { text-align: var(--align-page); }
 

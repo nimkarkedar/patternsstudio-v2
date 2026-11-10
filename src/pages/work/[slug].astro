@@ -4,6 +4,7 @@
 import { getCollection, render } from 'astro:content';
 import PostLayout from '../../layouts/PostLayout.astro';
 import { readingMinutes } from '../../lib/seo';
+import { brandColour } from '../../lib/brand-colour';
 
 export async function getStaticPaths() {
   // Next post = the following one in Notion's Order, wrapping round to the first (none if there's only one).
@@ -27,7 +28,7 @@ const written = Boolean(post.body?.trim());
   readMinutes={written ? readingMinutes(post.body) : undefined}
   ogImage={data.ogImage}
   ogImageAlt={data.ogImageAlt}
-  story={{ client: data.client, logo: data.logo, industry: data.industry, duration: data.duration, live: data.live, scope: data.scope, testimonial: data.testimonial, review: data.review, impact: data.impact, about: data.about, situation: data.situation, task: data.task, action: data.action, result: data.result }}
+  story={{ client: data.client, logo: data.logo, industry: data.industry, duration: data.duration, live: data.live, scope: data.scope, testimonial: data.testimonial, review: data.review, impact: data.impact, about: data.about, situation: data.situation, task: data.task, action: data.action, result: data.result, brand: brandColour(post.id) }}
   next={next}
   noindex={!written}
   hasBody={written}

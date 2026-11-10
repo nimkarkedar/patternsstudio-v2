@@ -6,20 +6,22 @@
 // `row` (the /work page, MacBook Air - 37, 2026-11-06): the post title + a small ghost "View details" button
 // link on the left (5 of 12 columns), the graphic on the right (7 columns; Kedar 2026-11-06, the frame shows 4/8). Phones: graphic first,
 // then title + link under it.
-// Without `row` (Next post, end of every post): the graphic alone.
+// Also used for Next post at the end of every post (Kedar 2026-11-09), there with `level={3}` under the "Next post" heading.
+// Without `row`: the graphic alone.
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { labels } from '../data/site';
 import Button from './Button.astro';
 
-interface Props { post: CollectionEntry<'work'>; href: string; eager?: boolean; row?: boolean }
-const { post, href, eager = false, row = false } = Astro.props;
+interface Props { post: CollectionEntry<'work'>; href: string; eager?: boolean; row?: boolean; /** Heading level of the title (looks the same). */ level?: 2 | 3 }
+const { post, href, eager = false, row = false, level = 2 } = Astro.props;
+const Heading = `h${level}` as const as "h2" | "h3";
 const { data } = post;
 ---
 <div class:list={['card', { row }]}>
   {row && (
     <div class="text">
-      <h2 class="t-h2">{data.title}</h2>
+      <Heading class="t-h2">{data.title}</Heading>
       <Button href={href} variant="ghost" small data-sheet-link>{labels.viewDetails}<span class="visually-hidden">: {data.title}</span></Button>
     </div>
   )}

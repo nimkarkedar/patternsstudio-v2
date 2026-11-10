@@ -37,7 +37,9 @@ export const labels = {
   back: 'Back',
   toTop: 'Back to top',                  // floating button on posts (screen readers)
   viewDetails: 'View details',           // /work: link beside each post's graphic (MacBook Air - 37)
-  nextPost: 'Next post',                // label above the next post's card at the end of a post
+  viewWork: 'View work',                 // post client card: link to the live work (Kedar, 2026-11-09)
+  newTab: 'opens in a new tab',
+  nextPost: 'Read next',                // label above the next post's card at the end of a post
   impressedTalk: 'Impressed? Let’s talk',  // end of every case study (Kedar, 2026-11-01: one CTA, → /contact)
   reviewsTitle: 'Client reviews',        // /reviews tab title and section label
   client: 'Client',                      // post details panel
@@ -58,6 +60,7 @@ export const labels = {
   previous: 'Previous',                  // carousel arrows (screen readers)
   next: 'Next',
   onLinkedIn: 'on LinkedIn',             // About cards, LinkedIn mark (screen readers)
+  workedAt: (name: string) => `Where ${name.split(' ')[0]} has worked`, // About cards: company logos (screen readers)
 } as const;
 
 // The questionnaire Kedar shares with every new client (Google Doc, 2026-11-06). Must be shared as
