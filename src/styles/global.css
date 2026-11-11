@@ -45,7 +45,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highl
  * The whole site uses ONLY these; case-study Markdown (.prose …) is mapped onto the same styles here.
  *   .t-h1       Montserrat ExtraBold 64 (phone 46)   page + post titles, phone menu
  *   .t-h2       Montserrat ExtraBold 48 (phone 37)   section headings, post ##
- *   .t-p        Lato Regular 20/1.4                  everything you read, buttons
+ *   .t-h3       Montserrat ExtraBold 32 (phone 26)   post story card headings (Kedar, 2026-11-11)
+ *   .t-p        Lato Regular 20/1.4                 everything you read, buttons
  *   .t-p-bold   Lato Bold 20/1.4                     names, card + table headings, post ###
  *   .t-small    Lato Regular 15/1.4                  navigation, footer, roles, labels
  *   .t-answer   Services solutions: .t-p-bold on phones, .t-p from 48rem (weight only, same size)
@@ -63,6 +64,15 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highl
   font-weight: var(--weight-extrabold);
   font-size: var(--size-h2);
   line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-h2);
+  text-wrap: balance;
+}
+/* Card headings (Kedar, 2026-11-11): Montserrat so a card's title anchors it; post story cards only. */
+.t-h3 {
+  font-family: var(--font-montserrat);
+  font-weight: var(--weight-extrabold);
+  font-size: var(--size-h3);
+  line-height: var(--leading-h3);
   letter-spacing: var(--tracking-h2);
   text-wrap: balance;
 }

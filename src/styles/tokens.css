@@ -66,12 +66,14 @@
   --size-h2: clamp(1.875rem, 9.4vw, 2.75rem);   /* phone: 37 at 390 */
   --size-p: 1.25rem;                            /* 20, on every screen */
   --size-small: 0.9375rem;                      /* 15, on every screen */
+  --size-h3: 1.625rem;                          /* 26 phone, 32 desktop: Montserrat card headings (post story cards, Kedar 2026-11-11) */
 
   --leading-h1: 1.06;
   --leading-h2: 1.12;
   --leading-p: 1.4;         /* all Lato text: 20/28, 15/21 */
   --tracking-h1: -0.02em;   /* phones only: big type on a small screen reads tighter */
   --tracking-h2: -0.01em;
+  --leading-h3: 1.2;
 
   /* ── Spacing scale ──────────────────────────────────── */
   --space-1: 0.25rem;  /*  4 */
@@ -157,15 +159,13 @@
   --width-story-client: min(72vw, 16.5rem);                             /* client details card, narrower: 264 (desktop 300) */
   --size-story-card-h: 22rem;                                           /* story cards: one height, so the row is even (352) */
   --icon-weight-add: 0.5px;                                             /* Phosphor icons: lines 0.5px heavier than Regular (Kedar, 2026-11-06) */
-  --size-story-icon: 2rem;                                              /* story card icon (32; desktop 36) */
+  --size-story-icon: 2.5rem;                                            /* story card icon, Patterns blue, no background (40; desktop 44; Kedar 2026-11-11) */
   --rhythm-story-icon: var(--space-3);                                  /* icon / logo → heading: a little extra (12) */
   --rhythm-story-arrows: var(--space-5);                                /* story cards → ← → buttons (24) */
   --rhythm-story-fact: var(--space-5);                                  /* client card: between Client, Industry, Status (24) */
   --size-company-unit: 0.06rem;                                         /* About: company logos, 1 SVG unit ≈ 1px on phones (desktop 1.1px: Google 24 → 27 tall) */
   --rhythm-company-logos: var(--space-4);                               /* About: between company logos (16 so three fit one phone line; desktop 40) */
   --rhythm-company-row: var(--space-3);                                 /* About: bio → company logos (extra on top of the stack gap) */
-  --size-story-mark: 10rem;                                             /* big pale icon bleeding off a story card's corner (160) */
-  --offset-story-mark: -1.75rem;                                        /* how far it bleeds off (28) */
   --size-story-logo: 1.75rem;                                           /* client logo on its card (28; desktop 32; Kedar 2026-11-09: 36/48 too big) */
   --radius-post-card: var(--space-3);                                   /* /work + Next post graphics: 12 (Kedar, 2026-11-06: 20/24 was too round) */
   /* Post story cards on blue (Kedar, 2026-11-06): a layered drop shadow instead of the violet glow — a crisp contact
@@ -303,6 +303,7 @@
     --size-h1: clamp(2.5rem, 1.88rem + 2.65vw, 4rem);
     --size-p: 1.5rem;  /* 24 on desktop: trial, Kedar 2026-11-05 */
     --size-h2: clamp(2rem, 1.59rem + 1.77vw, 3rem);
+    --size-h3: 2rem;
     --leading-h1: 1.094;
     --leading-h2: 1.25;
     --lines-review-quote: 4;
@@ -326,7 +327,7 @@
     --width-story-card: 25rem;      /* 400 (MacBook Air - 38 has 380; +20 for the corner icon, Kedar 2026-11-09) */
     --width-story-client: 18.75rem; /* 300 */
     --size-story-card-h: 24.5rem;   /* 392 */
-    --size-story-icon: 2.25rem;
+    --size-story-icon: 2.75rem;
     --size-story-logo: 2rem;
     --size-company-unit: 0.07rem;
     --rhythm-company-logos: var(--space-7);
@@ -343,8 +344,5 @@
      on the element that carries --brand. */
   --brand-default: #7a6cf0;
   --story-wash: linear-gradient(160deg, var(--white) 30%, color-mix(in oklab, var(--brand, var(--brand-default)) 7%, var(--white)));       /* text cards */
-  --story-wash-client: linear-gradient(160deg, color-mix(in oklab, var(--brand, var(--brand-default)) 6%, var(--white)), color-mix(in oklab, var(--brand, var(--brand-default)) 15%, var(--white))); /* client card */
-  --story-mark: color-mix(in oklab, var(--brand, var(--brand-default)) 16%, var(--white));   /* the big pale icon in the corner */
-  --story-icon: color-mix(in oklab, var(--brand, var(--brand-default)) 70%, var(--ink-900)); /* small icon on top: brand, darkened for 3:1+ */
   --story-label: color-mix(in oklab, var(--brand, var(--brand-default)) 20%, var(--ink-800)); /* grey labels on the client card */
 }

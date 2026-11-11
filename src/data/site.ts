@@ -127,13 +127,16 @@ export const clients = [
   { name: 'zipdial', file: 'zipdial' },
 ] as const;
 
-// Client reviews, in display order: Kedar's words from MacBook Air - 22 (2026-11-04), verbatim.
+// Client reviews, in display order: Kedar's words from MacBook Air - 22 (2026-11-04), verbatim. Women spread through the men (Kedar 2026-11-11).
 // `file` = portrait in src/assets/reviews/<file>.webp, cropped from the frame, so every head sits as designed.
 export const reviews = [
   { name: 'Viveck P Kumar', role: 'Chief Product Officer, Sleek', quote: 'No jargon, no unnecessary complexity. Just sharp thinking and work that delivers.', file: 'viveck-kumar' },
+  { name: 'Eva Weidinger', role: 'Marketing Director, ELSA, Corp', quote: 'Complex problems became simple, practical solutions. Exactly what was needed at PG.', file: 'eva-weidinger' },
   { name: 'Nishant Choudhary', role: 'Co-founder, Prabhavi Learning', quote: 'Creative geniuses with phenomenal "learning mindset" and high integrity.', file: 'nishant-choudhary' },
   { name: 'Subramanya Sharma', role: 'Founder at Better Ed.', quote: 'Big-picture thinking with an incredible eye for the little details that matter.', file: 'subramanya-sharma' },
   { name: 'Jeremy Williams', role: 'Former COO, PropertyGuru', quote: 'Rare to find creative minds who understand the commercial side of things so well.', file: 'jeremy-williams' },
+  { name: 'Audrey Woo', role: 'Co-Founder of Audn’co & Entrepreneur', quote: 'Working with Patterns felt less like hiring consultants and more like gaining great colleagues.', file: 'audrey-woo' }, // Kedar 2026-11-11; source photo 324 wide, a bigger one is wanted
   { name: 'Rahool Gadkari', role: 'Co-Founder @ Neufin Energy', quote: 'Kedar’s thinking brought the “X\u2060-\u2060factor” we needed for a distinctive brand architecture.', file: 'rahool-gadkari' },
-  { name: 'Eva Weidinger', role: 'Marketing Director, ELSA, Corp', quote: 'Complex problems became simple, practical solutions. Exactly what was needed at PG.', file: 'eva-weidinger' },
+  { name: 'Ian Tan', role: 'CMO | Social Entrepreneur', quote: 'It\'s rare to find people who care equally about the details and the bigger picture.', file: 'ian-tan' }, // Kedar 2026-11-11
+  { name: 'Bogdan M.', role: '2x Founder, 2x Exit | Venture Investor', quote: 'No nonsense team. They get it right the first time and make building products feel effortless.', file: 'bogdan-m' }, // Kedar 2026-11-11; source photo 288 wide, a bigger one is wanted
 ] as const;

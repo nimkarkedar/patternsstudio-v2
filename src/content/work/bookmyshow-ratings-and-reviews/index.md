@@ -1,5 +1,5 @@
 ---
-# Pulled from Notion "Patterns Work Blog Posts" (page 414226b9a26e8102819ceeb94a17de0a), 2026-11-10.
+# Pulled from Notion "Patterns Work Blog Posts" (page 414226b9a26e8102819ceeb94a17de0a), 2026-11-10; Live link 2026-11-11.
 order: 5
 client: BookMyShow
 title: Reviews up 3x at BookMyShow, through pure design
@@ -11,6 +11,7 @@ logo: ./bookmyshow-logo.svg
 industry:
   - Entertainment
 duration: 3 months
+live: "https://in.bookmyshow.com/explore/home/mumbai"
 scope:
   - User Research
   - Product Strategy

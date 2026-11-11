@@ -4,8 +4,8 @@
 //   Client details (narrower; two stacked cards: logo + Status (Live) on the client's colour, then Client, Industry, Duration)
 //   Scope · Client’s testimonial (or Notion "Review" → that person's ReviewCard; or Impact when neither) · About <client>
 //   The gap · The brief · The approach · The outcome  (STAR: Situation, Task, Action, Result; max 40 words each)
-// Every card but the first carries a Phosphor icon above its heading (src/icons/story/), repeated big and pale,
-// bleeding off the bottom-right corner (Kedar, 2026-11-09). Cards are tinted with the client's colour, read from
+// Every card but the first carries a Phosphor icon in Patterns blue (src/icons/story/), then a Montserrat
+// heading (.t-h3) (Kedar, 2026-11-11). The logo card is plain white. Cards are tinted with the client's colour, read from
 // the logo SVG (--brand; shades in tokens.css). No colour → lilac.
 // Static (Kedar, 2026-11-06): starts with Client details on the content edge, no drift, no loop; after the last card
 // the blue shows. Swipe / trackpad, or the ← → buttons under the row (one card per press; greyed at either end).
@@ -97,9 +97,8 @@ const reviewAt = review ? (scope.length ? 1 : 0) : -1;
             {i === reviewAt && review && <li class="item review"><ReviewCard review={review} tilt={false} /></li>}
             <li class="item">
               <div class="card">
-                <span class="mark" aria-hidden="true" set:html={c.icon} />
                 <span class="icon glyph" aria-hidden="true" set:html={c.icon} />
-                <h2 class="t-p-bold">{c.heading}</h2>
+                <h2 class="t-h3">{c.heading}</h2>
                 {c.points ? <ul class="t-p points">{c.points.map((p) => <li>{p}</li>)}</ul> : <p class="t-p">{c.text}</p>}
               </div>
             </li>
@@ -171,17 +170,8 @@ const reviewAt = review ? (scope.length ? 1 : 0) : -1;
     isolation: isolate;
   }
   .card p, .points { color: var(--color-on-prose); }
-  .icon { color: var(--story-icon); margin-bottom: var(--rhythm-story-icon); }
-  /* The same icon, big and pale, cropped by the bottom-right corner; behind the text. */
-  .mark {
-    position: absolute;
-    right: var(--offset-story-mark);
-    bottom: var(--offset-story-mark);
-    z-index: -1;
-    color: var(--story-mark);
-    pointer-events: none;
-  }
-  .mark :global(svg) { display: block; width: var(--size-story-mark); height: var(--size-story-mark); }
+  /* Icon in Patterns blue, no background, never the client's colour (Kedar, 2026-11-11; replaces the pale corner icon). */
+  .icon { color: var(--color-accent); margin-bottom: var(--rhythm-story-icon); }
   .icon :global(svg) { display: block; width: var(--size-story-icon); height: var(--size-story-icon); }
   .points { padding-inline-start: var(--rhythm-fact-bullet); list-style: disc; }
 
@@ -198,7 +188,7 @@ const reviewAt = review ? (scope.length ? 1 : 0) : -1;
     min-height: var(--size-story-card-h);
   }
   .client { width: auto; min-height: 0; gap: var(--rhythm-story-fact); }
-  .top { background: var(--story-wash-client); justify-content: space-between; }
+  .top { background: var(--color-surface); justify-content: space-between; } /* plain white (Kedar, 2026-11-11) */
   .facts { flex: 1; }
   .logo { display: block; width: auto; max-width: 100%; height: var(--size-story-logo); }
   .label { color: var(--story-label); }
