@@ -3,6 +3,9 @@
 export const site = {
   name: 'Patterns Studio',
   email: 'hello@patternsstudio.co',
+  // Google Tag Manager container (Kedar, 2026-11-13). It holds the GA4 tag (G-LX0J19K221); add or change
+  // tracking in tagmanager.google.com, not here. Empty = no tracking on any page.
+  gtmId: 'GTM-KQGMR6F3',
   legal: '© 2026 Patterns Studio Pte. Ltd.',
   flag: '🇸🇬',
   uen: 'UEN 202640285H',

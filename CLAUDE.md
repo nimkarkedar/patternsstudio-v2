@@ -18,6 +18,7 @@ Agent-specific Astro tips are in [AGENTS.md](AGENTS.md).
 | Motion | None by default. Only animations Kedar explicitly approves (see Motion). No GSAP/Lenis/View Transitions installed. |
 | Fonts | Self-hosted via @fontsource (only the weights listed below). |
 | Hosting | **Preview live (2026-10-16):** repo `nimkarkedar/patternsstudio-v2` (public) → GitHub Actions (`.github/workflows/deploy.yml`) → https://nimkarkedar.github.io/patternsstudio-v2/ on every push to `main`. Preview build = `SITE_URL` + `BASE_PATH=/patternsstudio-v2` + `PREVIEW=true` (every page noindex, robots.txt blocks all). The live site patternsstudio.co still comes from the OLD repo `nimkarkedar/patternsstudio.co` — untouched. **Launch:** in deploy.yml drop BASE_PATH/PREVIEW, set SITE_URL=https://patternsstudio.co, move the custom domain from the old repo to this one. |
+| Analytics | Google Tag Manager `GTM-KQGMR6F3` (holds the GA4 tag G-LX0J19K221; Kedar, 2026-11-13): `site.gtmId` in `src/data/site.ts` → standard GTM snippet in `BaseLayout.astro`. Change tracking in tagmanager.google.com, not in code. Empty ID = no tag. Production builds only (not `npm run dev`), so preview and live both count. |
 | Paths | Every internal link/asset goes through `path()` in `src/data/site.ts` (adds `import.meta.env.BASE_URL`), so the same code works at a domain root and under `/patternsstudio-v2/`. Never write a root-relative `'/…'` link by hand. |
 
 ## Commands
