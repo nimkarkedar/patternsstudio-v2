@@ -1,7 +1,7 @@
-# Builds the site and publishes it to https://patternsstudio.co on every push to main (live since 2026-11-13).
-# No env needed: astro.config.mjs defaults to SITE_URL https://patternsstudio.co, base '/', PREVIEW off.
-# The custom domain is set in this repo's Settings → Pages (moved from nimkarkedar/patternsstudio.co).
-name: Deploy
+# Builds the site and publishes the PREVIEW to https://nimkarkedar.github.io/patternsstudio-v2/
+# on every push to main (including saves from the CMS). Preview = noindex everywhere.
+# At launch: drop BASE_PATH/PREVIEW, set SITE_URL to https://patternsstudio.co and add the custom domain.
+name: Deploy preview
 
 on:
   push:
@@ -28,6 +28,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          SITE_URL: https://nimkarkedar.github.io
+          BASE_PATH: /patternsstudio-v2
+          PREVIEW: 'true'
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
