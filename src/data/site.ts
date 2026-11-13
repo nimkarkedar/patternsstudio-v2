@@ -86,7 +86,8 @@ export const routes = {
   about: path('/about'),
   contact: path('/contact'),
   rateCard: path('/rate-card'), // the rate card, linked from /approach (MacBook Air - 36)
-  email: `mailto:${site.email}`, // opens the visitor's email app
+  // Opens the visitor's email app with a draft ready (Kedar, 2026-11-13): subject "Hello!", body as below.
+  email: `mailto:${site.email}?subject=${encodeURIComponent('Hello!')}&body=${encodeURIComponent('You can add your details here...')}`,
   work: (slug: string) => path(`/work/${slug}`),
 };
 
