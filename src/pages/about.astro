@@ -13,12 +13,36 @@ import goldmanSachs from '../assets/companies/goldman-sachs.png';
 import google from '../assets/companies/google.svg';
 import indeed from '../assets/companies/indeed.svg';
 import propertyguru from '../assets/companies/propertyguru.svg';
+import microsoft from '../assets/companies/microsoft.png';
+import starhub from '../assets/companies/starhub.png';
+import intuit from '../assets/companies/intuit.png';
+import groupm from '../assets/companies/groupm.png';
 import TeamCard from '../components/TeamCard.astro';
 import { routes, labels, linkedin } from '../data/site';
 import kedar from '../assets/about/kedar-nimkar.webp';
 import john from '../assets/about/john-pathrose.webp';
 import andrew from '../assets/about/andrew-mcglinchey.webp';
 import raena from '../assets/about/raena-lim.webp';
+
+// Company logos (Kedar, 2026-11-13: "visually and optically the same size"). TeamCard gives every logo the same
+// area, so wide wordmarks come out shorter and compact ones taller. `weight` is a small optical nudge
+// from Claude's side-by-side check: below 1 for heavy, dense logos, above 1 for light, airy ones.
+// Files are trimmed to their ink, with no transparent padding (trim any new logo the same way).
+const co = {
+  cleartrip: { logo: cleartrip, name: 'Cleartrip' },
+  bookmyshow: { logo: bookmyshow, name: 'BookMyShow' },
+  jupiter: { logo: jupiter, name: 'Jupiter', weight: 0.92 },
+  propertyguru: { logo: propertyguru, name: 'PropertyGuru', weight: 1.08 },
+  microsoft: { logo: microsoft, name: 'Microsoft' },
+  starhub: { logo: starhub, name: 'StarHub', weight: 1.1 },
+  intuit: { logo: intuit, name: 'Intuit', weight: 0.86 },
+  groupm: { logo: groupm, name: 'GroupM' },
+  google: { logo: google, name: 'Google', weight: 0.95 },
+  indeed: { logo: indeed, name: 'Indeed', weight: 0.9 },
+  audnco: { logo: audnco, name: 'AUD’NCO' },
+  styleTheory: { logo: styleTheory, name: 'Style Theory' },
+  goldmanSachs: { logo: goldmanSachs, name: 'Goldman Sachs', weight: 0.94 },
+};
 
 // Andrew's bio is Kedar's (MacBook Air - 29). Raena's is shortened from her own, to match the others' length.
 const team = [
@@ -29,21 +53,20 @@ const team = [
     linkedin: linkedin.kedar,
     alt: 'Kedar Nimkar, smiling, in a black sweater',
     bio: 'Kedar brings 20 years of experience in Design. He has previously led design teams at Cleartrip, PropertyGuru, BookMyShow, Jupiter and Webchutney (later acquired by Dentsu). He is an author of “The Design In Everything” book and host, producer of India’s longest running podcast on Design and Art with over 10M views. He is based in Singapore',
-    // PNGs at ~2× (Kedar, 2026-11-10), h = drawn height in logo units; PropertyGuru is the SVG from Andrew's card.
-    companies: [{ logo: cleartrip, name: 'Cleartrip', h: 17 }, { logo: bookmyshow, name: 'BookMyShow', h: 24 }, { logo: jupiter, name: 'Jupiter', h: 19 }, { logo: propertyguru, name: 'PropertyGuru' }],
+    companies: [co.cleartrip, co.bookmyshow, co.jupiter, co.propertyguru],
   },
   { name: 'John Pathrose', role: 'Co-founder & Head of Growth', photo: john, linkedin: linkedin.john, alt: 'John Pathrose, smiling, in a dark blazer',
-    // Written by Claude from John's LinkedIn (2026-11-10), for Kedar's review. Logos wanted: Microsoft, Intuit, StarHub, Webchutney.
-    bio: 'John has spent 20 years taking businesses to market across Asia. He led SMB marketing for Microsoft in APAC, ran Intuit’s channel partner program and launched QuickBooks in new markets, and headed StarHub’s SME business. He began in digital agencies, at Webchutney, DDB and GroupM, and today advises startups on B2B growth.' },
+    // Written by Claude from John's LinkedIn (2026-11-10), for Kedar's review. Logos from Kedar 2026-11-13.
+    bio: 'John has spent 20 years taking businesses to market across Asia. He led SMB marketing for Microsoft in APAC, ran Intuit’s channel partner program and launched QuickBooks in new markets, and headed StarHub’s SME business. He began in digital agencies, at Webchutney, DDB and GroupM, and today advises startups on B2B growth.',
+    companies: [co.microsoft, co.starhub, co.intuit, co.groupm] },
 ];
 
 const advisors = [
   { name: 'Andrew McGlinchey', role: 'Product', photo: andrew, linkedin: linkedin.andrew, alt: 'Andrew McGlinchey, smiling, in a patterned shirt',
     bio: 'Andrew McGlinchey is a seasoned product leader with extensive experience building and scaling consumer internet products. Former VP of Products at PropertyGuru Group, he has held product leadership roles at Indeed and Google, with earlier experience at Microsoft and muvee Technologies.',
-    companies: [{ logo: google, name: 'Google' }, { logo: indeed, name: 'Indeed' }, { logo: propertyguru, name: 'PropertyGuru' }] },
+    companies: [co.google, co.indeed, co.propertyguru] },
   { name: 'Raena Lim', role: 'Growth', photo: raena, linkedin: linkedin.raena, alt: 'Raena Lim, smiling', bio: 'Raena is a Managing Partner at AUD’NCO, where she advises founders as a fractional COO. She co-founded Style Theory, Southeast Asia’s largest fashion rental platform, and as COO raised ~$30M and scaled it across three markets. She began in community banking in Kenya before joining Goldman Sachs in Asia.',
-    // PNGs at 2× (Kedar, 2026-11-09): h = drawn height in SVG-logo units, half the pixel height.
-    companies: [{ logo: audnco, name: 'AUD’NCO', h: 16 }, { logo: styleTheory, name: 'Style Theory', h: 15 }, { logo: goldmanSachs, name: 'Goldman Sachs', h: 24 }] },
+    companies: [co.audnco, co.styleTheory, co.goldmanSachs] },
 ];
 ---
 <BaseLayout title="About" description="An independent design studio from SEA. A team of seasoned industry professionals. We connect market patterns with the finer details.">

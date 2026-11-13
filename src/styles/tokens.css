@@ -163,7 +163,8 @@
   --rhythm-story-icon: var(--space-3);                                  /* icon / logo → heading: a little extra (12) */
   --rhythm-story-arrows: var(--space-5);                                /* story cards → ← → buttons (24) */
   --rhythm-story-fact: var(--space-5);                                  /* client card: between Client, Industry, Status (24) */
-  --size-company-unit: 0.06rem;                                         /* About: company logos, 1 SVG unit ≈ 1px on phones (desktop 1.1px: Google 24 → 27 tall) */
+  --size-company-unit: 0.06rem;                                         /* About: company logos, 1 unit ≈ 1px on phones (desktop 1.1px) */
+  --size-company-area: 2016;                                            /* About: every company logo covers this many units² (Google ≈ 23 × 78), Kedar 2026-11-13: all optically the same size */
   --rhythm-company-logos: var(--space-4);                               /* About: between company logos (16 so three fit one phone line; desktop 40) */
   --rhythm-company-row: var(--space-3);                                 /* About: bio → company logos (extra on top of the stack gap) */
   --size-story-logo: 1.75rem;                                           /* client logo on its card (28; desktop 32; Kedar 2026-11-09: 36/48 too big) */

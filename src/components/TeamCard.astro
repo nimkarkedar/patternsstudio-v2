@@ -5,7 +5,7 @@
 // Phones: text, then the portrait under it. From 48rem: portrait on the left (300 wide), text beside it.
 // Photos: src/assets/about/*.webp, cropped from the frame. Tilts like every card except /work.
 // `companies` (Kedar, 2026-11-09): a row of full-colour logos under the bio showing where the person has worked
-// (src/assets/companies/*.svg). All drawn at one scale, so each keeps its own size relative to the others.
+// (src/assets/companies/). All the same optical size (Kedar, 2026-11-13): equal area + a small weight nudge.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { labels } from '../data/site';
@@ -17,8 +17,9 @@ interface Props {
   alt?: string;
   linkedin?: string;
   bio: string;
-  /** h: drawn height in logo units, for raster logos whose pixel height isn't their drawing size (e.g. 2× PNGs). */
-  companies?: { logo: ImageMetadata; name: string; h?: number }[];
+  /** Every logo gets the same area (--size-company-area), so they look the same size whatever their shape.
+   *  Files must be trimmed to their ink. weight: optical nudge, < 1 for heavy logos, > 1 for light ones. */
+  companies?: { logo: ImageMetadata; name: string; weight?: number }[];
 }
 const { name, role, photo, alt = '', linkedin, bio, companies = [] } = Astro.props;
 // The bio opens with the person's name in bold (full name, or first name if that's how it starts).
@@ -44,7 +45,7 @@ const linkedinPath = 'M22.2234 0H1.77187C0.792187 0 0 0.773438 0 1.72969V22.2656
     <p class="t-p bio">{opening && <strong class="t-p-bold">{opening}</strong>}{rest}</p>
     {companies.length > 0 && (
       <ul role="list" class="companies" aria-label={labels.workedAt(name)}>
-        {companies.map((c) => <li><img src={c.logo.src} alt={c.name} width={c.logo.width} height={c.logo.height} style={`--logo-h: ${c.h ?? c.logo.height}`} /></li>)}
+        {companies.map((c) => <li><img src={c.logo.src} alt={c.name} width={c.logo.width} height={c.logo.height} style={`--logo-ratio: ${c.logo.width / c.logo.height}; --logo-weight: ${c.weight ?? 1}`} /></li>)}
       </ul>
     )}
   </div>
@@ -75,7 +76,8 @@ const linkedinPath = 'M22.2234 0H1.77187C0.792187 0 0 0.773438 0 1.72969V22.2656
   .linkedin svg { display: block; width: var(--size-team-icon); height: var(--size-team-icon); }
   .linkedin:hover { color: var(--color-linkedin); }
   .companies { display: flex; flex-wrap: wrap; align-items: center; gap: var(--rhythm-company-logos); margin-top: var(--rhythm-company-row); }
-  .companies img { display: block; width: auto; height: calc(var(--logo-h) * var(--size-company-unit)); }
+  /* Equal area: height = √(area ÷ width-to-height ratio), times the optical nudge. */
+  .companies img { display: block; width: auto; height: calc(sqrt(var(--size-company-area) / var(--logo-ratio)) * var(--logo-weight) * var(--size-company-unit)); }
   .photo { width: 100%; height: auto; aspect-ratio: var(--ratio-team-photo); object-fit: cover; object-position: bottom; margin-top: auto; }
 
   @media (min-width: 48rem) {
