@@ -4,7 +4,8 @@
 // `fill` makes it take its container's width (used by <Actions> so paired buttons match).
 // `small` = .t-small label in a 44-high pill (still a full thumb target): /work "View details" (Kedar, 2026-11-06).
 // Ghost has a thin outline (Kedar, 2026-11-06), so it reads as a button and not as loose text.
-interface Props { href?: string; variant?: 'primary' | 'ghost'; fill?: boolean; small?: boolean; class?: string; external?: boolean; [key: string]: unknown }
+// `light` = white pill with ink text, the primary on a black surface (cookie banner, Kedar 2026-11-13).
+interface Props { href?: string; variant?: 'primary' | 'ghost' | 'light'; fill?: boolean; small?: boolean; class?: string; external?: boolean; [key: string]: unknown }
 const { href, variant = 'primary', fill = false, small = false, class: className, external = false, ...rest } = Astro.props;
 const classes = [small ? 't-small' : 't-p', 'button', variant, { fill, small }, className];
 ---
@@ -31,4 +32,6 @@ const classes = [small ? 't-small' : 't-p', 'button', variant, { fill, small }, 
   .primary:hover { background: var(--color-button-hover); }
   .ghost { background: transparent; color: var(--color-on-page); box-shadow: inset 0 0 0 var(--line-width) var(--color-line-on-page); }
   .ghost:hover { background: var(--color-ghost-hover); }
+  .light { background: var(--color-button-light); color: var(--color-on-button-light); }
+  .light:hover { background: var(--color-button-light-hover); }
 </style>

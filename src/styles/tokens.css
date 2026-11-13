@@ -38,6 +38,12 @@
   --color-surface-tint: var(--blue-50);     /* case-study table panel */
   --color-surface-panel: var(--grey-100);   /* post details panel: neutral, so any client logo sits well on it */
   --color-surface-hover: var(--grey-100);   /* Services + Approach: table row or grid cell under the mouse */
+  --color-banner: var(--ink-900);           /* cookie banner: black card (Kedar, 2026-11-13) */
+  --color-on-banner: var(--white);
+  --color-banner-icon: var(--color-on-page-muted); /* lilac cookie: brand blue vanishes on black */
+  --color-button-light: var(--white);       /* Button variant="light": white pill on black (cookie banner) */
+  --color-on-button-light: var(--ink-900);
+  --color-button-light-hover: var(--grey-100);
   --color-line-on-surface: var(--grey-200); /* hairlines on white (pull quote, divider) */
   --color-on-surface-muted: var(--grey-600); /* small labels on white (post details) */
   --gradient-story-client: linear-gradient(160deg, var(--lilac-50), var(--lilac-100)); /* soft lavender wash (Kedar, 2026-11-06) */
@@ -159,6 +165,12 @@
   --width-story-client: min(72vw, 16.5rem);                             /* client details card, narrower: 264 (desktop 300) */
   --size-story-card-h: 22rem;                                           /* story cards: one height, so the row is even (352) */
   --icon-weight-add: 0.5px;                                             /* Phosphor icons: lines 0.5px heavier than Regular (Kedar, 2026-11-06) */
+  --width-cookie-banner: var(--width-content);                          /* cookie banner from 48rem: one row, at most the content width, centred */
+  --rhythm-cookie-pad: var(--space-4);                                  /* cookie banner inner padding (16) */
+  --rhythm-cookie-gap: var(--space-3);                                  /* cookie banner: icon ↔ text, text → buttons (12) */
+  --size-cookie-icon: var(--space-5);                                   /* cookie banner icon (24) */
+  --radius-cookie: var(--radius-post-card);                             /* cookie banner corners (12 phones / 16 desktop) */
+  --shadow-banner: var(--shadow-story);                                 /* cookie banner: the story cards' drop shadow */
   --size-story-icon: 2.5rem;                                            /* story card icon, Patterns blue, no background (40; desktop 44; Kedar 2026-11-11) */
   --rhythm-story-icon: var(--space-3);                                  /* icon / logo → heading: a little extra (12) */
   --rhythm-story-arrows: var(--space-5);                                /* story cards → ← → buttons (24) */
@@ -294,6 +306,7 @@
 
   --z-header: 10;
   --z-float: 15;                                                        /* floating back / to-top buttons on posts */
+  --z-banner: 18;                                                       /* cookie banner: above the post buttons, under the phone menu */
   --z-menu: 20;
   --z-cover: 30;                                                        /* /work → post transition sheet, above everything */
 }

@@ -1,0 +1,71 @@
+---
+// Cookie banner (Kedar, 2026-11-13). A black card (Kedar: "make this banner black") at the bottom of the screen: lilac Phosphor cookie, one line of
+// copy, two buttons. Shown once, until the visitor picks; the choice is kept in localStorage (`cookie-consent`).
+// Works with Google Consent Mode: BaseLayout sets analytics to "denied" before Tag Manager loads (or "granted" if
+// they said yes on an earlier visit); "Sounds good" flips it to granted. No animation: it simply appears.
+// Small (Kedar, 2026-11-13: "half the size"): .t-small text, 44 pills. Phones: full width above the bottom edge. From 48rem: one row (icon, text, buttons), centred at the bottom (Kedar, 2026-11-13: horizontal).
+import Button from './Button.astro';
+import { labels } from '../data/site';
+import cookieIcon from '../icons/ui/cookie.svg?raw';
+const t = labels.cookies;
+---
+<section class="cookie" aria-label={t.region} data-cookie hidden>
+  <span class="icon glyph" aria-hidden="true" set:html={cookieIcon} />
+  <p class="t-small text">{t.text}</p>
+  <div class="actions">
+    {/* The shared Button; primary on the right (Kedar, 2026-11-13). */}
+    <Button variant="ghost" small data-cookie-choice="denied">{t.decline}</Button>
+    <Button variant="light" small data-cookie-choice="granted">{t.accept}</Button>
+  </div>
+</section>
+
+<script>
+  const KEY = 'cookie-consent';
+  const banner = document.querySelector<HTMLElement>('[data-cookie]');
+  let saved: string | null = null;
+  try { saved = localStorage.getItem(KEY); } catch { /* storage blocked: ask every visit */ }
+  if (banner && !saved) {
+    banner.hidden = false;
+    banner.querySelectorAll<HTMLButtonElement>('[data-cookie-choice]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const choice = button.dataset.cookieChoice as 'granted' | 'denied';
+        try { localStorage.setItem(KEY, choice); } catch { /* fine: just this visit */ }
+        const w = window as unknown as { dataLayer?: unknown[] };
+        w.dataLayer = w.dataLayer || [];
+        // Same shape gtag() pushes: an Arguments-like object.
+        (function (..._args: unknown[]) { w.dataLayer!.push(arguments); })('consent', 'update', { analytics_storage: choice });
+        banner.hidden = true;
+      });
+    });
+  }
+</script>
+
+<style>
+  .cookie {
+    position: fixed;
+    z-index: var(--z-banner);
+    inset-inline: var(--rhythm-gutter);
+    bottom: var(--rhythm-float);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--rhythm-cookie-gap);
+    padding: var(--rhythm-cookie-pad);
+    background: var(--color-banner);
+    color: var(--color-on-banner);
+    border-radius: var(--radius-cookie);
+    box-shadow: var(--shadow-banner);
+  }
+  .cookie[hidden] { display: none; }
+  .icon { display: block; align-self: start; width: var(--size-cookie-icon); height: var(--size-cookie-icon); color: var(--color-banner-icon); }
+  .icon :global(svg) { display: block; width: 100%; height: 100%; }
+  .text { align-self: center; }
+  .actions { grid-column: 1 / -1; display: flex; gap: var(--rhythm-action-pair); }
+  .actions :global(.button) { flex: 1; } /* phones: two equal buttons under the text */
+
+  @media (min-width: 48rem) {
+    .cookie { grid-template-columns: auto 1fr auto; align-items: center; width: fit-content; max-width: var(--width-cookie-banner); margin-inline: auto; }
+    .icon { align-self: center; }
+    .actions { grid-column: auto; }
+    .actions :global(.button) { flex: none; }
+  }
+</style>

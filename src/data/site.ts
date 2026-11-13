@@ -41,6 +41,13 @@ export const labels = {
   toTop: 'Back to top',                  // floating button on posts (screen readers)
   viewDetails: 'View details',           // /work: link beside each post's graphic (MacBook Air - 37)
   viewWork: 'View work',                 // post client card: link to the live work (Kedar, 2026-11-09)
+  // Cookie banner (Kedar, 2026-11-13: "be creative"). Claude's draft, for Kedar's review.
+  cookies: {
+    region: 'Cookies',
+    text: 'We bake a few cookies to see which work you enjoy. No tracking for ads, and we never sell a crumb.',
+    accept: 'Sounds good',
+    decline: 'No thanks',
+  },
   newTab: 'opens in a new tab',
   nextPost: 'Read next',                // label above the next post's card at the end of a post
   impressedTalk: 'Impressed? Let’s talk',  // end of every case study (Kedar, 2026-11-01: one CTA, → /contact)

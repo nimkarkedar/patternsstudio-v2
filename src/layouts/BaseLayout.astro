@@ -5,6 +5,7 @@ import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
 import { site, path, isPreview } from '../data/site';
 import { siteGraph, canonicalFor } from '../lib/seo';
 import '../styles/global.css';
@@ -89,6 +90,14 @@ const graph = { '@context': 'https://schema.org', '@graph': [...siteGraph(origin
     {site.gtmId && import.meta.env.PROD && (
       <script is:inline define:vars={{ gtmId: site.gtmId }}>
         window.dataLayer = window.dataLayer || [];
+        // Consent Mode: nothing stored until the visitor says yes on the cookie banner (CookieBanner.astro).
+        function gtag() { window.dataLayer.push(arguments); }
+        let consent = null;
+        try { consent = localStorage.getItem('cookie-consent'); } catch (e) {}
+        gtag('consent', 'default', {
+          analytics_storage: consent === 'granted' ? 'granted' : 'denied',
+          ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+        });
         window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
         const s = document.createElement('script');
         s.async = true;
@@ -103,6 +112,7 @@ const graph = { '@context': 'https://schema.org', '@graph': [...siteGraph(origin
       <slot />
     </main>
     <Footer />
+    {site.gtmId && <CookieBanner />}
   </body>
 </html>
 
