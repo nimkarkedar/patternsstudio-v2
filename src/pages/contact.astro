@@ -2,13 +2,20 @@
 // Contact (Kedar's design, MacBook Air - 26, 2026-11-04). Phones: the address is one big button for the thumb.
 // From 48rem: centred between header and footer, the address an underlined line of its own.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { routes, site } from '../data/site';
+import { pageSeo } from '../data/seo';
+import { routes, site, labels } from '../data/site';
+import { linkedinPath } from '../icons/linkedin';
 ---
-<BaseLayout title="Contact" description={`Hello! Best way to get in touch is, email us at ${site.email}. We hope you value good design.`}>
+<BaseLayout {...pageSeo.contact}>
   <section class="contact">
     <h1 class="t-h1">Hello!</h1>
     <p class="t-p lead">Best way to get in touch is, email us at <a class="email" href={routes.email}>{site.email}</a></p>
     <p class="t-p note">We hope you value good design</p>
+    {/* Kedar, 2026-11-15: just the LinkedIn mark, no words. */}
+    <a class="linkedin" href={site.linkedin} target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d={linkedinPath} /></svg>
+      <span class="visually-hidden">{labels.studioOnLinkedIn} ({labels.newTab})</span>
+    </a>
   </section>
 </BaseLayout>
 
@@ -34,6 +41,10 @@ import { routes, site } from '../data/site';
   }
   .lead { width: 100%; text-wrap: balance; }
   .note { margin-top: var(--rhythm-title-to-lead); color: var(--color-on-page-muted); }
+  .linkedin { position: relative; margin-top: var(--rhythm-lead-to-actions); color: var(--color-on-page-muted); }
+  .linkedin::after { content: ''; position: absolute; inset: var(--rhythm-hit); } /* thumb-sized tap area */
+  .linkedin svg { display: block; width: var(--size-contact-icon); height: var(--size-contact-icon); }
+  .linkedin:hover { color: var(--color-on-page); }
   @media (min-width: 48rem) {
     .contact { justify-content: center; }
     .email {

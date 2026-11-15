@@ -3,13 +3,14 @@
 // then "We’ve worked with wide range of industries" + every client logo, "Explore our work".
 // Kedar 2026-11-11: all cards on top, logos at the end (the frame's second block of cards under the logos is gone).
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageSeo } from '../data/seo';
 import Hero from '../components/Hero.astro';
 import Actions from '../components/Actions.astro';
 import ReviewCard from '../components/ReviewCard.astro';
 import ClientLogoGrid from '../components/ClientLogoGrid.astro';
 import { reviews, labels, routes } from '../data/site';
 ---
-<BaseLayout title={labels.reviewsTitle} description="How do you become successful? Make people happy. Client reviews of Patterns Studio, and the wide range of industries we’ve worked with.">
+<BaseLayout {...pageSeo.reviews}>
   <Hero title={['How do you', 'become successful?']} lead="Make people happy." />
 
   <div class="container page">

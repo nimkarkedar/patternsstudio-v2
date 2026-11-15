@@ -2,6 +2,7 @@
 // About (Kedar's design, MacBook Air - 23 + 29 open card, 2026-11-04): hero, team cards, Advisors.
 // Every bio is on its card, nothing to click open (Kedar, 2026-11-06). One card per row. Manav removed 2026-11-06.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageSeo } from '../data/seo';
 import Hero from '../components/Hero.astro';
 import Actions from '../components/Actions.astro';
 import cleartrip from '../assets/companies/cleartrip.png';
@@ -69,9 +70,9 @@ const advisors = [
     companies: [co.audnco, co.styleTheory, co.goldmanSachs] },
 ];
 ---
-<BaseLayout title="About" description="An independent design studio from SEA. A team of seasoned industry professionals. We connect market patterns with the finer details.">
+<BaseLayout {...pageSeo.about}>
   <Hero
-    title={['An independent design', 'studio from SEA']}
+    title={['An independent design studio', 'based in Southeast Asia']}
     lead="A team of seasoned industry professionals. We connect market patterns with the finer details that help your business grow."
   >
     <Actions primary={{ label: labels.exploreServices, href: routes.services }} />

@@ -254,6 +254,8 @@
   --rhythm-team-pad: var(--rhythm-card-pad);          /* name and LinkedIn mark from the card edge (24 from 48rem: the cards are narrower) */
   --size-team-icon: 1.5rem;                           /* 24 — LinkedIn mark, top right */
   --color-linkedin: #0A66C2;                          /* LinkedIn mark while its card is hovered */
+  --size-footer-icon: var(--space-4);                 /* 16 — studio LinkedIn mark in the footer, sized to the .t-small text */
+  --size-contact-icon: var(--size-team-icon);         /* 24 — studio LinkedIn mark on /contact, under the copy (Kedar, 2026-11-15) */
   --rhythm-team-actions: var(--rhythm-card-gap);      /* cards → "Explore our work" */
   /* Affinity (Kedar, 2026-11-05): a section heading sits closer to what it introduces than to what came before. */
   --rhythm-heading-above: var(--rhythm-section);        /* previous section → section heading (64 → 96) */

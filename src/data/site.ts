@@ -21,8 +21,11 @@ export const site = {
   // Who we are, for structured data / llms.txt / RSS (Kedar's homepage headline + intro, verbatim).
   description:
     'Growth has a pattern. Let’s find yours. We help scale-up businesses with brand, communication, product design and strategic growth advisory.',
-  // TODO(Kedar): public profiles (LinkedIn, Substack, The Gyaan Project…) — they strengthen search + AI entity matching.
-  sameAs: [] as string[],
+  // The studio's LinkedIn page (Kedar, 2026-11-15): footer mark + /contact line.
+  linkedin: 'https://www.linkedin.com/company/patternsstudio/',
+  // Public profiles: tell Google and AI assistants the site and these pages are the same studio (structured data).
+  // TODO(Kedar): more profiles (Substack, The Gyaan Project…) if wanted.
+  sameAs: ['https://www.linkedin.com/company/patternsstudio/'] as string[],
 };
 
 // LinkedIn profiles of the team and advisors (About cards).
@@ -70,6 +73,7 @@ export const labels = {
   previous: 'Previous',                  // carousel arrows (screen readers)
   next: 'Next',
   onLinkedIn: 'on LinkedIn',             // About cards, LinkedIn mark (screen readers)
+  studioOnLinkedIn: 'Patterns Studio on LinkedIn', // footer + /contact LinkedIn mark (screen readers)
   workedAt: (name: string) => `Where ${name.split(' ')[0]} has worked`, // About cards: company logos (screen readers)
 } as const;
 

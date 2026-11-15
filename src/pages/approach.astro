@@ -4,6 +4,7 @@
 // linking the rate card (/rate-card, MacBook Air - 36). Kedar's words, verbatim (typos stay until he fixes them).
 // The frame's grey circles mark where icons go; Claude picked them (Phosphor Regular, like the grid).
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageSeo } from '../data/seo';
 import Hero from '../components/Hero.astro';
 import IconGrid from '../components/IconGrid.astro';
 import Card from '../components/Card.astro';
@@ -38,7 +39,7 @@ const ways = [
   },
 ];
 ---
-<BaseLayout title="Approach" description="We know when to re-invent the wheel. We make sure your users and clients love you. We are eclectic, non-hierarchical first principle thinkers.">
+<BaseLayout {...pageSeo.approach}>
   <Hero
     title={['We know when to', 're-invent the wheel']}
     lead="We make sure your users and clients love you. We are eclectic, non-hierarchical first principle thinkers."

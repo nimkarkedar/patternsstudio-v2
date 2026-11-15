@@ -1,12 +1,13 @@
 ---
 // Homepage (Kedar's design, MacBook Air - 22, 2026-11-04): hero + scrolling client reviews.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageSeo } from '../data/seo';
 import Hero from '../components/Hero.astro';
 import Actions from '../components/Actions.astro';
 import ClientReviews from '../components/ClientReviews.astro';
 import { routes, labels, site } from '../data/site';
 ---
-<BaseLayout description={site.description}>
+<BaseLayout {...pageSeo.home}>
   <Hero
     title={['Growth has a pattern.', 'Let’s find yours.']}
     lead="We help scale-up businesses with brand, communication, product design and strategic growth advisory."

@@ -2,6 +2,7 @@
 // Services (Kedar's design, MacBook Air - 30, 2026-11-04): hero, problem → probable solution table,
 // "In other words, we do" + service grid. The frame repeats one service as a placeholder; the six services stay as they were.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageSeo } from '../data/seo';
 import Hero from '../components/Hero.astro';
 import Actions from '../components/Actions.astro';
 import ProblemList from '../components/ProblemList.astro';
@@ -26,7 +27,7 @@ const services = [
   { label: 'Workshops and elevating teams with C-Suite', icon: 'workshops' },
 ];
 ---
-<BaseLayout title="Services" description="Different problems. Familiar patterns. We’ve learned to recognise common patterns to grow brands and products.">
+<BaseLayout {...pageSeo.services}>
   <Hero
     title={['Different problems.', 'Familiar patterns.']}
     lead="We’ve learned to recognise common patterns to grow brands and products. We use design thinking and creativity to solve them."
