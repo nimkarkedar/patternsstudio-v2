@@ -3,13 +3,14 @@
 // Each card is Kedar's graphic at the link-preview ratio and opens its post.
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { pageSeo } from '../../data/seo';
 import Hero from '../../components/Hero.astro';
 import PostCard from '../../components/PostCard.astro';
 import { routes } from '../../data/site';
 
-const posts = (await getCollection('work', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
+const posts = (await getCollection('work', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id)); // Notion "Order"; a tie goes alphabetical by slug
 ---
-<BaseLayout title="Work" description="Doing good work. Case studies from Patterns Studio across brand, communication, product design and strategic growth advisory.">
+<BaseLayout {...pageSeo.work}>
   <Hero title="Doing good work" />
 
   {posts.length > 0 && (

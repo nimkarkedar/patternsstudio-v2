@@ -1,6 +1,6 @@
 ---
 # Pulled from Notion "Patterns Work Blog Posts" (page 411226b9a26e8059b1cff11f83fc764d), 2026-11-09.
-order: 4
+order: 7
 client: Jupiter Money
 title: Design beyond screens. CSAT up 46 Points.
 description: "A beautiful debit card experience was becoming an operational nightmare. We redesigned everything from packaging to app activation, improving customer satisfaction, accelerating deliveries and helping Jupiter scale without compromising the experience."

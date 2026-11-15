@@ -25,7 +25,11 @@ about: "Cleartrip is an Indian online travel company, founded in 2006, that sell
 situation: "In 2012, Cleartrip’s booking confirmation page had become a dumping ground. Over the years we had added offers and banners for everything else we sold, and the booking details were hard to find."
 task: "We were redesigning the whole booking flow for flights and hotels. The confirmation page needed to show the booking clearly, offer a few relevant next steps, and stay uncluttered as new things got added later."
 action: "We split the page into three fixed blocks: booking details, four add-ons such as a return-trip fare alert, and one deal of the day. Flight details used a boarding-pass layout with a rubber stamp. A receipt broke down the total cost."
-result: "80% of customers came back to book again. About 30% fewer “is my booking confirmed?” support calls. About 40% more add-on bookings from the confirmation page. Featured as an Editors’ Choice app on the App Store."
+result:
+  - 80% of customers came back to book again
+  - About 30% fewer “is my booking confirmed?” support calls
+  - About 40% more add-on bookings from the confirmation page
+  - Featured as an Editors’ Choice app on the App Store
 ---
 
 ![Before and after. The old confirmation page: a success bar, a yellow "Need a cab to airport?" banner, a hotel cash-back offer, "Claim your Cleartrip Account", "Book your return trip" and a long sidebar. The new page: a stamp beside "Your booking is done", the booking details, a receipt for ₹5,132, "4 things to do next" and one "Deal of the day".](./cleartrip-confirmation-page-before-and-after.png)

@@ -8,7 +8,7 @@ import { brandColour } from '../../lib/brand-colour';
 
 export async function getStaticPaths() {
   // Next post = the following one in Notion's Order, wrapping round to the first (none if there's only one).
-  const posts = (await getCollection('work', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
+  const posts = (await getCollection('work', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id)); // Notion "Order"; a tie goes alphabetical by slug
   return posts.map((post, i) => ({
     params: { slug: post.id },
     props: { post, next: posts.length > 1 ? posts[(i + 1) % posts.length] : undefined },
