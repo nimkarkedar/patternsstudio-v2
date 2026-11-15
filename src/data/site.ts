@@ -95,7 +95,7 @@ export const routes = {
   services: path('/services'),
   about: path('/about'),
   contact: path('/contact'),
-  rateCard: path('/rate-card'), // the rate card, linked from /approach (MacBook Air - 36)
+  rateCard: path('/rate-card'), // the rate card (MacBook Air - 36). Hidden 2026-11-15: page is src/pages/_rate-card.astro, link commented out on /approach
   // Opens the visitor's email app with a draft ready (Kedar, 2026-11-13): subject "Hello!", body as below.
   email: `mailto:${site.email}?subject=${encodeURIComponent('Hello!')}&body=${encodeURIComponent('You can add your details here...')}`,
   work: (slug: string) => path(`/work/${slug}`),
