@@ -48,7 +48,7 @@ const work = defineCollection({
       situation: z.preprocess(blank, z.string().optional()), // STAR: "The gap"
       task: z.preprocess(blank, z.string().optional()),      // STAR: "The brief"
       action: z.preprocess(blank, z.string().optional()),    // STAR: "The approach"
-      result: z.preprocess(blank, z.string().optional()),    // STAR: "The outcome"
+      result: z.preprocess(blank, z.union([z.string(), z.array(z.string())]).optional()), // STAR: "The outcome"; a sentence, or points (Notion bullet lines → YAML list, like Impact; Kedar 2026-11-15)
       draft: z.boolean().default(false),
     }),
 });

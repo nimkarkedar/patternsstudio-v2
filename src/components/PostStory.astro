@@ -36,7 +36,7 @@ export interface Story {
   situation?: string;
   task?: string;
   action?: string;
-  result?: string;
+  result?: string | string[];
   /** Client's colour, read from the logo SVG (src/lib/brand-colour.ts); tints the cards. */
   brand?: string;
 }
@@ -59,7 +59,8 @@ if (s.about) cards.push({ icon: aboutIcon, heading: s.client ? labels.about(s.cl
 if (s.situation) cards.push({ icon: situationIcon, heading: labels.situation, text: s.situation });
 if (s.task) cards.push({ icon: taskIcon, heading: labels.task, text: s.task });
 if (s.action) cards.push({ icon: actionIcon, heading: labels.action, text: s.action });
-if (s.result) cards.push({ icon: resultIcon, heading: labels.result, text: s.result });
+const result = typeof s.result === 'string' ? [s.result] : (s.result ?? []); // a sentence, or points like Impact
+if (result.length) cards.push({ icon: resultIcon, heading: labels.result, ...(result.length > 1 ? { points: result } : { text: result[0] }) });
 
 const count = cards.length + (hasClient ? 1 : 0) + (review ? 1 : 0);
 // The review card sits where the testimonial would: after Scope when there is one, otherwise first after the client card.
