@@ -24,6 +24,7 @@ import kedar from '../assets/about/kedar-nimkar.webp';
 import john from '../assets/about/john-pathrose.webp';
 import andrew from '../assets/about/andrew-mcglinchey.webp';
 import raena from '../assets/about/raena-lim.webp';
+import kanika from '../assets/about/kanika-sood.webp';
 
 // Company logos (Kedar, 2026-11-13: "visually and optically the same size"). TeamCard gives every logo the same
 // area, so wide wordmarks come out shorter and compact ones taller. `weight` is a small optical nudge
@@ -53,12 +54,13 @@ const team = [
     photo: kedar,
     linkedin: linkedin.kedar,
     alt: 'Kedar Nimkar, smiling, in a black sweater',
-    bio: 'Kedar brings 20 years of experience in Design. He has previously led design teams at Cleartrip, PropertyGuru, BookMyShow, Jupiter and Webchutney (later acquired by Dentsu). He is an author of “The Design In Everything” book and host, producer of India’s longest running podcast on Design and Art with over 10M views. He is based in Singapore',
-    companies: [co.cleartrip, co.bookmyshow, co.jupiter, co.propertyguru],
+    // Kedar, 2026-11-15, verbatim.
+    bio: 'Kedar is a Singapore-based design leader with 20 years of experience building digital products used by millions across Asia. He has led design at PropertyGuru, Jupiter, BookMyShow and Cleartrip, specializing in turning complex consumer challenges into intuitive product experiences. He is the author of The Design in Everything and creator and host of India’s longest-running design and art podcast, with over 300 episodes and 10 million views.',
+    companies: [co.propertyguru, co.jupiter, co.bookmyshow, co.cleartrip], // same order as the bio
   },
   { name: 'John Pathrose', role: 'Co-founder & Head of Growth', photo: john, linkedin: linkedin.john, alt: 'John Pathrose, smiling, in a dark blazer',
-    // Written by Claude from John's LinkedIn (2026-11-10), for Kedar's review. Logos from Kedar 2026-11-13.
-    bio: 'John has spent 20 years taking businesses to market across Asia. He led SMB marketing for Microsoft in APAC, ran Intuit’s channel partner program and launched QuickBooks in new markets, and headed StarHub’s SME business. He began in digital agencies, at Webchutney, DDB and GroupM, and today advises startups on B2B growth.',
+    // Kedar, 2026-11-15, verbatim. Logos from Kedar 2026-11-13.
+    bio: 'John is a Singapore-based growth leader with two decades of experience across marketing, sales, media and go-to-market strategy in Asia Pacific. He has held senior leadership roles at Microsoft, StarHub and Intuit, driving market expansion, customer acquisition and business growth, with deep expertise in the SMB segment. His experience also spans growth consulting for scale-ups, connecting brand positioning, commercial strategy and go-to-market execution to unlock new growth opportunities.',
     companies: [co.microsoft, co.starhub, co.intuit, co.groupm] },
 ];
 
@@ -68,6 +70,10 @@ const advisors = [
     companies: [co.google, co.indeed, co.propertyguru] },
   { name: 'Raena Lim', role: 'Growth', photo: raena, linkedin: linkedin.raena, alt: 'Raena Lim, smiling', bio: 'Raena is a Managing Partner at AUD’NCO, where she advises founders as a fractional COO. She co-founded Style Theory, Southeast Asia’s largest fashion rental platform, and as COO raised ~$30M and scaled it across three markets. She began in community banking in Kenya before joining Goldman Sachs in Asia.',
     companies: [co.audnco, co.styleTheory, co.goldmanSachs] },
+  // Kedar, 2026-11-15, verbatim. Portrait: Kedar's cut-out on white, eyes level with Raena's. TODO(Kedar): Cadbury, Adobe, Standard Chartered logos.
+  { name: 'Kanika Sood', role: 'Brand & Creative', photo: kanika, linkedin: linkedin.kanika, alt: 'Kanika Sood, smiling, in a denim jacket',
+    companies: [co.google],
+    bio: 'Kanika is a Brand & Creative Advisor to the studio with two decades of brand-building and marketing leadership across Asia Pacific. She led regional brand initiatives at Google APAC and managed major regional and global mandates for Mondelēz’s Cadbury, Adobe, and Standard Chartered. A Gold Cannes Lion winner, she combines commercial leadership with award-winning creative execution.' },
 ];
 ---
 <BaseLayout {...pageSeo.about}>

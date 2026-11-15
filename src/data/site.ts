@@ -34,6 +34,7 @@ export const linkedin = {
   john: 'https://www.linkedin.com/in/johnpathrose/',
   andrew: 'https://www.linkedin.com/in/andrewmcglinchey/',
   raena: 'https://www.linkedin.com/in/raenalim/',
+  kanika: 'https://www.linkedin.com/in/kanikasood/',
 };
 
 // UI labels.
@@ -146,8 +147,8 @@ export const clients = [
 // `file` = portrait in src/assets/reviews/<file>.webp, cropped from the frame, so every head sits as designed.
 export const reviews = [
   { name: 'Viveck P Kumar', role: 'Chief Product Officer, Sleek', quote: 'No jargon, no unnecessary complexity. Just sharp thinking and work that delivers.', file: 'viveck-kumar' },
-  { name: 'Eva Weidinger', role: 'Marketing Director, ELSA, Corp', quote: 'Complex problems became simple, practical solutions. Exactly what was needed at PG.', file: 'eva-weidinger' },
-  { name: 'Nishant Choudhary', role: 'Co-founder, Prabhavi Learning', quote: 'Creative geniuses with phenomenal "learning mindset" and high integrity.', file: 'nishant-choudhary' },
+  { name: 'Eva Weidinger', role: 'Marketing Director, ELSA Corp', quote: 'Complex problems became simple, practical solutions. Exactly what was needed at PG.', file: 'eva-weidinger' },
+  { name: 'Nishant Choudhary', role: 'Co-founder, Prabhavi Learning', quote: 'Creative geniuses with a phenomenal “learning mindset” and high integrity.', file: 'nishant-choudhary' },
   { name: 'Subramanya Sharma', role: 'Founder at Better Ed.', quote: 'Big-picture thinking with an incredible eye for the little details that matter.', file: 'subramanya-sharma' },
   { name: 'Jeremy Williams', role: 'Former COO, PropertyGuru', quote: 'Rare to find creative minds who understand the commercial side of things so well.', file: 'jeremy-williams' },
   { name: 'Audrey Woo', role: 'Co-Founder of Audn’co & Entrepreneur', quote: 'Working with Patterns felt less like hiring consultants and more like gaining great colleagues.', file: 'audrey-woo' }, // Kedar 2026-11-11; source photo 324 wide, a bigger one is wanted
