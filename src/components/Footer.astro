@@ -1,19 +1,25 @@
 ---
-// Footer: company, Singapore (flag + the word, Kedar 2026-11-15), UEN, and the studio's LinkedIn mark (Kedar 2026-11-15).
-import { site, labels } from '../data/site';
+// Footer (Kedar 2026-11-16: "left and right, basic context"). Left = who we are: company, Singapore, UEN.
+// Right = where to go: Patterns tl;dr (/overview) and the studio's LinkedIn mark.
+// Phones: the two groups stack, both on the left edge. From 48rem: one row, pushed to either side.
+import { site, labels, routes } from '../data/site';
 import { linkedinPath } from '../icons/linkedin';
 ---
-<footer class="footer">
-  <p class="t-small">
-    {site.legal}
+<footer class="footer t-small">
+  <p class="legal">
+    <span>{site.legal}</span>
     <span class="dot" aria-hidden="true">·</span>
     <span><span aria-hidden="true">{site.flag}</span> {site.locality}</span>
-    <span class="dot" aria-hidden="true">·</span> {site.uen}
+    <span class="dot" aria-hidden="true">·</span>
+    <span>{site.uen}</span>
+  </p>
+  <nav class="links" aria-label="Footer">
+    <a class="overview" href={routes.overview}>{labels.overview}</a>
     <a class="linkedin" href={site.linkedin} target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d={linkedinPath} /></svg>
       <span class="visually-hidden">{labels.studioOnLinkedIn} ({labels.newTab})</span>
     </a>
-  </p>
+  </nav>
 </footer>
 
 <style>
@@ -23,13 +29,25 @@ import { linkedinPath } from '../icons/linkedin';
     padding-block: var(--rhythm-footer);
     border-top: var(--line-width) solid var(--color-line-on-page);
     color: var(--color-on-page-muted);
-    text-align: var(--align-page);
+    display: grid;
+    gap: var(--rhythm-stack);
   }
-  .footer p { display: inline-flex; gap: var(--space-2); align-items: center; flex-wrap: wrap; justify-content: var(--align-page); }
-  .dot { display: none; } /* phones: the parts wrap onto their own lines */
-  .linkedin { position: relative; flex: none; }
-  .linkedin::after { content: ''; position: absolute; inset: var(--rhythm-hit); } /* thumb-sized tap area */
+  .legal { display: flex; flex-wrap: wrap; column-gap: var(--space-2); }
+  .dot { display: none; } /* phones: company, place and UEN wrap as they fit */
+  .links { display: flex; align-items: center; gap: var(--space-5); }
+
+  .overview, .linkedin { position: relative; }
+  .overview::after, .linkedin::after { content: ''; position: absolute; inset: var(--rhythm-hit); } /* thumb-sized tap area */
+  .overview {
+    text-decoration: underline;
+    text-decoration-thickness: var(--underline-width);
+    text-underline-offset: var(--underline-offset);
+  }
   .linkedin svg { display: block; width: var(--size-footer-icon); height: var(--size-footer-icon); }
-  .linkedin:hover { color: var(--color-on-page); }
-  @media (min-width: 48rem) { .dot { display: inline; } }
+  .overview:hover, .linkedin:hover { color: var(--color-on-page); }
+
+  @media (min-width: 48rem) {
+    .footer { display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); }
+    .dot { display: inline; }
+  }
 </style>

@@ -158,6 +158,10 @@
   --rhythm-post-hero: var(--space-6);                                   /* post: header → Back button (32) */
   --rhythm-post-title: var(--space-5);                                  /* post from 48rem: title → details (24) */
   --rhythm-prose-inset: var(--space-6);                                 /* pull quote: hairline → text (32) */
+  /* /overview (MacBook Air - 40, 2026-11-16): one question per block, hairlines between. */
+  --rhythm-brief-block: var(--space-7);                                 /* title → first question; hairline ↔ question (40) */
+  --rhythm-brief-answer: var(--space-2);                                /* question → its answer (8) */
+  --rhythm-brief-link: var(--space-4);                                  /* answer → its link (16) */
   --rhythm-fact-x: 1.25rem;                                             /* post details: panel sides on phones (20), cell padding from 48rem (40) */
   --rhythm-fact-y: var(--space-4);                                      /* post details on phones: row top/bottom (16) */
   --rhythm-fact-gap: var(--space-4);                                    /* post details on phones: label → value (16) */

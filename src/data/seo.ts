@@ -56,6 +56,14 @@ export const pageSeo = {
     image: work,
     imageAlt: card('Doing good work. Explore our case studies.'),
   },
+  // /overview: the one-pager sent to prospects (MacBook Air - 40, 2026-11-16). Uses the About card.
+  overview: {
+    title: 'tl;dr',
+    metaTitle: 'Patterns Studio tl;dr — Design Studio in Singapore',
+    description: 'Patterns Studio on one page: who we are, what we do, who we work with and how. An independent design studio in Singapore, serving Southeast Asia and India.',
+    image: about,
+    imageAlt: card('An independent design studio based in Southeast Asia.'),
+  },
   contact: {
     title: 'Contact',
     metaTitle: 'Contact Patterns Studio — Design Studio in Singapore',

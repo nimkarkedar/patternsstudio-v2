@@ -1,0 +1,146 @@
+---
+// /overview — "Patterns tl;dr" (MacBook Air - 40 layout, 2026-11-16). The one page sent to a prospect we may never have met
+// (WhatsApp, LinkedIn intros) instead of a deck or a PDF. Footer link only, not in the nav.
+// Kedar 2026-11-16: the whole website on one page. Every section is one page of the site, in the site's own words
+// (Home, Services, Approach, Work, Reviews, About, Contact), cut down, and ends with a link to that page.
+// White under the blue header; one reading column (--width-post); question-style labels .t-p-bold; hairlines between.
+// The case-study list comes from the `work` collection, so new posts show up here by themselves.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import { pageSeo } from '../data/seo';
+import { getCollection } from 'astro:content';
+import { routes, site, linkedin, labels, clientSites } from '../data/site';
+
+// A few notable clients per market (Kedar 2026-11-16: "not a laundry list"). A name links to its case study when
+// there is one (the first by Notion Order); otherwise to the client's own site (`clientSites`, new tab).
+const posts = (await getCollection('work', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id));
+const caseFor = (name: string) => posts.find((p) => p.data.client?.startsWith(name));
+const markets = [
+  { place: 'Singapore', names: ['PropertyGuru', 'Sleek', 'Samwoh'] },
+  { place: 'India', names: ['Jupiter', 'Cleartrip', 'BookMyShow'] },
+].map((m) => ({ ...m, names: m.names.map((name) => {
+  const post = caseFor(name);
+  return post ? { name, href: routes.work(post.id), external: false } : { name, href: clientSites[name], external: true };
+}) }));
+const ext = { target: '_blank', rel: 'noopener' };
+---
+<BaseLayout {...pageSeo.overview}>
+  <div class="page on-surface">
+    <article class="brief">
+      <header>
+        <h1 class="t-h1">tl;dr</h1>
+      </header>
+
+      <section class="block">
+        <h2 class="t-p-bold">Who we are</h2>
+        <p class="t-p answer">A design studio in Singapore. We design brands, apps and websites that help businesses grow. We work with startups and growing companies across Southeast Asia and India.</p>
+      </section>
+
+
+      <section class="block">
+        <h2 class="t-p-bold">What we do</h2>
+        <ul class="answer points">
+          <li class="t-p">Brand identity and marketing design</li>
+          <li class="t-p">App and website design, with working prototypes</li>
+          <li class="t-p">Designing and launching new products</li>
+          <li class="t-p">Design advice to grow your business</li>
+          <li class="t-p">Bringing AI into your business</li>
+          <li class="t-p">Workshops for your team and leadership</li>
+        </ul>
+        <a class="t-small more" href={routes.services}>Our services</a>
+      </section>
+
+      <section class="block">
+        <h2 class="t-p-bold">How we work</h2>
+        <ul class="answer points">
+          <li class="t-p">Fixed project or monthly retainer</li>
+          <li class="t-p">Senior designers do the work themselves</li>
+          <li class="t-p">We show working prototypes, not slide decks</li>
+          <li class="t-p">Results you can measure, and files you own</li>
+        </ul>
+        <a class="t-small more" href={routes.approach}>Our approach</a>
+      </section>
+
+      <section class="block">
+        <h2 class="t-p-bold">Clients</h2>
+        {/* One sentence: "We’ve worked with A, B and C in Singapore, and D, E and F in India, to name a few." */}
+        <p class="t-p answer">
+          {'We’ve worked with '}
+          {markets.map((m, mi) => (
+            <>
+              {mi > 0 && ', and '}
+              {m.names.map((c, i) => (
+                <>
+                  {i > 0 && (i === m.names.length - 1 ? ' and ' : ', ')}
+                  {c.href ? <a class="inline" href={c.href} {...(c.external ? ext : {})}>{c.name}{c.external && <span class="visually-hidden"> ({labels.newTab})</span>}</a> : c.name}
+                </>
+              ))}
+              {` in ${m.place}`}
+            </>
+          ))}
+          {', to name a few.'}
+        </p>
+        <a class="t-small more" href={routes.workList}>All case studies</a>
+      </section>
+
+
+      <section class="block">
+        <h2 class="t-p-bold">Who you’ll work with</h2>
+        <ul class="answer points">
+          <li class="t-p">
+            <a class="inline" href={linkedin.kedar} {...ext}>Kedar Nimkar<span class="visually-hidden"> ({labels.newTab})</span></a>
+            {', co-founder, design. 20 years designing products; led design at PropertyGuru, Jupiter, BookMyShow and Cleartrip.'}
+          </li>
+          <li class="t-p">
+            <a class="inline" href={linkedin.john} {...ext}>John Pathrose<span class="visually-hidden"> ({labels.newTab})</span></a>
+            {', co-founder, growth. 20 years in marketing and sales; senior roles at Microsoft, StarHub and Intuit.'}
+          </li>
+        </ul>
+        <a class="t-small more" href={routes.about}>The team</a>
+      </section>
+
+      <section class="block">
+        <h2 class="t-p-bold">Get in touch</h2>
+        <Button href={routes.email} class="mail">{site.email}</Button>
+      </section>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  /* White straight under the blue header (MacBook Air - 40), down to the footer. */
+  .page {
+    flex: 1;
+    background: var(--color-surface);
+    color: var(--color-on-surface);
+    padding: var(--rhythm-page-top) var(--rhythm-gutter) var(--rhythm-section);
+  }
+  .brief { max-width: var(--width-post); margin-inline: auto; }
+
+  .block { padding-block: var(--rhythm-brief-block); }
+  .block + .block { border-top: var(--line-width) solid var(--color-line-on-surface); }
+  .block:last-child { padding-bottom: 0; }
+
+  .answer { margin-top: var(--rhythm-brief-answer); color: var(--color-on-prose); }
+  .answer + .answer { margin-top: var(--rhythm-brief-link); }
+  .points { padding-inline-start: var(--space-5); list-style: disc; }
+  .points li + li { margin-top: var(--rhythm-prose-list); }
+  .points li::marker { color: var(--color-on-surface); }
+
+
+  .inline, .more {
+    text-decoration: underline;
+    text-decoration-thickness: var(--underline-width);
+    text-underline-offset: var(--underline-offset);
+  }
+  .inline { color: var(--color-on-surface); }
+  .inline:hover, .more:hover { color: var(--color-accent); }
+  .more { position: relative; display: inline-block; margin-top: var(--rhythm-brief-link); }
+  .more::after { content: ''; position: absolute; inset: var(--rhythm-hit); } /* thumb-sized tap area */
+
+  /* The one dark button on the page: full width on phones, its own width from 48rem. */
+  .brief :global(.mail) { width: 100%; margin-top: var(--rhythm-brief-answer); }
+  @media (min-width: 48rem) {
+    .brief :global(.mail) { width: auto; }
+  }
+</style>

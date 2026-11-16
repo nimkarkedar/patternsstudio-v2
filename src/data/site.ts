@@ -75,8 +75,15 @@ export const labels = {
   next: 'Next',
   onLinkedIn: 'on LinkedIn',             // About cards, LinkedIn mark (screen readers)
   studioOnLinkedIn: 'Patterns Studio on LinkedIn', // footer + /contact LinkedIn mark (screen readers)
+  overview: 'Patterns tl;dr',            // footer link to /overview
   workedAt: (name: string) => `Where ${name.split(' ')[0]} has worked`, // About cards: company logos (screen readers)
 } as const;
+
+// Clients' own websites, for names on /overview that have no case study yet (Kedar 2026-11-16).
+export const clientSites: Record<string, string> = {
+  Sleek: 'https://sleek.com/sg/',
+  Samwoh: 'https://www.samwoh.com/',
+};
 
 // The questionnaire Kedar shares with every new client (Google Doc, 2026-11-06). Must be shared as
 // "Anyone with the link can view", or visitors hit a sign-in wall. Linked from /approach ("Questions we ask clients").
@@ -100,6 +107,7 @@ export const routes = {
   services: path('/services'),
   about: path('/about'),
   contact: path('/contact'),
+  overview: path('/overview'), // one-page intro sent to prospects on WhatsApp etc. (MacBook Air - 40, 2026-11-16). Footer only, not in the nav
   rateCard: path('/rate-card'), // the rate card (MacBook Air - 36). Hidden 2026-11-15: page is src/pages/_rate-card.astro, link commented out on /approach
   // Opens the visitor's email app with a draft ready (Kedar, 2026-11-13): subject "Hello!", body as below.
   email: `mailto:${site.email}?subject=${encodeURIComponent('Hello!')}&body=${encodeURIComponent('You can add your details here...')}`,
