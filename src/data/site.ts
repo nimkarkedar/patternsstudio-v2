@@ -20,7 +20,7 @@ export const site = {
   founderRole: 'Co-founder & Principal Designer, Patterns Studio',
   // Who we are, for structured data / llms.txt / RSS (Kedar's homepage headline + intro, verbatim).
   description:
-    'Growth has a pattern. Let’s find yours. We help scale-up businesses with brand, communication, product design and strategic growth advisory.',
+    'Growth has a pattern. Let’s find yours. We help businesses with brand, communication, product design and strategic growth advisory.',
   // The studio's LinkedIn page (Kedar, 2026-11-15): footer mark + /contact line.
   linkedin: 'https://www.linkedin.com/company/patternsstudio/',
   // Public profiles: tell Google and AI assistants the site and these pages are the same studio (structured data).
@@ -54,7 +54,8 @@ export const labels = {
   },
   newTab: 'opens in a new tab',
   nextPost: 'Read next',                // label above the next post's card at the end of a post
-  impressedTalk: 'Impressed? Let’s talk',  // end of every case study (Kedar, 2026-11-01: one CTA, → /contact)
+  endPrompt: 'Got something in mind?',   // end of every case study, .t-p-large in ink above the button (Kedar 2026-11-19; was the button "Impressed? Let’s talk")
+  endTalk: 'Let’s talk',                 // the button under it → /contact
   reviewsTitle: 'Client reviews',        // /reviews tab title and section label
   client: 'Client',                      // post details panel
   clientLogo: 'Client logo',
@@ -155,12 +156,12 @@ export const clients = [
 // `file` = portrait in src/assets/reviews/<file>.webp, cropped from the frame, so every head sits as designed.
 export const reviews = [
   { name: 'Viveck P Kumar', role: 'Chief Product Officer, Sleek', quote: 'No jargon, no unnecessary complexity. Just sharp thinking and work that delivers.', file: 'viveck-kumar' },
-  { name: 'Eva Weidinger', role: 'Marketing Director, ELSA Corp', quote: 'Complex problems became simple, practical solutions. Exactly what was needed at PG.', file: 'eva-weidinger' },
+  { name: 'Eva Weidinger', role: 'Marketing Director, ELSA Corp', quote: 'Complex problems became simple, practical solutions. Exactly what businesses need.', file: 'eva-weidinger' },
   { name: 'Nishant Choudhary', role: 'Co-founder, Prabhavi Learning', quote: 'Creative geniuses with a phenomenal “learning mindset” and high integrity.', file: 'nishant-choudhary' },
   { name: 'Subramanya Sharma', role: 'Founder at Better Ed.', quote: 'Big-picture thinking with an incredible eye for the little details that matter.', file: 'subramanya-sharma' },
   { name: 'Jeremy Williams', role: 'Former COO, PropertyGuru', quote: 'Rare to find creative minds who understand the commercial side of things so well.', file: 'jeremy-williams' },
   { name: 'Audrey Woo', role: 'Co-Founder of Audn’co & Entrepreneur', quote: 'Working with Patterns felt less like hiring consultants and more like gaining great colleagues.', file: 'audrey-woo' }, // Kedar 2026-11-11; source photo 324 wide, a bigger one is wanted
-  { name: 'Rahool Gadkari', role: 'Co-Founder @ Neufin Energy', quote: 'Kedar’s thinking brought the “X\u2060-\u2060factor” we needed for a distinctive brand architecture.', file: 'rahool-gadkari' },
+  { name: 'Rahool Gadkari', role: 'Co-Founder @ Neufin Energy', quote: 'Patterns team brought the “X\u2060-\u2060factor” we needed for a distinctive brand architecture.', file: 'rahool-gadkari' },
   { name: 'Ian Tan', role: 'CMO | Social Entrepreneur', quote: 'It\'s rare to find people who care equally about the details and the bigger picture.', file: 'ian-tan' }, // Kedar 2026-11-11
   { name: 'Bogdan M.', role: '2x Founder, 2x Exit | Venture Investor', quote: 'No nonsense team. They get it right the first time and make building products feel effortless.', file: 'bogdan-m' }, // Kedar 2026-11-11; source photo 288 wide, a bigger one is wanted
 ] as const;

@@ -14,7 +14,9 @@ import { linkedinPath } from '../icons/linkedin';
     <span>{site.uen}</span>
   </p>
   <nav class="links" aria-label="Footer">
+    {/* Patterns tl;dr hidden (Kedar 2026-11-19). To bring it back: uncomment, and rename src/pages/_overview.astro → overview.astro.
     <a class="overview" href={routes.overview}>{labels.overview}</a>
+    */}
     <a class="linkedin" href={site.linkedin} target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d={linkedinPath} /></svg>
       <span class="visually-hidden">{labels.studioOnLinkedIn} ({labels.newTab})</span>

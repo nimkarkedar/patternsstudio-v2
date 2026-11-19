@@ -72,6 +72,7 @@
   --size-h2: clamp(1.875rem, 9.4vw, 2.75rem);   /* phone: 37 at 390 */
   --size-p: 1.25rem;                            /* 20, on every screen */
   --size-small: 0.9375rem;                      /* 15, on every screen */
+  --size-p-large: 1.375rem;                     /* 22 phone, 28 desktop: Lato Regular, the line on /work rows (Kedar 2026-11-19) */
   --size-h3: 1.625rem;                          /* 26 phone, 32 desktop: Montserrat card headings (post story cards, Kedar 2026-11-11) */
 
   --leading-h1: 1.06;
@@ -101,6 +102,7 @@
   --rhythm-page-top: clamp(var(--space-6), 6vw, var(--space-10));        /* header → hero title */
   --rhythm-title-to-lead: var(--space-5);        /* hero title → lead (24 on phones) */
   --rhythm-lead-to-actions: var(--space-6);                             /* lead → button (32) */
+  --rhythm-prompt-to-action: var(--space-5);                           /* a one-line question → its button, read as one unit (24; end of posts, Kedar 2026-11-19) */
   --rhythm-action-pair: var(--space-2);                                 /* primary button → ghost button */
   --rhythm-button-x: var(--space-7);                                    /* pill side padding (40) */
   --rhythm-button-small-x: var(--space-5);                              /* small pill side padding (24) */
@@ -112,7 +114,8 @@
   --rhythm-stack: var(--space-3);                                       /* heading → body in a card */
   --rhythm-paragraph: var(--space-5);                                   /* paragraph → paragraph */
   --rhythm-list: var(--space-2);                                        /* list item → list item */
-  --rhythm-arrow: var(--space-2);                                       /* phones: → before a Services solution */
+  --rhythm-solution-icon: var(--space-3);                               /* Services table: icon → solution text */
+  --rhythm-problem-columns: var(--space-9);                             /* Services table, ≥48rem: problem ↔ solution column gap (64; Kedar 2026-11-19: clearer split) */
   --rhythm-problem-row: var(--space-6);                                 /* phones: top/bottom of a Services row (32) */
   --rhythm-problem-answer: var(--space-4);                              /* phones: problem → its solution (16) */
   --width-question-number: var(--space-7);                              /* Approach questions: number column (40) */
@@ -249,6 +252,7 @@
   /* Service cards, Apple-style (Kedar's reference, 2026-10-30): bare blue Phosphor Regular icon, no tile */
   --color-service-icon: var(--color-accent);
   --size-service-icon: 2.25rem;                  /* phone: 36, beside the text */
+  --size-solution-icon: 1.75rem;                 /* 28: Services table icons, one line of text tall (Kedar 2026-11-19) */
   --rhythm-service-icon: var(--space-4);              /* icon → text (16) */
   --rhythm-icon-cell: var(--rhythm-card-pad);         /* padding of an icon-grid cell: lines up with the table above */
 
@@ -324,6 +328,7 @@
     --size-p: 1.5rem;  /* 24 on desktop: trial, Kedar 2026-11-05 */
     --size-h2: clamp(2rem, 1.59rem + 1.77vw, 3rem);
     --size-h3: 2rem;
+    --size-p-large: 1.75rem; /* 28 */
     --leading-h1: 1.094;
     --leading-h2: 1.25;
     --lines-review-quote: 4;
@@ -353,6 +358,7 @@
     --rhythm-company-logos: var(--space-7);
     --rhythm-hero-to-reviews: var(--rhythm-section);
     --size-service-icon: 2.75rem;
+    --size-solution-icon: 2rem; /* 32 */
     --size-toggle: var(--size-expand);
   }
 }

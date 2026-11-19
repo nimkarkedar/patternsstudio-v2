@@ -11,7 +11,7 @@ import { routes } from '../../data/site';
 const posts = (await getCollection('work', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id)); // Notion "Order"; a tie goes alphabetical by slug
 ---
 <BaseLayout {...pageSeo.work}>
-  <Hero title="Doing good work" />
+  <Hero title={['Things we’ve made.', 'You’re next.']} />
 
   {posts.length > 0 && (
     <section class="container" aria-label="Work">

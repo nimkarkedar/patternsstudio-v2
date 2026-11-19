@@ -1,7 +1,7 @@
-# Builds the site and publishes the PREVIEW to https://nimkarkedar.github.io/patternsstudio-v2/
-# on every push to main (including saves from the CMS). Preview = noindex everywhere.
-# At launch: drop BASE_PATH/PREVIEW, set SITE_URL to https://patternsstudio.co and add the custom domain.
-name: Deploy preview
+# Builds the site and publishes it to https://patternsstudio.co on every push to main (launched 2026-11-19).
+# The custom domain is set in this repo's Settings → Pages (it moved here from nimkarkedar/patternsstudio.co).
+# For a noindexed preview build instead: SITE_URL=https://nimkarkedar.github.io, BASE_PATH=/patternsstudio-v2, PREVIEW='true'.
+name: Deploy
 
 on:
   push:
@@ -29,9 +29,7 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          SITE_URL: https://nimkarkedar.github.io
-          BASE_PATH: /patternsstudio-v2
-          PREVIEW: 'true'
+          SITE_URL: https://patternsstudio.co
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

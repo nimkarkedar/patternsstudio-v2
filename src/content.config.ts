@@ -28,6 +28,8 @@ const work = defineCollection({
     z.object({
       order: z.number(),
       client: z.string(), // Notion "Client name"; also the card's fallback accessible name
+      service: z.preprocess(blank, z.string().optional()), // Notion "Service": what we did, shown under the client name on /work + Read next (Kedar 2026-11-19)
+      workText: z.preprocess(blank, z.string().optional()), // Notion "Work page text": shown big on /work + Read next instead of the title; blank = title (Kedar 2026-11-19)
       title: z.string(), // post title; the CMS also makes the folder name (= URL) from it
       description: z.string().optional(), // Google + link previews
       publishedDate: z.preprocess(blank, z.coerce.date().optional()),

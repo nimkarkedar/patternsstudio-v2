@@ -2,6 +2,8 @@
 # Pulled from Notion "Patterns Work Blog Posts" (page 411226b9a26e8059b1cff11f83fc764d), 2026-11-09.
 order: 7
 client: Jupiter Money
+service: "Service & Packaging Design"
+workText: "Great experiences go beyond screens. Rethinking customer interactions to improve satisfaction by 26 points."
 title: Design beyond screens. CSAT up 26 points.
 description: "A beautiful debit card experience was becoming an operational nightmare. We redesigned everything from packaging to app activation, improving customer satisfaction, accelerating deliveries and helping Jupiter scale without compromising the experience."
 publishedDate: 2026-11-09

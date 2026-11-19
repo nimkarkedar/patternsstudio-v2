@@ -11,11 +11,11 @@ import { routes, labels } from '../data/site';
 
 // Kedar's words, verbatim (typos stay until he fixes them).
 const problems = [
-  { problem: 'Because of AI, our product looks like every other product on the market.', solution: 'Design system + brand identity' },
-  { problem: 'We have leaky funnels, slow adoption and low conversion.', solution: 'UI and UX optimisation + storytelling' },
-  { problem: 'We’ve grown too fast. Our product looks incoherent.', solution: 'Design system' },
-  { problem: 'Users and clients are unclear about what we offer.', solution: 'Product marketing + brand communication + storytelling' },
-  { problem: 'We want to adopt AI and grow.', solution: 'Design advisory' },
+  { problem: 'Because of AI, our product looks like every other product on the market.', solution: 'Design system + brand identity', icon: 'identity' },
+  { problem: 'We have leaky funnels, slow adoption and low conversion.', solution: 'UI and UX optimisation + storytelling', icon: 'optimise' },
+  { problem: 'We’ve grown too fast. Our product looks incoherent.', solution: 'Design system', icon: 'system' },
+  { problem: 'Users and clients are unclear about what we offer.', solution: 'Product marketing + brand communication + storytelling', icon: 'marketing' },
+  { problem: 'We want to adopt AI and grow.', solution: 'Design advisory', icon: 'advisory' },
 ];
 
 const services = [
@@ -30,7 +30,7 @@ const services = [
 <BaseLayout {...pageSeo.services}>
   <Hero
     title={['Different problems.', 'Familiar patterns.']}
-    lead="We’ve learned to recognise the common patterns in the problems growing brands and products face. We use design thinking and creativity to solve them."
+    lead="We bring clarity, creativity and commercial thinking to move your business forward."
   >
     <Actions primary={{ label: labels.exploreWork, href: routes.workList }} />
   </Hero>

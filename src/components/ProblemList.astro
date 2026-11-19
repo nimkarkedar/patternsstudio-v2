@@ -2,12 +2,15 @@
 // Services: "Problem / Probable solution" table card (Kedar's design, MacBook Air - 30, 2026-11-04).
 // Pale-blue header band (as in the case-study tables); each row = the problem + its solution as plain text (no pills — Kedar, 2026-10-30).
 // Desktop: two columns. Phones: the two-column header is swapped for a one-line band, `phoneLabel` ("Problem → Our solution");
-// each problem with its solution under it, in bold, behind an ink → (Kedar, 2026-11-06). Tilts like every card except /work.
+// each problem with its solution under it, in bold. Every solution leads with a blue Phosphor icon, vertically centred on its
+// first line (Kedar 2026-11-19; replaces the phone-only →); icons in src/icons/solutions/. Tilts like every card except /work.
 import Card from './Card.astro';
 
-interface Item { problem: string; solution: string }
+interface Item { problem: string; solution: string; icon: string }
 interface Props { items: Item[]; problemLabel: string; solutionLabel: string; phoneLabel: string }
 const { items, problemLabel, solutionLabel, phoneLabel } = Astro.props;
+const icons = import.meta.glob<string>('../icons/solutions/*.svg', { eager: true, query: '?raw', import: 'default' });
+const svg = (name: string) => icons[`../icons/solutions/${name}.svg`] ?? '';
 ---
 <Card tilt>
   <p class="t-p-bold band" aria-hidden="true">{phoneLabel}</p>
@@ -19,7 +22,10 @@ const { items, problemLabel, solutionLabel, phoneLabel } = Astro.props;
     {items.map((item) => (
       <div class="row" role="row">
         <p class="t-p problem" role="cell">{item.problem}</p>
-        <p class="t-answer solution" role="cell">{item.solution}</p>
+        <p class="t-answer solution" role="cell">
+          <span class="icon glyph" aria-hidden="true" set:html={svg(item.icon)} />
+          <span>{item.solution}</span>
+        </p>
       </div>
     ))}
   </div>
@@ -44,9 +50,17 @@ const { items, problemLabel, solutionLabel, phoneLabel } = Astro.props;
   .solution {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
-    column-gap: var(--rhythm-arrow);
+    align-items: start;
+    column-gap: var(--rhythm-solution-icon);
   }
-  .solution::before { content: "→" / ""; }
+  /* The icon box is exactly one line tall, so the icon sits centred on the first line however many lines follow. */
+  .icon {
+    display: flex;
+    align-items: center;
+    height: calc(var(--size-p) * var(--leading-p));
+    color: var(--color-service-icon);
+  }
+  .icon :global(svg) { display: block; width: var(--size-solution-icon); height: var(--size-solution-icon); fill: currentColor; }
   .row + .row { border-top: var(--line-width) solid var(--color-line-on-surface); }
   @media (hover: hover) {
     .row:hover { background: var(--color-surface-hover); }
@@ -58,11 +72,9 @@ const { items, problemLabel, solutionLabel, phoneLabel } = Astro.props;
       clip-path: none; white-space: normal;
     }
     .band { display: none; }
-    .solution { display: block; }
-    .solution::before { content: none; }
     .head, .row {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      column-gap: var(--rhythm-card-gap);
+      column-gap: var(--rhythm-problem-columns);
       padding-block: var(--rhythm-panel);
       align-items: start;
     }

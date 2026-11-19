@@ -2,6 +2,8 @@
 # Pulled from Notion "Patterns Work Blog Posts" (page 40b226b9a26e80c79ce8f4b27a26d9fc), 2026-11-07.
 order: 2
 client: Jupiter Money
+service: "Product Design"
+workText: "Smart changes. Big savings. A simpler savings experience that increased savings per account by 23%."
 title: Better experience matters for better business
 description: "We reimagined traditional savings products to make saving personal, visual and rewarding. Pots changed how people saved and became one of Jupiter's most recognisable features."
 publishedDate: 2026-11-01

@@ -2,6 +2,8 @@
 # Pulled from Notion "Patterns Work Blog Posts" (page 40a226b9a26e801aa9b1f286c640922e), 2026-11-06.
 order: 1
 client: Neufin Energy
+service: "Brand & Communication Design"
+workText: "Making complex energy simple. A distinctive brand identity that makes clean energy easier to understand."
 title: How does a brand become a visual language?
 description: Neufin Energy helps Indian businesses buy cheaper, cleaner power. A brand refresh, design system and website by Patterns Studio, built AI-first.
 publishedDate: 2026-11-01

@@ -25,9 +25,10 @@ for (const root of document.querySelectorAll<HTMLElement>('[data-drift]')) {
     let velocity = 0;
     let hovering = false;
     let focused = false;
+    let touching = false;         // a finger is on the strip: never write scrollLeft (it fights the swipe)
     let visible = true;
     let idleUntil = 0;            // a swipe holds the drift until this time
-    let driving = false;          // true while we set scrollLeft ourselves
+    let written = -1;             // the scrollLeft we last set, to tell our own scroll events from the visitor's
     let settle = 0;
     let last = 0;
 
@@ -39,31 +40,48 @@ for (const root of document.querySelectorAll<HTMLElement>('[data-drift]')) {
     };
     const jump = (x: number) => {
       pos = x;
-      if (Math.round(x) !== track.scrollLeft) { driving = true; track.scrollLeft = x; }
+      if (Math.round(x) !== Math.round(track.scrollLeft)) { written = Math.round(x); track.scrollLeft = x; }
     };
-    jump(home * loop()); // start on the middle copy — looks identical to the first
+    // Start on the middle copy (looks identical to the first). On phones the strip can open on a chosen card
+    // (data-start-phone = its index in one set; Kedar 2026-11-19: Eva first on mobile).
+    const desktop = matchMedia('(min-width: 48rem)');
+    const startAt = () => {
+      const i = !desktop.matches ? Number(root.dataset.startPhone ?? 0) : 0;
+      return home * loop() + (items[i].offsetLeft - items[0].offsetLeft);
+    };
+    jump(startAt());
     // Layout can settle after this script runs (fonts, styles): measure again, unless the visitor already scrolled.
-    window.addEventListener('load', () => { if (!idleUntil) jump(home * loop()); });
+    window.addEventListener('load', () => { if (!idleUntil) jump(startAt()); });
 
     const frame = (now: number) => {
       const dt = last ? Math.min((now - last) / 1000, 0.1) : 0;
       last = now;
-      const running = !reduced.matches && !hovering && !focused && visible && now >= idleUntil;
+      const running = !reduced.matches && !hovering && !focused && !touching && visible && now >= idleUntil;
       velocity += ((running ? speed : 0) - velocity) * Math.min(1, dt * ease);
-      if (velocity > 0.5 && now >= idleUntil) jump(wrapped(pos + velocity * dt));
+      if (running && velocity > 0.5) jump(wrapped(pos + velocity * dt));
       requestAnimationFrame(frame);
     };
 
+    // Once a scroll has fully stopped (finger up, momentum done), move back into the middle copy. Never sooner:
+    // writing scrollLeft mid-fling cancels the fling on iOS.
+    const settled = () => { if (!touching) jump(wrapped(track.scrollLeft)); };
+    const hasScrollEnd = 'onscrollend' in window; // older Safari: fall back to a short quiet period
+    const hold = () => { idleUntil = performance.now() + resumeAfter; velocity = 0; };
+
     track.addEventListener('scroll', () => {
-      if (driving) { driving = false; return; }
+      if (written >= 0 && Math.abs(track.scrollLeft - written) <= 1) return; // our own write
+      written = -1;
       // The visitor scrolled: hold the drift, then carry on from where they left it.
-      // Wrap only once the scroll has settled, so a swipe is never cut short.
-      idleUntil = performance.now() + resumeAfter;
-      velocity = 0;
+      hold();
       pos = track.scrollLeft;
-      clearTimeout(settle);
-      settle = window.setTimeout(() => jump(wrapped(track.scrollLeft)), 150);
+      if (!hasScrollEnd) { clearTimeout(settle); settle = setTimeout(settled, 200) as unknown as number; }
     }, { passive: true });
+    track.addEventListener('scrollend', settled);
+
+    track.addEventListener('touchstart', () => { touching = true; hold(); }, { passive: true });
+    const release = () => { touching = false; hold(); };
+    track.addEventListener('touchend', release, { passive: true });
+    track.addEventListener('touchcancel', release, { passive: true });
 
     root.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') hovering = true; });
     root.addEventListener('pointerleave', () => { hovering = false; });

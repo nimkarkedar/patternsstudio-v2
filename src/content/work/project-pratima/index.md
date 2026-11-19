@@ -2,6 +2,8 @@
 # Pulled from Notion "Patterns Work Blog Posts" (page 417226b9a26e80ccaef7cd3069ac27fa), 2026-11-13.
 order: 6
 client: "Payments Council of India (PCI)"
+service: "Icon System Design"
+workText: "One visual language. A nation of payments. A unified icon system for India’s digital payments."
 title: A shared visual language for India’s payments
 description: "Every payment app drew “send money” differently. We helped build Project Pratima, India’s first standard library of payment icons, so a user who learns one app can confidently use them all."
 publishedDate: 2026-11-13

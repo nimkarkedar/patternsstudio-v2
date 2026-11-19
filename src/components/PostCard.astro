@@ -3,7 +3,8 @@
 // WhatsApp/LinkedIn/X preview. Without a graphic it's a plain white card of the same shape.
 // Hover on the graphic = the approved Apple-style lift (CLAUDE.md, Motion item 4).
 //
-// `row` (the /work page, MacBook Air - 37, 2026-11-06): the post title + a small ghost "View details" button
+// `row` (the /work page, MacBook Air - 37, 2026-11-06): a small tag "Client · Service" (.t-small; Kedar 2026-11-19),
+// Notion "Work page text" (.t-p-large, Lato Regular 28, Kedar 2026-11-19: Montserrat was too loud for a sentence; the post title when blank) + a small ghost "View details" button
 // link on the left (5 of 12 columns), the graphic on the right (7 columns; Kedar 2026-11-06, the frame shows 4/8). Phones: graphic first,
 // then title + link under it.
 // Also used for Next post at the end of every post (Kedar 2026-11-09), there with `level={3}` under the "Next post" heading.
@@ -21,7 +22,10 @@ const { data } = post;
 <div class:list={['card', { row }]}>
   {row && (
     <div class="text">
-      <Heading class="t-h2">{data.title}</Heading>
+      <div class="name">
+        <p class="t-small tag">{data.client}{data.service && ` · ${data.service}`}</p>
+        <Heading class="t-p-large">{data.workText ?? data.title}</Heading>
+      </div>
       <Button href={href} variant="ghost" small data-sheet-link>{labels.viewDetails}<span class="visually-hidden">: {data.title}</span></Button>
     </div>
   )}
@@ -45,6 +49,8 @@ const { data } = post;
 <style>
   .row { display: grid; gap: var(--rhythm-work-text); }
   .text { display: grid; gap: var(--rhythm-work-title); justify-items: start; order: 1; }
+
+  .name { display: grid; gap: var(--rhythm-stack); }
 
   .item { display: block; }
   .post {

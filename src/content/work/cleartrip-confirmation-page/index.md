@@ -2,6 +2,8 @@
 # Pulled from Notion "Patterns Work Blog Posts" (page 416226b9a26e803eb5d5c8034c7a49a9), 2026-11-12.
 order: 5
 client: Cleartrip
+service: "Product & Visual Design"
+workText: "Less confusion. More bookings. A smoother booking experience with fewer support calls."
 title: Why do customers love booking with Cleartrip?
 description: "We redesigned Cleartrip’s confirmation page into three blocks: the booking as a boarding pass, four add-ons, one deal. Add-on bookings rose about 40%. The pass moved to Passbook and Apple Watch. The app was featured as Editors’ Choice."
 publishedDate: 2026-11-12

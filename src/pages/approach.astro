@@ -8,7 +8,8 @@ import { pageSeo } from '../data/seo';
 import Hero from '../components/Hero.astro';
 import IconGrid from '../components/IconGrid.astro';
 import Card from '../components/Card.astro';
-import { routes, brief } from '../data/site';
+import Actions from '../components/Actions.astro';
+import { routes, labels } from '../data/site';
 import jazzIcon from '../icons/ways/music-notes.svg?raw';
 import symphonyIcon from '../icons/ways/metronome.svg?raw';
 
@@ -28,25 +29,27 @@ const ways = [
   {
     icon: jazzIcon,
     name: 'Playing Jazz',
-    promise: 'When things are predictable, we bring creative improvisation.',
-    text: 'Works best when you have great product-market fit and are now trying to scale. Design for growth.',
+    promise: 'When you’ve found your rhythm and want to grow faster.',
+    text: 'We bring fresh ideas, experimentation and creative momentum.',
   },
   {
     icon: symphonyIcon,
     name: 'Conducting a Symphony',
-    promise: 'When things are uncertain, we bring clarity, direction and purpose.',
-    text: 'Ideal for startups that have grown too fast. You’ve tested your MVP and now want to bring order.',
+    promise: 'When the moving parts need to come together.',
+    text: 'We bring clarity, structure and direction to help everything work in harmony.',
   },
 ];
 ---
 <BaseLayout {...pageSeo.approach}>
   <Hero
     title={['We know when to', 'reinvent the wheel']}
-    lead="We make sure your users and clients love you. We are eclectic, non-hierarchical, first-principles thinkers."
+    lead="We make sure your users and clients love you. We bring fresh thinking, hands-on expertise and none of the jargon."
   />
 
   <div class="container page">
     <IconGrid set="approach" items={expect} />
+    {/* Kedar 2026-11-19: a button after the grid, and "Let’s talk" after the ways card. */}
+    <div class="actions"><Actions primary={{ label: labels.exploreWork, href: routes.workList }} /></div>
 
     <section aria-labelledby="ways">
       <h2 id="ways" class="t-h2 heading">There are 2 <br />ways of working with us</h2>
@@ -60,11 +63,8 @@ const ways = [
             </div>
           ))}
         </div>
-        <div class="questions">
-          <p class="t-p-bold">We’ve made a questionnaire to get things started.</p>
-          <a class="t-p link" href={brief.doc} target="_blank" rel="noopener">Questions we ask clients</a>
-        </div>
       </Card>
+      <div class="actions"><Actions primary={{ label: labels.endTalk, href: routes.contact }} /></div>
     </section>
 
     {/* Rate card hidden (Kedar, 2026-11-15). To bring it back: uncomment this line and rename src/pages/_rate-card.astro → rate-card.astro.
@@ -87,6 +87,7 @@ const ways = [
     padding: var(--rhythm-icon-cell);
     background: var(--color-surface);
   }
+  .actions { display: flex; justify-content: center; margin-top: var(--rhythm-page-actions); }
   .icon { color: var(--color-service-icon); }
   .icon :global(svg) {
     display: block;
@@ -95,19 +96,10 @@ const ways = [
     fill: currentColor;
   }
 
-  .questions {
-    display: grid;
-    gap: var(--rhythm-stack);
-    padding: var(--rhythm-icon-cell);
-    border-top: var(--line-width) solid var(--color-line-on-surface);
-  }
-  .link { text-decoration: underline; justify-self: start; }
-
   .rate { margin-top: var(--rhythm-page-actions); text-align: var(--align-page); }
 
   @media (min-width: 48rem) {
     .heading br { display: inline; }
     .ways { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .questions { grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; }
   }
 </style>

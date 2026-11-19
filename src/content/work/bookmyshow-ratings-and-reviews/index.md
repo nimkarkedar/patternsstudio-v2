@@ -2,6 +2,8 @@
 # Pulled from Notion "Patterns Work Blog Posts" (page 414226b9a26e8102819ceeb94a17de0a), 2026-11-10; Live link 2026-11-11.
 order: 5
 client: BookMyShow
+service: "User Research & Product Design"
+workText: "Less effort. Three times the reviews. A faster review experience that tripled submissions."
 title: Reviews up 3x at BookMyShow, through pure design
 description: "How we redesigned ratings and reviews at BookMyShow for 50M+ monthly users: a 10-second flow that grew reviews 24% in a month and written reviews 3x."
 publishedDate: 2026-11-10

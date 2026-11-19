@@ -5,12 +5,12 @@ import { pageSeo } from '../data/seo';
 import Hero from '../components/Hero.astro';
 import Actions from '../components/Actions.astro';
 import ClientReviews from '../components/ClientReviews.astro';
-import { routes, labels, site } from '../data/site';
+import { routes, labels } from '../data/site';
 ---
 <BaseLayout {...pageSeo.home}>
   <Hero
     title={['Growth has a pattern.', 'Let’s find yours.']}
-    lead="We help scale-up businesses with brand, communication, product design and strategic growth advisory."
+    lead="We help businesses with brand, communication, product design and strategic growth advisory."
   >
     <Actions primary={{ label: labels.exploreWork, href: routes.workList }} />
   </Hero>

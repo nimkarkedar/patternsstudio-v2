@@ -3,6 +3,8 @@
 # Logo: the site's PropertyGuru SVG (src/assets/companies/propertyguru.svg) instead of Notion's small PNG, so the cards pick up PropertyGuru red.
 order: 3
 client: PropertyGuru
+service: "Product Design & Design System"
+workText: "Goodbye spreadsheets. Hello smarter selling. Helping property agents manage leads and close more deals."
 title: Why did PropertyGuru agents ditch their spreadsheets?
 description: "PropertyGuru agents were losing deals to scattered leads. We designed Lead Management, a mini-CRM in AgentNet putting every lead and next step in one place. Rebuilt on HIVE, it shipped on time, and agents using it report 25% higher satisfaction."
 publishedDate: 2026-11-15

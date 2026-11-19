@@ -15,7 +15,7 @@ import Button from '../components/Button.astro';
 import PostStory, { type Story } from '../components/PostStory.astro';
 import PostCard from '../components/PostCard.astro';
 import type { CollectionEntry } from 'astro:content';
-import { routes, labels, path } from '../data/site';
+import { routes, labels } from '../data/site';
 import { ids, canonicalFor } from '../lib/seo';
 
 interface Props {
@@ -110,7 +110,8 @@ const jsonLd = [
       )}
 
       <div class="end container">
-        <Actions primary={{ label: labels.impressedTalk, href: routes.contact }} />
+        <p class="t-p-large prompt">{labels.endPrompt}</p>
+        <Actions primary={{ label: labels.endTalk, href: routes.contact }} />
       </div>
 
     </div>
@@ -196,7 +197,10 @@ const jsonLd = [
   .end {
     display: grid;
     justify-items: center;
+    gap: var(--rhythm-prompt-to-action);
+    text-align: center;
   }
+  .prompt { color: var(--color-on-surface); }
   .prose + .end { margin-top: var(--rhythm-section); }
 
   /* Floating to-top: bottom-right, same black circle as the top ×. */

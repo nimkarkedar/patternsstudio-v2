@@ -12,8 +12,10 @@ import { reviews } from '../data/site';
 
 const SETS = 5;
 const items = Array.from({ length: SETS }, () => reviews).flat();
+// Phones open on Eva's card (Kedar 2026-11-19); the loop carries on from her, so nothing is reordered.
+const startPhone = Math.max(0, reviews.findIndex((r) => r.name === 'Eva Weidinger'));
 ---
-<section class="reviews" aria-label="Client reviews" data-drift data-sets={SETS}>
+<section class="reviews" aria-label="Client reviews" data-drift data-sets={SETS} data-start-phone={startPhone}>
   <ul role="list" class="track" data-drift-track>
     {items.map((r, i) => (
       <li class="item" aria-hidden={i >= reviews.length ? 'true' : undefined} data-drift-item>
@@ -33,6 +35,7 @@ const items = Array.from({ length: SETS }, () => reviews).flat();
     display: flex;
     overflow-x: auto;
     scrollbar-width: none;
+    overscroll-behavior-x: contain; /* a swipe at the end never turns into the browser's back gesture */
     /* First card starts on the content edge (as in the design); the strip bleeds off both sides. */
     padding-inline: max(var(--rhythm-gutter), (100% - var(--width-content)) / 2);
     /* A scroller clips both axes: make room for the cards' glow, then pull the space back. */

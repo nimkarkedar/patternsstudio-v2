@@ -46,6 +46,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highl
  *   .t-h1       Montserrat ExtraBold 64 (phone 46)   page + post titles, phone menu
  *   .t-h2       Montserrat ExtraBold 48 (phone 37)   section headings, post ##
  *   .t-h3       Montserrat ExtraBold 32 (phone 26)   post story card headings (Kedar, 2026-11-11)
+ *   .t-p-large  Lato Regular 28 (phone 22)/1.4       the line on /work rows + Read next (Kedar, 2026-11-19)
  *   .t-p        Lato Regular 20/1.4                 everything you read, buttons
  *   .t-p-bold   Lato Bold 20/1.4                     names, card + table headings, post ###
  *   .t-small    Lato Regular 15/1.4                  navigation, footer, roles, labels
@@ -75,6 +76,14 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highl
   line-height: var(--leading-h3);
   letter-spacing: var(--tracking-h2);
   text-wrap: balance;
+}
+/* Large body text (Kedar, 2026-11-19): a calm, readable line where Montserrat is too loud. /work rows only. */
+.t-p-large {
+  font-family: var(--font-lato);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-p-large);
+  line-height: var(--leading-p);
+  text-wrap: pretty;
 }
 .t-p, .prose :is(p, li, td, th, blockquote), .prose figure:not(.pull-quote) > figcaption {
   font-family: var(--font-lato);
