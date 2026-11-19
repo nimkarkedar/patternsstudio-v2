@@ -17,7 +17,7 @@ export const site = {
   locality: 'Singapore',
   country: 'SG',
   founder: 'Kedar Nimkar',
-  founderRole: 'Founder of Patterns Studio Pte Ltd',
+  founderRole: 'Co-founder & Principal Designer, Patterns Studio',
   // Who we are, for structured data / llms.txt / RSS (Kedar's homepage headline + intro, verbatim).
   description:
     'Growth has a pattern. Let’s find yours. We help scale-up businesses with brand, communication, product design and strategic growth advisory.',

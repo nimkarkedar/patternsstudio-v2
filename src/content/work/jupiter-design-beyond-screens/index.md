@@ -31,9 +31,9 @@ result: "CSAT rose from 38% to 64%. Delivery dropped from 7 to 2 days. Packing t
 
 ![A man leaning on a giant phone showing the Jupiter app, beside the words "Banking made eaaaasy" on coral.](./jupiter-banking-made-easy.png)
 
-![The old kit in four photos: a sealed sleeve reading "Welcome to Jupiter", a folder with space-themed inserts, the coral card held over it, and everything laid out, including a fold-out guide and a "Get. Set. Goals." booklet.](./jupiter-old-debit-card-kit.png "Old Debit Card Kit")
+![The old kit in four photos: a sealed sleeve reading "Welcome to Jupiter", a folder with space-themed inserts, the coral card held over it, and everything laid out, including a fold-out guide and a "Get. Set. Goals." booklet.](./jupiter-old-debit-card-kit.png "The old debit card kit")
 
-![Hands holding a dark green window envelope with an astronaut riding a rocket and the line "We're so happy to see you get started. Ready to begin?"](./jupiter-new-debit-card-envelope.png "New Debit Card Kit")
+![Hands holding a dark green window envelope with an astronaut riding a rocket and the line "We're so happy to see you get started. Ready to begin?"](./jupiter-new-debit-card-envelope.png "The new debit card kit")
 
 ![The single unfolded insert: rewards, Master your Money and help on green, and the card tucked into a coral section with steps to turn it on and take control.](./jupiter-new-debit-card-kit-unfolded.png)
 
@@ -45,6 +45,6 @@ result: "CSAT rose from 38% to 64%. Delivery dropped from 7 to 2 days. Packing t
 
 ![Front and back of the coral card with design notes: silver chip, NFC mark aligned to it, logo top right, a J embedded in the plastic, name at the bottom.](./jupiter-debit-card-design-notes.png)
 
-![The print layout of the new kit: the coral and green sides of the insert, and the flat envelope with its window and astronaut.](./jupiter-new-debit-card-kit-print-layout.png "New Debit Card Kit Inside")
+![The print layout of the new kit: the coral and green sides of the insert, and the flat envelope with its window and astronaut.](./jupiter-new-debit-card-kit-print-layout.png "Inside the new debit card kit")
 
 ![Four app screens: grab a physical debit card for free, the card with its controls, all transactions paused while frozen, and the card asleep till 6 AM.](./jupiter-debit-card-app-controls.png)

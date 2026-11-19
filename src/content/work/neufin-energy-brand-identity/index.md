@@ -15,16 +15,16 @@ live: "https://neufin.energy/"
 scope:
   - Identity Design
   - Brand Storybook
-  - Communication strategy
-  - Marketing website
-  - Ongoing work
+  - Communication Strategy
+  - Marketing Website
+  - Ongoing Work
 review: Rahool Gadkari
 testimonial: "Kedar thought outside the box, bringing the “X⁠-⁠factor” we needed for a distinctive brand architecture."
 about: "Neufin helps businesses navigate renewable energy procurement and management, combining advisory expertise with technology to make complex energy decisions easier."
 situation: "Neufin’s communication hadn’t kept pace with its offering. Presentations, outreach, and product experiences lacked a cohesive identity, making it harder to build recognition and trust across different customer groups."
-task: "Design brand identity. Translate Neufin’s brand into a coherent visual language that could explain complex offerings, accommodate different customer priorities, and connect product and marketing communication."
-action: "Explored the business, customer motivations, and communication challenges to identify how brand expression, visual storytelling, and information design could work together across touchpoints."
-result: "A cohesive brand identity and marketing website, supported by a brand design system that empowers teams to communicate consistently. A strong foundation defining tone of voice, illustration and photography guidelines, and sub-brand architecture."
+task: "Design a brand identity and translate Neufin’s brand into a coherent visual language that could explain complex offerings, accommodate different customer priorities, and connect product and marketing communication."
+action: "We explored the business, customer motivations, and communication challenges to identify how brand expression, visual storytelling, and information design could work together across touchpoints."
+result: "A cohesive brand identity and marketing website, supported by a brand design system that empowers teams to communicate consistently. It sets a strong foundation: tone of voice, illustration and photography guidelines, and sub-brand architecture."
 ---
 
 ![The new Neufin Energy home page on a laptop and a phone: power lines on violet-blue, the headline "Cut Energy Cost. On Your Terms." and a quote form.](./neufin-energy-new-website-laptop-and-phone.png)

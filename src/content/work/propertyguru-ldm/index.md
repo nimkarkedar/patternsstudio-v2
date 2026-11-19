@@ -4,7 +4,7 @@
 order: 3
 client: PropertyGuru
 title: Why did PropertyGuru agents ditch their spreadsheets?
-description: "PropertyGuru agents were losing deals to scattered leads. We designed Lead Management, a mini-CRM in AgentNet putting every lead and next step in one place. Built on HIVE, it shipped redesigned on time; agents using it report 25% higher satisfaction."
+description: "PropertyGuru agents were losing deals to scattered leads. We designed Lead Management, a mini-CRM in AgentNet putting every lead and next step in one place. Rebuilt on HIVE, it shipped on time, and agents using it report 25% higher satisfaction."
 publishedDate: 2026-11-15
 ogImage: ./propertyguru-lead-management-card.png
 ogImageAlt: "How did PropertyGuru agents ditch their spreadsheets?"
@@ -17,15 +17,15 @@ live: "https://www.agentofferings.propertyguru.com.sg/tools/lead-management/"
 review: Jeremy Williams
 scope:
   - Identity Design
-  - Communication strategy
+  - Communication Strategy
   - Product Marketing
   - Product Design
   - Visual Design
-  - Icon system design
+  - Icon System Design
 about: "PropertyGuru is Southeast Asia’s leading PropTech company, helping 30M+ property seekers monthly find homes across Singapore, Malaysia, Vietnam and Thailand, and the agents who serve them."
 situation: "PropertyGuru’s agents juggled leads across sticky notes, calendars and spreadsheets. With hundreds of enquiries arriving and little context on each, prioritising was guesswork. Good leads went cold, home seekers waited too long, and agents lost deals they should have closed."
 task: "Design Lead Management, a mini-CRM inside AgentNet that puts every PropertyGuru lead in one place. It had to help agents decide who to call first, keep notes together, and act on each lead with clear next steps."
-action: "We shipped a fast first version, tested it with Singapore power users, then rebuilt it on HIVE, our new design system. Ready-made React components let us redesign the whole product, with new iconography and illustrations, without moving the launch date."
+action: "We shipped a fast first version, tested it with Singapore power users, then rebuilt it on HIVE, PropertyGuru’s new design system. Ready-made React components let us redesign the whole product, with new iconography and illustrations, without moving the launch date."
 result:
   - 25% higher agent satisfaction
   - Used by more than 60% of agent partners

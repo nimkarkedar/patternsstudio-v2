@@ -21,7 +21,7 @@ impact:
   - "24% more reviews in the first month."
   - "3x growth in meaningful written reviews."
 about: "BookMyShow is India's leading entertainment ticketing platform, used by 50M+ people a month. In India, its movie ratings carry more weight than IMDb or Rotten Tomatoes."
-situation: "Millions booked tickets, but few rated films. Reviewing took 60 seconds, with 10+ inconsistent rating icons and a forced 140-character minimum. Users said it took too long, they didn't know what to write, and doubted anyone would read it."
+situation: "Millions booked tickets, but few rated films. Reviewing took 60 seconds, with 10+ inconsistent rating icons and a forced 140-character minimum. Users said it took too long, that they didn't know what to write, and that they doubted anyone would read it."
 task: "Help people choose the right movie and contribute meaningful reviews once they've watched it. Grow reviews by 25%, cut the time to submit sharply, and keep usability satisfaction above 80%."
 action: "We audited the old flows, listened to 1,400+ users and tested 30+ prototypes. The result was a 10-second, three-step flow with a heart slider, ready-made hashtags and an optional review, plus Verified badges for people who booked."
 result: "Reviews rose 24% in the first month and meaningful written reviews grew 3x. Ratings were syndicated to Amazon India. BookMyShow now has the most ratings and reviews of Indian movies in the world."
@@ -29,9 +29,9 @@ result: "Reviews rose 24% in the first month and meaningful written reviews grew
 
 ![Four movie cards, Tanhaji, Dabangg 3, Joker and All Quiet on the Western Front, each showing a heart rating and vote count, like "89% 421K votes".](./bookmyshow-movie-cards-with-heart-ratings.png)
 
-![The old rating screens: hearts and a percentage on Android, a different heart row on iOS, stars on mobile web, and a review form with a 140-character minimum.](./bookmyshow-old-rating-screens-android-ios-web.png "Broken experience across touch points")
+![The old rating screens: hearts and a percentage on Android, a different heart row on iOS, stars on mobile web, and a review form with a 140-character minimum.](./bookmyshow-old-rating-screens-android-ios-web.png "A broken experience across touchpoints")
 
-![Survey results from 1,400+ people. Why people write reviews: the movie was really good or bad (60%). How they choose a movie: word of mouth (60%). Why they don't review: "It takes too long" (45%), "Will anyone even read it?" (35%), "I don't know what to write" (20%).](./bookmyshow-reviews-survey-findings.png "After 62 users quantitative and 1400+ qualitative survey")
+![Survey results from 1,400+ people. Why people write reviews: the movie was really good or bad (60%). How they choose a movie: word of mouth (60%). Why they don't review: "It takes too long" (45%), "Will anyone even read it?" (35%), "I don't know what to write" (20%).](./bookmyshow-reviews-survey-findings.png "Findings from research with 62 users and a survey of 1,400+ people")
 
 ![Phrases found in real reviews, like "Nice movie", "Must watch" and "Paisa Vasul", mapped to suggested hashtags such as #Watchable, #ThumbsUp and #CrowdPleaser.](./bookmyshow-review-phrases-to-hashtags.png)
 
@@ -43,4 +43,4 @@ result: "Reviews rose 24% in the first month and meaningful written reviews grew
 
 ![The ratings page for Joker Re-Release, 8.1/10 from 2.6K votes, with user reviews made of hashtags like #SuperDirection and #GreatActing, some marked "Booked on BookMyShow".](./bookmyshow-ratings-page-with-hashtag-reviews.png)
 
-![Film posters that carry BookMyShow ratings as their headline, from 9.3 stars to 9.8/10, and Kantara's record 99% rating from 18K+ reviews.](./bookmyshow-ratings-on-film-posters.png "BookMyShow Ratings decide fortune of Indian and Global films")
+![Film posters that carry BookMyShow ratings as their headline, from 9.3 stars to 9.8/10, and Kantara's record 99% rating from 18K+ reviews.](./bookmyshow-ratings-on-film-posters.png "BookMyShow ratings decide the fortunes of Indian and global films")

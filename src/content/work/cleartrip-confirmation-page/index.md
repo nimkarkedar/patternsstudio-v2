@@ -13,7 +13,7 @@ industry:
 duration: 3 months
 live: "https://www.cleartrip.com/"
 scope:
-  - Communication strategy
+  - Communication Strategy
   - Product Design
   - Visual Design
 impact:
@@ -22,7 +22,7 @@ impact:
   - "About 40% more add-on bookings from the confirmation page"
   - "Featured as an Editors’ Choice app on the App Store"
 about: "Cleartrip is an Indian online travel company, founded in 2006, that sells flights, hotels and trains. Flipkart acquired it in 2021."
-situation: "In 2012, Cleartrip’s booking confirmation page had become a dumping ground. Over the years we had added offers and banners for everything else we sold, and the booking details were hard to find."
+situation: "In 2012, Cleartrip’s booking confirmation page had become a dumping ground. Over the years, offers and banners for everything else Cleartrip sold had piled up, and the booking details were hard to find."
 task: "We were redesigning the whole booking flow for flights and hotels. The confirmation page needed to show the booking clearly, offer a few relevant next steps, and stay uncluttered as new things got added later."
 action: "We split the page into three fixed blocks: booking details, four add-ons such as a return-trip fare alert, and one deal of the day. Flight details used a boarding-pass layout with a rubber stamp. A receipt broke down the total cost."
 result:

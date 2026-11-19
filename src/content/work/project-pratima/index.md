@@ -18,8 +18,8 @@ scope:
   - User Research
   - Visual Design
   - Identity Design
-  - Marketing website
-  - Icon system design
+  - Marketing Website
+  - Icon System Design
 impact:
   - "A shared, open-source icon standard for India’s payment ecosystem, made with Amazon Pay, Paytm, NPCI, HDFC Bank, SBI, Visa, WhatsApp Pay and others. The aim is to make payments easier to read and harder to fake."
 about: "The Payments Council of India represents India’s non-bank payment companies, including Paytm, PhonePe, Razorpay, PayPal and Juspay. It works with regulators to make digital payments more inclusive and trusted."

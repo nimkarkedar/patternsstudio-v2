@@ -69,6 +69,6 @@ export const pageSeo = {
     metaTitle: 'Contact Patterns Studio — Design Studio in Singapore',
     description: 'Hello! Let’s talk. Email hello@patternsstudio.co to work with an independent design studio in Singapore, serving Southeast Asia and India.',
     image: contact,
-    imageAlt: card('Hello! Lets talk?'),
+    imageAlt: card('Hello! Let’s talk?'),
   },
 } satisfies Record<string, PageSeo>;
